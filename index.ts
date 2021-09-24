@@ -17,7 +17,7 @@ const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
-app.get('/businesses', checkJwt, jwtAuthz(['read:businesses']), (req, res) => {
+app.get('/businesses', checkJwt, jwtAuthz(['read:business']), (req, res) => {
   res.json({ name: "Idealrent" });
 })
 
