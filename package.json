@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc --project ./",
     "dev": "nodemon -r dotenv/config app.ts",
-    "start": "node build/app.js",
+    "start": "node build/src/app.js",
     "test": "jest"
   },
   "keywords": [],
