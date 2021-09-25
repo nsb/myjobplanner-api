@@ -19,13 +19,9 @@ const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
-app.get('/businesses', checkJwt, jwtAuthz(['read:business']), (req, res) => {
-  db.query('SELECT * from business ORDER BY id ASC', (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).json(results.rows)
-  })
+app.get('/businesses', checkJwt, jwtAuthz(['read:business']), async (req, res) => {
+  const rows = await db.query('SELECT * from business ORDER BY id ASC')
+  res.status(200).json(rows)
 })
 
 const server = app.listen(3000, () => {
