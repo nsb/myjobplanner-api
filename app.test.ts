@@ -1,8 +1,11 @@
 import request from 'supertest'
+import type { Request, Response, NextFunction } from 'express'
+import type { Options } from 'express-jwt'
 import server from './app'
-// import express from 'express';
 
-// function uselessMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) { next() }
+function noOpMiddleware(req: Request, res: Response, next: NextFunction) { next() }
+jest.mock('express-jwt', () => { return (options: Options) => { return noOpMiddleware } })
+jest.mock('express-jwt-authz', () => { return (options: Options) => { return noOpMiddleware } })
 
 afterAll((done) => {
   server.close()
