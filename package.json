@@ -2,12 +2,12 @@
   "name": "myjobplanner-api",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
+  "main": "build/app.js",
   "scripts": {
     "build": "tsc --project ./",
-    "dev": "nodemon -r dotenv/config index.ts",
-    "start": "node build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon -r dotenv/config app.ts",
+    "start": "node build/app.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
     "@types/express": "^4.17.13",
     "@types/node": "^16.7.4",
     "dotenv": "^10.0.0",
+    "jest": "^27.2.1",
     "nodemon": "^2.0.12",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
