@@ -3,7 +3,8 @@ import jwt from 'express-jwt';
 import jwtAuthz from 'express-jwt-authz';
 import JwksRsa from 'jwks-rsa';
 
-const app = express();
+const app = express()
+app.use(express.json())
 
 const checkJwt = jwt({
   secret: JwksRsa.expressJwtSecret({
@@ -18,7 +19,7 @@ const checkJwt = jwt({
 });
 
 app.get('/businesses', checkJwt, jwtAuthz(['read:business']), (req, res) => {
-  res.json({ name: "Idealrent" });
+  res.json({ name: "Idealrent" })
 })
 
 const server = app.listen(3000, () => {
