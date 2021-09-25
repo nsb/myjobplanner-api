@@ -21,6 +21,8 @@ app.get('/businesses', checkJwt, jwtAuthz(['read:business']), (req, res) => {
   res.json({ name: "Idealrent" });
 })
 
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
   console.log('The application is listening on port 3000!');
 })
+
+export default server
