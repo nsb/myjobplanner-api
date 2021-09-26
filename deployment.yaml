@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: myjobplanner
+  name: myjobplanner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myjobplanner
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: myjobplanner
+    spec:
+      containers:
+        - image: myjobplanner-api
+          name: myjobplanner-api
+          args: ["npm", "start"]
+          resources: {}
+status: {}

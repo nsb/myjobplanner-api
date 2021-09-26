@@ -1,0 +1,13 @@
+apiVersion: skaffold/v1beta7
+kind: Config
+build:
+  artifacts:
+    - image: myjobplanner-api
+      context: ./
+      docker:
+        dockerfile: Dockerfile
+    - image: postgres
+deploy:
+  kubectl:
+    manifests:
+      - deployment.yaml

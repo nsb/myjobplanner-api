@@ -2,10 +2,10 @@
   "name": "myjobplanner-api",
   "version": "1.0.0",
   "description": "",
-  "main": "build/app.js",
+  "main": "build/src/app.js",
   "scripts": {
     "build": "tsc --project ./",
-    "dev": "nodemon -r dotenv/config app.ts",
+    "dev": "nodemon -r dotenv/config src/app.ts",
     "start": "node build/src/app.js",
     "test": "jest"
   },
