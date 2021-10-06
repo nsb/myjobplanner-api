@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myjobplanner-deployment
+  name: myjobplanner-api-deployment
 spec:
   replicas: 1
   selector:
@@ -28,33 +28,3 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-configuration
-        # - name: store-nginx
-        #   image: django-store-nginx
-        #   ports:
-        #     - containerPort: 8080
-
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   creationTimestamp: null
-#   labels:
-#     app: myjobplanner
-#   name: myjobplanner
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: myjobplanner
-#   strategy: {}
-#   template:
-#     metadata:
-#       creationTimestamp: null
-#       labels:
-#         app: myjobplanner
-#     spec:
-#       containers:
-#         - image: myjobplanner-api
-#           name: myjobplanner-api
-#           args: ["npm", "start"]
-#           resources: {}
-# status: {}
