@@ -1,4 +1,4 @@
-apiVersion: skaffold/v1beta7
+apiVersion: skaffold/v2beta23
 kind: Config
 build:
   artifacts:
@@ -6,8 +6,8 @@ build:
       context: ./
       docker:
         dockerfile: Dockerfile
-    - image: postgres
 deploy:
   kubectl:
     manifests:
       - k8s/*.yaml
+  kubeContext: minikube

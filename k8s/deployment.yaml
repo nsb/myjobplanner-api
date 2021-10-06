@@ -1,25 +1,60 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    app: myjobplanner
-  name: myjobplanner
+  name: myjobplanner-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: myjobplanner
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: myjobplanner
     spec:
       containers:
-        - image: myjobplanner-api
-          name: myjobplanner-api
-          args: ["npm", "start"]
-          resources: {}
-status: {}
+        - name: myjobplanner
+          image: myjobplanner-api
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_HOST
+              value: "postgres-service"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: postgres-configuration
+        # - name: store-nginx
+        #   image: django-store-nginx
+        #   ports:
+        #     - containerPort: 8080
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   creationTimestamp: null
+#   labels:
+#     app: myjobplanner
+#   name: myjobplanner
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: myjobplanner
+#   strategy: {}
+#   template:
+#     metadata:
+#       creationTimestamp: null
+#       labels:
+#         app: myjobplanner
+#     spec:
+#       containers:
+#         - image: myjobplanner-api
+#           name: myjobplanner-api
+#           args: ["npm", "start"]
+#           resources: {}
+# status: {}

@@ -8,8 +8,15 @@ RUN npm i
 
 COPY . .
 
-FROM base as production
-
-ENV NODE_PATH=./build
-
 RUN npm run build
+
+FROM node:16 as production
+
+COPY package.json package-lock.json ./
+
+RUN npm i --only=production
+
+COPY --from=base /home/node/app/build ./build
+
+EXPOSE 3000
+CMD [ "npm", "start" ]
