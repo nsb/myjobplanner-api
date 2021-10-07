@@ -20,8 +20,8 @@ const checkJwt = jwt({
 });
 
 app.get('/businesses', checkJwt, jwtAuthz(['read:business']), async (req, res) => {
-  const rows = await db.query('SELECT * from business ORDER BY id ASC')
-  res.status(200).json(rows)
+  const result = await db.query('SELECT * from businesses ORDER BY id ASC')
+  res.status(200).json(result.rows)
 })
 
 const server = app.listen(3000, () => {
