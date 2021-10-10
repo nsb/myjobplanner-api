@@ -8,6 +8,7 @@
     "dev": "nodemon -r dotenv/config src/app.ts",
     "start": "node build/src/app.js",
     "test": "jest",
+    "graphile-watch": "npx env-cmd --no-override graphile-migrate watch",
     "graphile-migrate": "npx env-cmd --no-override graphile-migrate migrate",
     "graphile-commit": "npx env-cmd --no-override graphile-migrate commit"
   },
