@@ -7,7 +7,9 @@
     "build": "tsc --project ./",
     "dev": "nodemon -r dotenv/config src/app.ts",
     "start": "node build/src/app.js",
-    "test": "jest"
+    "test": "jest",
+    "graphile-migrate": "npx env-cmd --no-override graphile-migrate migrate",
+    "graphile-commit": "npx env-cmd --no-override graphile-migrate commit"
   },
   "keywords": [],
   "author": "",
