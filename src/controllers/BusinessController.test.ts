@@ -5,7 +5,7 @@ import type { Options } from 'express-jwt'
 import { IDbPool } from '../postgres'
 import BusinessRouter, { BusinessController } from './BusinessController'
 
-export class FakeDb implements IDbPool {
+class FakeDb implements IDbPool {
   async query(sql: string) {
     return Promise.resolve({ rows: [] })
   }
