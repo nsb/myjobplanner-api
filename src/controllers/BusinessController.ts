@@ -1,4 +1,3 @@
-import type { Pool } from 'pg'
 import { Request, Response, Router } from 'express'
 import jwtAuthz from 'express-jwt-authz'
 import checkJwt from '../jwt'
