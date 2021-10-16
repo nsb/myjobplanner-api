@@ -12,6 +12,9 @@ This is the myJobPlanner API. You need `Node.js` to run it.
 
 `npm run dev`
 
+### Test
+
+`npm test`
 
 ### Skaffold
 
