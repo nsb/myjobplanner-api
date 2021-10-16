@@ -8,7 +8,7 @@ const pool = new Pool({
   port: 5432
 })
 
-export type Result = {
+type Result = {
   rows: Array<any>
 }
 
