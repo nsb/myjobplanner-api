@@ -4,6 +4,7 @@ import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import { IDbPool } from '../postgres'
 import BusinessRouter, { BusinessController } from './BusinessController'
+import app from '../app'
 
 class FakeDb implements IDbPool {
   async query(sql: string) {
@@ -19,9 +20,15 @@ const injector = createInjector()
   .provideClass('dbPool', FakeDb)
   .provideClass('businessController', BusinessController)
 
+const businessRouter = injector.injectFunction(BusinessRouter)
+app.use('/businesses', businessRouter)
+
+afterAll((done) => {
+  done()
+})
+
 test('should return a list of businesses', async () => {
-  const app = injector.injectFunction(BusinessRouter)
   const res = await request(app)
     .get('/businesses').send()
   expect(res.statusCode).toEqual(200)
-});
+})
