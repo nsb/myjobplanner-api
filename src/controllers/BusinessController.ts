@@ -2,9 +2,10 @@ import { Request, Response, Router } from 'express'
 import jwtAuthz from 'express-jwt-authz'
 import checkJwt from '../jwt'
 import { IDbPool } from '../postgres'
+import type { Business } from '../models/Business'
 
 export class BusinessController {
-  constructor(private db: IDbPool) { }
+  constructor(private db: IDbPool<Business>) { }
   public static inject = ['dbPool'] as const;
 
   async getAllBusinesses(req: Request, res: Response): Promise<void> {

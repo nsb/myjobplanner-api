@@ -4,9 +4,10 @@ import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import { IDbPool } from '../postgres'
 import BusinessRouter, { BusinessController } from './BusinessController'
+import type { Business } from '../models/Business'
 import app from '../app'
 
-class FakeDb implements IDbPool {
+class FakeDb implements IDbPool<Business> {
   async query(sql: string) {
     return Promise.resolve({
       rows: [{
