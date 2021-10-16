@@ -1,6 +1,6 @@
 import { createInjector } from 'typed-inject'
 import db from './postgres'
-import BusinessController from './controllers/BusinessController'
+import { BusinessController } from './controllers/BusinessController'
 
 const appInjector = createInjector()
   .provideValue('db', db)

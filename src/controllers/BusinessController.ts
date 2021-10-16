@@ -1,7 +1,9 @@
 import type { Pool } from 'pg'
-import { Request, Response } from "express";
+import { Request, Response, Router } from 'express'
+import jwtAuthz from 'express-jwt-authz'
+import checkJwt from '../jwt'
 
-class BusinessController {
+export class BusinessController {
   constructor(private db: Pool) { }
   public static inject = ['db'] as const;
 
@@ -11,4 +13,11 @@ class BusinessController {
   }
 }
 
-export default BusinessController
+function createBusinessRouter(businessController: BusinessController) {
+  const router = Router()
+  router.get('/', checkJwt, jwtAuthz(['read:business']), businessController.getAllBusinesses.bind(businessController))
+  return router
+}
+createBusinessRouter.inject = ['businessController'] as const
+
+export default createBusinessRouter
