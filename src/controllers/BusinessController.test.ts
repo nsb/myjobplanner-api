@@ -27,18 +27,17 @@ function noOpMiddleware(req: Request, res: Response, next: NextFunction) { next(
 jest.mock('express-jwt', () => { return (options: Options) => { return noOpMiddleware } })
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return noOpMiddleware } })
 
-const injector = createInjector()
+const container = createInjector()
   .provideClass('dbPool', FakeDb)
   .provideClass('businessController', BusinessController)
 
-const businessRouter = injector.injectFunction(BusinessRouter)
-app.use('/businesses', businessRouter)
+app.use('/businesses', container.injectFunction(BusinessRouter))
 
 afterAll((done) => {
   done()
 })
 
-test('should return a list of businesses', async () => {
+test('GET /businesses', async () => {
   const res = await request(app)
     .get('/businesses').send()
   expect(res.statusCode).toEqual(200)
