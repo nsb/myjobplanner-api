@@ -2,9 +2,9 @@ import { createInjector } from 'typed-inject'
 import pool, { DbPool } from './postgres'
 import { BusinessController } from './controllers/BusinessController'
 
-const appInjector = createInjector()
+const container = createInjector()
   .provideValue('pool', pool)
   .provideClass('dbPool', DbPool)
   .provideClass('businessController', BusinessController)
 
-export default appInjector
+export default container
