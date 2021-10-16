@@ -1,9 +1,10 @@
 import { createInjector } from 'typed-inject'
-import db from './postgres'
+import pool, { DbPool } from './postgres'
 import { BusinessController } from './controllers/BusinessController'
 
 const appInjector = createInjector()
-  .provideValue('db', db)
+  .provideValue('pool', pool)
+  .provideClass('dbPool', DbPool)
   .provideClass('businessController', BusinessController)
 
 export default appInjector
