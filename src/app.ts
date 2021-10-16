@@ -1,16 +1,14 @@
-import 'reflect-metadata'
-import express, { response } from 'express';
-import jwt from 'express-jwt';
-import jwtAuthz from 'express-jwt-authz';
-import JwksRsa from 'jwks-rsa';
-import { Container } from 'typedi'
-import db from './postgres'
-import BusinessController from './controllers/BusinessController';
+import express, { response } from 'express'
+import jwt from 'express-jwt'
+import jwtAuthz from 'express-jwt-authz'
+import JwksRsa from 'jwks-rsa'
+import BusinessController from './controllers/BusinessController'
+import injector from './container'
 
 const app = express()
 app.use(express.json())
 
-const businessController = Container.get(BusinessController)
+const businessController = injector.injectClass(BusinessController)
 
 const checkJwt = jwt({
   secret: JwksRsa.expressJwtSecret({
