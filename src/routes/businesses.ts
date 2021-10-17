@@ -15,14 +15,18 @@ function BusinessRouter(businessController: BusinessController) {
     summary: "Fetch businesses.",
     operationId: "getBusinesses",
     responses: {
-      200: {
+      '200': {
         description: "List of business.",
-        schema: {
-          type: "array",
-          items: {
-            $ref: "#/definitions/Business",
-          },
-        },
+        content: {
+          'application/json': {
+            schema: {
+              type: "array",
+              items: {
+                $ref: "#/components/schemas/Business",
+              },
+            },
+          }
+        }
       },
     },
   };

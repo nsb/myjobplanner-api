@@ -2,9 +2,7 @@ import express, { Express } from 'express'
 import path from 'path'
 import { initialize } from 'express-openapi'
 import V1ApiDoc from './api-doc'
-import container from './container'
 import swaggerUi from 'swagger-ui-express'
-import BusinessController from './controllers/business.controllers'
 
 function createApp(dependencies: { [service: string]: any }): Express {
   const app = express()

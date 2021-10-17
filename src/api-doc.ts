@@ -1,20 +1,23 @@
 const apiDoc = {
-  swagger: '2.0',
-  basePath: '/',
+  openapi: '3.0.0',
   info: {
     title: 'The myJobPlanner API.',
+    description: 'The myJobPlanner API OpenAPI schema',
     version: '1.0.0'
   },
-  definitions: {
-    Business: {
-      type: 'object',
-      properties: {
-        name: {
-          description: 'The name of this business.',
-          type: 'string'
-        }
-      },
-      required: ['name']
+  servers: [{ url: '/' }],
+  components: {
+    schemas: {
+      Business: {
+        // type: 'object',
+        properties: {
+          name: {
+            description: 'The name of this business.',
+            // type: 'string'
+          }
+        },
+        required: ['name']
+      }
     }
   },
   paths: {}
