@@ -1,29 +1,31 @@
 import jwtAuthz from 'express-jwt-authz'
 import checkJwt from '../jwt'
 import BusinessController from '../controllers/business.controllers'
+import { Operation } from 'express-openapi'
 
 function BusinessRouter(businessController: BusinessController) {
-  const doc = {
-    GET: [checkJwt, jwtAuthz(['read:business']), businessController.getAllBusinesses.bind(businessController)]
-  }
 
-  doc.GET.apiDoc = {
-    summary: "Fetch todos.",
-    operationId: "getTodos",
+  const GET: Operation = [checkJwt, jwtAuthz(['read:business']), businessController.getAllBusinesses.bind(businessController)]
+
+  GET.apiDoc = {
+    summary: "Fetch businesses.",
+    operationId: "getBusinesses",
     responses: {
       200: {
-        description: "List of todos.",
+        description: "List of business.",
         schema: {
           type: "array",
           items: {
-            $ref: "#/definitions/Todo",
+            $ref: "#/definitions/Business",
           },
         },
       },
     },
   };
 
-  return doc
+  return {
+    GET: GET
+  }
 }
 
 export default BusinessRouter
