@@ -3,10 +3,10 @@ import request from 'supertest'
 import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import { IDbPool } from '../postgres'
-import BusinessController from './business.controllers'
-import BusinessRouter from '../routes/business.routes'
+import { BusinessController } from './business.controllers'
+import BusinessRouter from '../routes/businesses'
 import type { Business } from '../models/business'
-import app from '../app'
+import createApp from '../app'
 
 class FakeDb implements IDbPool<Business> {
   async query(sql: string) {
@@ -32,7 +32,7 @@ const container = createInjector()
   .provideClass('dbPool', FakeDb)
   .provideClass('businessController', BusinessController)
 
-app.use('/businesses', container.injectFunction(BusinessRouter))
+const app = createApp({ businessController: container.injectClass(BusinessController) })
 
 afterAll((done) => {
   done()
