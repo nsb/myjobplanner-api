@@ -6,8 +6,6 @@ import container from './container'
 import swaggerUi from 'swagger-ui-express'
 import BusinessController from './controllers/business.controllers'
 
-// app.use('/businesses', container.injectFunction(BusinessRouter))
-
 initialize({
   apiDoc: V1ApiDoc,
   app,
