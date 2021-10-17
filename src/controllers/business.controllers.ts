@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { IDbPool } from '../postgres'
-import type { Business } from '../models/Business'
+import type { Business } from '../models/business'
 
 export class BusinessController {
   constructor(private db: IDbPool<Business>) { }

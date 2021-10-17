@@ -5,7 +5,7 @@ import type { Options } from 'express-jwt'
 import { IDbPool } from '../postgres'
 import BusinessController from './business.controllers'
 import BusinessRouter from '../routes/business.routes'
-import type { Business } from '../models/Business'
+import type { Business } from '../models/business'
 import app from '../app'
 
 class FakeDb implements IDbPool<Business> {
