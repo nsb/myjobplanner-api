@@ -1,5 +1,5 @@
 import app from './app'
-import BusinessRouter from './controllers/BusinessController'
+import BusinessRouter from './routes/business.routes'
 import container from './container'
 
 app.use('/businesses', container.injectFunction(BusinessRouter))
