@@ -5,7 +5,11 @@ import { Operation } from 'express-openapi'
 
 function BusinessRouter(businessController: BusinessController) {
 
-  const GET: Operation = [checkJwt, jwtAuthz(['read:business']), businessController.getBusinesses.bind(businessController)]
+  const GET: Operation = [
+    checkJwt,
+    jwtAuthz(['read:business']),
+    businessController.getBusinesses.bind(businessController)
+  ]
 
   GET.apiDoc = {
     summary: "Fetch businesses.",
