@@ -18,7 +18,7 @@ const apiDoc = {
         },
         required: ['name']
       }
-    }
+    },
   },
   paths: {}
 };
