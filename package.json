@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-jwt": "^6.1.0",
     "express-jwt-authz": "^2.4.1",
+    "express-openapi-validator": "^4.13.2",
     "jwks-rsa": "^2.0.4",
     "pg": "^8.7.1",
     "typed-inject": "^3.0.1"

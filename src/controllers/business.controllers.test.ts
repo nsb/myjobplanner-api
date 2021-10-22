@@ -15,10 +15,10 @@ class FakeDb implements IDbPool<Business> {
         "id": 1,
         "name": "Idealrent",
         "timezone": "Europe/Copenhagen",
-        "country_code": "da",
-        "vat_number": null,
-        "email": "niels.busch@gmail.com",
-        "created": "2021-10-12T06:48:57.616Z"
+        // "country_code": "da",
+        // "vat_number": null,
+        // "email": "niels.busch@gmail.com",
+        // "created": "2021-10-12T06:48:57.616Z"
       }]
     })
   }
@@ -32,23 +32,23 @@ const container = createInjector()
   .provideClass('dbPool', FakeDb)
   .provideClass('businessController', BusinessController)
 
-app.use('/businesses', container.injectFunction(BusinessRouter))
+app.use('/v1/businesses', container.injectFunction(BusinessRouter))
 
 afterAll((done) => {
   done()
 })
 
-test('GET /businesses', async () => {
+test('GET /v1/businesses', async () => {
   const res = await request(app)
-    .get('/businesses').send()
+    .get('/v1/businesses').send()
   expect(res.statusCode).toEqual(200)
   expect(res.body).toEqual([{
     "id": 1,
     "name": "Idealrent",
     "timezone": "Europe/Copenhagen",
-    "country_code": "da",
-    "vat_number": null,
-    "email": "niels.busch@gmail.com",
-    "created": "2021-10-12T06:48:57.616Z"
+    // "country_code": "da",
+    // "vat_number": null,
+    // "email": "niels.busch@gmail.com",
+    // "created": "2021-10-12T06:48:57.616Z"
   }])
 })
