@@ -13,15 +13,15 @@ type Result<T> = {
 }
 
 export interface IDbPool<T> {
-  query: (sql: string) => Promise<Result<T>>
+  query: (sql: string, values?: Array<any>) => Promise<Result<T>>
 }
 
 export class DbPool implements IDbPool<any> {
   constructor(private pool: Pool) { }
   public static inject = ['pool'] as const
 
-  public async query(sql: string) {
-    return this.pool.query(sql)
+  public async query(sql: string, values?: Array<any>) {
+    return this.pool.query(sql, values)
   }
 }
 

@@ -13,7 +13,7 @@ export class BusinessController {
     const query = db.sql<s.businesses.SQL, s.businesses.Selectable[]>`
       SELECT * from ${"businesses"} ORDER BY ID ASC`.compile()
 
-    const result = await this.pool.query(query.text)
+    const result = await this.pool.query(query.text, query.values)
     res.status(200).json(result.rows)
   }
 }
