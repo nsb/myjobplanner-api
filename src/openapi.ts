@@ -1,4 +1,3 @@
-import path from 'path/posix'
 import * as OpenApiValidator from 'express-openapi-validator'
 import type { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types'
 
