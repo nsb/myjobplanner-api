@@ -1,13 +1,19 @@
 import { Request, Response } from 'express'
 import { IDbPool } from '../postgres'
 import type { Business } from '../models/business'
+import * as db from 'zapatos/db';
+import type * as s from 'zapatos/schema';
 
 export class BusinessController {
-  constructor(private db: IDbPool<Business>) { }
+  constructor(private pool: IDbPool<Business>) { }
   public static inject = ['dbPool'] as const;
 
   async getAllBusinesses(req: Request, res: Response): Promise<void> {
-    const result = await this.db.query('SELECT * from businesses ORDER BY id ASC')
+
+    const query = db.sql<s.businesses.SQL, s.businesses.Selectable[]>`
+      SELECT * from ${"businesses"} ORDER BY ID ASC`.compile()
+
+    const result = await this.pool.query(query.text)
     res.status(200).json(result.rows)
   }
 }

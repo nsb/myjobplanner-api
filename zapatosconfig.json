@@ -1,0 +1,18 @@
+{
+  "db": {
+    "user": "{{POSTGRES_USER}}",
+    "password": "{{POSTGRES_PASSWORD}}",
+    "host": "{{POSTGRES_HOST}}",
+    "database": "{{POSTGRES_DB}}",
+    "port": 5432
+  },
+  "outDir": "./src",
+  "schemas": {
+    "public": {
+      "include": [
+        "businesses"
+      ],
+      "exclude": []
+    }
+  }
+}

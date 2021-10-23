@@ -10,7 +10,8 @@
     "test": "jest",
     "graphile-watch": "npx env-cmd --no-override graphile-migrate watch",
     "graphile-migrate": "npx env-cmd --no-override graphile-migrate migrate",
-    "graphile-commit": "npx env-cmd --no-override graphile-migrate commit"
+    "graphile-commit": "npx env-cmd --no-override graphile-migrate commit",
+    "zapatos": "npx env-cmd --no-override npx zapatos"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +24,8 @@
     "jwks-rsa": "^2.0.4",
     "pg": "^8.7.1",
     "swagger-ui-express": "^4.1.6",
-    "typed-inject": "^3.0.1"
+    "typed-inject": "^3.0.1",
+    "zapatos": "^5.0.0"
   },
   "devDependencies": {
     "@jest/types": "^27.1.1",
