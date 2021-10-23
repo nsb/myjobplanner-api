@@ -79,6 +79,7 @@ export const apiSpec: OpenAPIV3.Document = {
   components: {
     schemas: {
       Business: {
+        additionalProperties: false,
         type: 'object',
         required: [
           'id',
@@ -142,7 +143,7 @@ const openApi = OpenApiValidator.middleware({
     removeAdditional: true,
   },
   validateResponses: {
-    removeAdditional: true,
+    removeAdditional: 'failing',
   }
 })
 
