@@ -8,7 +8,7 @@ export class BusinessController {
   constructor(private pool: IDbPool<Business>) { }
   public static inject = ['dbPool'] as const;
 
-  async getAllBusinesses(req: Request, res: Response): Promise<void> {
+  async getBusinesses(req: Request, res: Response): Promise<void> {
 
     const query = db.sql<s.businesses.SQL, s.businesses.Selectable[]>`
       SELECT * from ${"businesses"} ORDER BY ID ASC`.compile()

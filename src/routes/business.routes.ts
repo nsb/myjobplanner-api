@@ -11,7 +11,7 @@ function BusinessRouter(businessController: BusinessController) {
     checkJwt,
     jwtAuthz(['read:business']),
     openApi,
-    businessController.getAllBusinesses.bind(businessController))
+    businessController.getBusinesses.bind(businessController))
   return router
 }
 BusinessRouter.inject = ['businessController'] as const
