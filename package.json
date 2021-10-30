@@ -11,7 +11,8 @@
     "graphile-watch": "npx env-cmd --no-override graphile-migrate watch",
     "graphile-migrate": "npx env-cmd --no-override graphile-migrate migrate",
     "graphile-commit": "npx env-cmd --no-override graphile-migrate commit",
-    "zapatos": "npx env-cmd --no-override npx zapatos"
+    "zapatos": "npx env-cmd --no-override npx zapatos",
+    "skaffold": "skaffold dev --tail --port-forward"
   },
   "keywords": [],
   "author": "",
