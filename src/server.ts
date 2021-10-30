@@ -9,7 +9,11 @@ app.use('/v1/businesses', container.injectFunction(BusinessRouter))
 app.use(
   "/",
   swaggerUi.serve,
-  swaggerUi.setup(apiSpec)
+  swaggerUi.setup(apiSpec, {
+    swaggerOptions: {
+      oauth2RedirectUrl: "http://localhost:3000/callback"
+    }
+  })
 )
 
 const server = app.listen(3000, () => {
