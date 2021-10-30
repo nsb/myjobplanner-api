@@ -135,21 +135,6 @@ export const apiSpec: OpenAPIV3.Document = {
         scheme: 'bearer',
         bearerFormat: 'JWT'
       },
-      oauth2: {
-        type: 'oauth2',
-        flows: {
-
-          implicit: {
-            authorizationUrl: `${process.env.AUTH0_DOMAIN}authorize`,
-            scopes: {}
-          },
-          authorizationCode: {
-            authorizationUrl: `${process.env.AUTH0_DOMAIN}authorize`,
-            tokenUrl: `${process.env.AUTH0_DOMAIN}oauth/token`,
-            scopes: {}
-          }
-        }
-      }
     }
   }
 }
