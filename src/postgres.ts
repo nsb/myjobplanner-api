@@ -8,21 +8,4 @@ const pool = new Pool({
   port: 5432
 })
 
-type Result<T> = {
-  rows: Array<T>
-}
-
-export interface IDbPool<T> {
-  query: (sql: string, values?: Array<any>) => Promise<Result<T>>
-}
-
-export class DbPool implements IDbPool<any> {
-  constructor(private pool: Pool) { }
-  public static inject = ['pool'] as const
-
-  public async query(sql: string, values?: Array<any>) {
-    return this.pool.query(sql, values)
-  }
-}
-
 export default pool
