@@ -9,7 +9,11 @@ app.use('/v1/businesses', container.injectFunction(BusinessRouter))
 app.use(
   "/",
   swaggerUi.serve,
-  swaggerUi.setup(apiSpec)
+  swaggerUi.setup(apiSpec, undefined, {
+    oauth: {
+      clientId: `${process.env.AUTH0_SWAGGER_UI_CLIENT_ID}`
+    }
+  })
 )
 
 const server = app.listen(3000, () => {

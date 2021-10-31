@@ -130,24 +130,11 @@ export const apiSpec: OpenAPIV3.Document = {
       }
     },
     securitySchemes: {
-      bearerAuth: {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT'
-      },
       oauth2: {
         type: 'oauth2',
         flows: {
           implicit: {
             authorizationUrl: `${process.env.AUTH0_DOMAIN}authorize/?audience=${process.env.AUTH0_IDENTIFIER}`,
-            scopes: {
-              openid: "Open Id",
-              "read:business": "Read businesses"
-            }
-          },
-          authorizationCode: {
-            authorizationUrl: `${process.env.AUTH0_DOMAIN}authorize?audience=${process.env.AUTH0_IDENTIFIER}`,
-            tokenUrl: `${process.env.AUTH0_DOMAIN}oauth/token`,
             scopes: {
               openid: "Open Id",
               "read:business": "Read businesses"
