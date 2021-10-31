@@ -138,7 +138,6 @@ export const apiSpec: OpenAPIV3.Document = {
       oauth2: {
         type: 'oauth2',
         flows: {
-
           implicit: {
             authorizationUrl: `${process.env.AUTH0_DOMAIN}authorize/?audience=${process.env.AUTH0_IDENTIFIER}`,
             scopes: {
