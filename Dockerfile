@@ -1,22 +1,25 @@
-FROM node:16 as base
+FROM node:16.12-alpine3.14 as build
 
-WORKDIR /home/node/app
+WORKDIR /app
 
-COPY package.json package-lock.json ./
-
+COPY --chown=node:node ["package.json", "package-lock.json*", "./"]
+COPY --chown=node:node tsconfig.json .
 RUN npm i
 
-COPY . .
-
+COPY --chown=node:node src ./src/
 RUN npm run build
 
-FROM node:16 as production
+FROM node:16.12-alpine3.14 AS dependencies
+WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY --from=build --chown=node:node ["/app/package.json", "/app/package-lock.json*", "./"]
+COPY --from=build --chown=node:node /app/build ./
+RUN npm ci --only=production
 
-RUN npm i --only=production
+FROM alpine:3.14.2
+RUN apk add nodejs --no-cache
+WORKDIR /app
+COPY --from=dependencies /app/node_modules /app/node_modules
+COPY --from=dependencies /app .
 
-COPY --from=base /home/node/app/build ./build
-
-EXPOSE 3000
-CMD [ "npm", "start" ]
+CMD [ "node", "server.js" ]

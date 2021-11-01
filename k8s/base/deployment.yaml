@@ -6,6 +6,7 @@ metadata:
 data:
   AUTH0_DOMAIN: "https://myjobplanner.eu.auth0.com/"
   AUTH0_IDENTIFIER: "https://api.myjobplanner.com"
+  AUTH0_SWAGGER_UI_CLIENT_ID: "05ixRpURhjZodPj5lDCg7XID9WVmH5lS"
 ---
 apiVersion: apps/v1
 kind: Deployment
