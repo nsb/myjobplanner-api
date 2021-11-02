@@ -40,3 +40,15 @@ spec:
                 name: postgres-configuration
             - configMapRef:
                 name: auth0-configuration
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
