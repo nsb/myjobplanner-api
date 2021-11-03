@@ -1,5 +1,5 @@
 export interface IWrite<T> {
-  create(item: T): Promise<boolean>;
+  create(item: T): Promise<T>;
   update(id: string, item: T): Promise<boolean>;
   delete(id: string): Promise<boolean>;
 }
@@ -10,7 +10,7 @@ export interface IRead<T> {
 }
 
 export default abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
-  create(item: T): Promise<boolean> {
+  create(item: T): Promise<T> {
     throw new Error("Method not implemented.");
   }
   update(id: string, item: T): Promise<boolean> {

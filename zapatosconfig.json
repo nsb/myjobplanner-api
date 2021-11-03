@@ -10,7 +10,9 @@
   "schemas": {
     "public": {
       "include": [
-        "businesses"
+        "businesses",
+        "users",
+        "employees"
       ],
       "exclude": []
     }
