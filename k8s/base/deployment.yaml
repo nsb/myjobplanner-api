@@ -44,11 +44,11 @@ spec:
             httpGet:
               path: /healthz
               port: 3000
-            initialDelaySeconds: 15
+            initialDelaySeconds: 5
             timeoutSeconds: 2
           livenessProbe:
             httpGet:
               path: /healthz
               port: 3000
-            initialDelaySeconds: 15
+            initialDelaySeconds: 5
             timeoutSeconds: 2
