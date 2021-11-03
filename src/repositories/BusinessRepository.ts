@@ -36,13 +36,7 @@ class BusinessRepository extends BaseRepository<Business> {
       email,
     }
 
-    const insertedBusiness = await db.insert('businesses', {
-      name,
-      timezone,
-      country_code: countryCode,
-      email
-    }).run(this.pool)
-
+    const insertedBusiness = await db.insert('businesses', business).run(this.pool)
     return BusinessRepository.toBusiness(insertedBusiness)
   }
 
