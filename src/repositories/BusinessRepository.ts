@@ -41,8 +41,16 @@ class BusinessRepository extends BaseRepository<Business> {
   }
 
   async find(item: Partial<Business>): Promise<Array<Business>> {
-    const businesses = await db.select('businesses', db.all).run(this.pool)
-    return businesses.map(BusinessRepository.toBusiness)
+
+    const userBusinesses = await db.selectOne('users', { user_id: 'abc' }, {
+      lateral: {
+        businesses: db.select('employees', { user_id: db.parent('id') }, {
+          lateral: db.selectExactlyOne('businesses', { id: db.parent('business_id') })
+        })
+      }
+    }).run(this.pool)
+
+    return (userBusinesses?.businesses || []).map(BusinessRepository.toBusiness)
   }
 }
 
