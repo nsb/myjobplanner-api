@@ -17,7 +17,7 @@ class BusinessRepository extends BaseRepository<Business> {
     email,
     country_code,
     timezone
-  }: s.businesses.Selectable): Business {
+  }: s.businesses.JSONSelectable): Business {
     return {
       id,
       name,
@@ -36,17 +36,18 @@ class BusinessRepository extends BaseRepository<Business> {
       email,
     }
 
-    const [insertedBusiness] = await db.sql<s.businesses.SQL, s.businesses.Selectable[]>`
-    INSERT INTO ${"businesses"} (${db.cols(business)})
-    VALUES (${db.vals(business)}) RETURNING *`.run(this.pool)
+    const insertedBusiness = await db.insert('businesses', {
+      name,
+      timezone,
+      country_code: countryCode,
+      email
+    }).run(this.pool)
 
     return BusinessRepository.toBusiness(insertedBusiness)
   }
 
   async find(item: Partial<Business>): Promise<Array<Business>> {
-    const businesses = await db.sql<s.businesses.SQL, s.businesses.Selectable[]>`
-      SELECT * from ${"businesses"} ORDER BY ID ASC`.run(this.pool)
-
+    const businesses = await db.select('businesses', db.all).run(this.pool)
     return businesses.map(BusinessRepository.toBusiness)
   }
 }
