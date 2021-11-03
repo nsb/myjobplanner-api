@@ -6,7 +6,7 @@ COPY --chown=node:node ["package.json", "package-lock.json*", "./"]
 COPY --chown=node:node tsconfig.json .
 RUN npm i
 
-COPY --chown=node:node src ./src/
+COPY --chown=node:node ["src", "*.d.ts", "./src/"]
 RUN npm run build
 
 FROM node:16.12-alpine3.14 AS dependencies
