@@ -1,5 +1,5 @@
 --! Previous: -
---! Hash: sha1:c0a51af77b6d93ea81f6dc1ec7d88c0db6c32ff5
+--! Hash: sha1:fb1599b0aaec225d7579082917100cb36ede5016
 
 -- Enter migration here
 
@@ -32,5 +32,6 @@ CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL REFERENCES users(id),
   business_id INTEGER NOT NULL REFERENCES businesses(id),
-  created TIMESTAMP DEFAULT NOW()
+  created TIMESTAMP DEFAULT NOW(),
+  UNIQUE(user_id, business_id)
 );

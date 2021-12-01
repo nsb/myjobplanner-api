@@ -7,7 +7,6 @@ import type { Pool } from 'pg'
 import BusinessRepository from '../repositories/BusinessRepository'
 import BusinessController from './business.controllers'
 import BusinessRouter from '../routes/business.routes'
-import type { Business } from '../models/business'
 import app from '../app'
 
 function noOpMiddleware(req: Request, res: Response, next: NextFunction) { next() }
@@ -15,17 +14,31 @@ jest.mock('express-jwt', () => { return (options: Options) => { return noOpMiddl
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return noOpMiddleware } })
 
 function poolDecorator(pool: Pool) {
-  (pool as any).query = jest.fn();
+  (pool as any).connect = jest.fn().mockReturnThis();
+  (pool as any).release = jest.fn().mockReturnThis();
+  (pool as any).query = jest.fn().mockReturnThis();
 
-  (pool as any).query.mockReturnValue({
+  (pool as any).query.mockResolvedValueOnce({
     rows: [{
-      "id": 1,
-      "name": "Idealrent",
-      "timezone": "Europe/Copenhagen",
-      // "country_code": "da",
-      // "vat_number": null,
-      // "email": "niels.busch@gmail.com",
-      // "created": "2021-10-12T06:48:57.616Z"
+      result: {
+        "id": 1,
+        "name": "Niels Sandholt Busch",
+        "email": "niels.busch@gmail.com",
+        "created": "2021-11-11T22:55:57.405524",
+        "picture": null,
+        "user_id": "abc",
+        "businesses": [
+          {
+            "id": 1,
+            "name": "Idealrent",
+            "email": "niels.busch@gmail.com",
+            "created": "2021-11-11T22:55:57.405524",
+            "timezone": "Europe/Copenhagen",
+            "vat_number": null,
+            "country_code": "da"
+          }
+        ]
+      }
     }]
   });
 
