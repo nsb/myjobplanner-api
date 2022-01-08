@@ -15,12 +15,12 @@ class BusinessRepository {
     const userBusinesses = await db.selectOne('users', { user_id: 'abc' }, {
       lateral: {
         businesses: db.select('employees', { user_id: db.parent('id') }, {
-          lateral: db.selectExactlyOne('businesses', { id: db.parent('business_id') })
+          lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') })
         })
       }
     }).run(this.pool)
 
-    return userBusinesses?.businesses || []
+    return (userBusinesses?.businesses || []).filter(business => business != null)
   }
 }
 
