@@ -10,9 +10,9 @@ class BusinessRepository {
     return await db.insert('businesses', business).run(this.pool)
   }
 
-  async find(business: s.businesses.Whereable): Promise<Array<s.businesses.JSONSelectable>> {
+  async find(user_id: string, business: s.businesses.Whereable): Promise<Array<s.businesses.JSONSelectable>> {
 
-    const userBusinesses = await db.selectOne('users', { user_id: 'abc' }, {
+    const userBusinesses = await db.selectOne('users', { user_id }, {
       lateral: {
         businesses: db.select('employees', { user_id: db.parent('id') }, {
           lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') })

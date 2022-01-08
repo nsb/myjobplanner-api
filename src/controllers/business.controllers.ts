@@ -6,9 +6,10 @@ export class BusinessController {
   public static inject = ['businessRepository'] as const;
 
   async getBusinesses(req: Request, res: Response): Promise<void> {
-    const result = await this.repository.find({})
-
-    res.status(200).json(result)
+    if (req.user) {
+      const result = await this.repository.find(req.user.sub, req.params)
+      res.status(200).json(result)
+    }
   }
 }
 
