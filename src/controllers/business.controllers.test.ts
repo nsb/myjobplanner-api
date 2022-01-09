@@ -9,9 +9,20 @@ import BusinessController from './business.controllers'
 import BusinessRouter from '../routes/business.routes'
 import app from '../app'
 
-function noOpMiddleware(req: Request, res: Response, next: NextFunction) { next() }
-jest.mock('express-jwt', () => { return (options: Options) => { return noOpMiddleware } })
-jest.mock('express-jwt-authz', () => { return (options: Options) => { return noOpMiddleware } })
+function jwtMiddleware(req: Request, res: Response, next: NextFunction) {
+  req.user = {
+    iss: "",
+    sub: "abc",
+    aud: [],
+    iat: 1,
+    exp: 1,
+    azp: "",
+    scope: ""
+  }
+  next()
+}
+jest.mock('express-jwt', () => { return (options: Options) => { return jwtMiddleware } })
+jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwtMiddleware } })
 
 afterAll((done) => {
   done()
