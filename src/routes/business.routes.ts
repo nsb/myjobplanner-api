@@ -6,13 +6,20 @@ import BusinessController from '../controllers/business.controllers'
 
 function BusinessRouter(businessController: BusinessController) {
   const router = Router()
-  router.get(
+
+  return router.post(
+    '/',
+    checkJwt,
+    jwtAuthz(['create:business']),
+    openApi,
+    businessController.createBusinesses.bind(businessController)
+  ).get(
     '/',
     checkJwt,
     jwtAuthz(['read:business']),
     openApi,
-    businessController.getBusinesses.bind(businessController))
-  return router
+    businessController.getBusinesses.bind(businessController)
+  )
 }
 BusinessRouter.inject = ['businessController'] as const
 
