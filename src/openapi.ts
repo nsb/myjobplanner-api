@@ -73,6 +73,43 @@ export const apiSpec: OpenAPIV3.Document = {
             }
           }
         }
+      },
+      post: {
+        description: "Create business",
+        operationId: "createBusiness",
+        requestBody: {
+          description: "Create business",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: '#/components/schemas/Business'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'business response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Business'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
       }
     },
   },
@@ -88,6 +125,7 @@ export const apiSpec: OpenAPIV3.Document = {
           'id',
           'name',
           'timezone',
+          'countryCode'
         ],
         properties: {
           id: {
@@ -98,6 +136,9 @@ export const apiSpec: OpenAPIV3.Document = {
             type: 'string'
           },
           timezone: {
+            type: 'string'
+          },
+          countryCode: {
             type: 'string'
           }
           //         # tag:
@@ -137,6 +178,7 @@ export const apiSpec: OpenAPIV3.Document = {
             authorizationUrl: `${process.env.AUTH0_DOMAIN}authorize/?audience=${process.env.AUTH0_IDENTIFIER}`,
             scopes: {
               openid: "Open Id",
+              "create:business": "Create businesses",
               "read:business": "Read businesses",
               "email": "Read email address"
             }

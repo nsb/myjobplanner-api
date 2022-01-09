@@ -78,7 +78,7 @@ test('GET /v1/businesses', async () => {
     "id": 1,
     "name": "Idealrent",
     "timezone": "Europe/Copenhagen",
-    // "country_code": "da",
+    "countryCode": "da",
     // "vat_number": null,
     // "email": "niels.busch@gmail.com",
     // "created": "2021-10-12T06:48:57.616Z"
