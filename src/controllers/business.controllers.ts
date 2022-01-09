@@ -10,14 +10,15 @@ export class BusinessController {
     if (req.user) {
 
       const business: s.businesses.Insertable = {
-        ...req.body,
+        name: req.body.name,
+        timezone: req.body.timezone,
         country_code: req.body.countryCode
       }
 
       const result = await this.repository.create(req.user.sub, business)
       res.status(200).json({
-        ...business,
-        countryCode: business.country_code
+        ...result,
+        countryCode: result.country_code
       })
     }
   }

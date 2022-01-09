@@ -59,14 +59,8 @@ declare module 'zapatos/schema' {
       */
       vat_number: string | null;
       /**
-      * **businesses.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email: string;
-      /**
       * **businesses.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
       created: Date | null;
@@ -103,17 +97,11 @@ declare module 'zapatos/schema' {
       */
       vat_number: string | null;
       /**
-      * **businesses.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email: string;
-      /**
       * **businesses.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created: db.TimestampString | null;
+      created: db.TimestampTzString | null;
     }
     export interface Whereable {
       /**
@@ -147,17 +135,11 @@ declare module 'zapatos/schema' {
       */
       vat_number?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **businesses.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
       * **businesses.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -191,17 +173,11 @@ declare module 'zapatos/schema' {
       */
       vat_number?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
-      * **businesses.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email: string | db.Parameter<string> | db.SQLFragment;
-      /**
       * **businesses.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -235,17 +211,11 @@ declare module 'zapatos/schema' {
       */
       vat_number?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **businesses.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
-      /**
       * **businesses.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'businesses_pkey';
     export type Column = keyof Selectable;
@@ -281,7 +251,7 @@ declare module 'zapatos/schema' {
       business_id: number;
       /**
       * **employees.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
       created: Date | null;
@@ -307,10 +277,10 @@ declare module 'zapatos/schema' {
       business_id: number;
       /**
       * **employees.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created: db.TimestampString | null;
+      created: db.TimestampTzString | null;
     }
     export interface Whereable {
       /**
@@ -333,10 +303,10 @@ declare module 'zapatos/schema' {
       business_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **employees.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -359,10 +329,10 @@ declare module 'zapatos/schema' {
       business_id: number | db.Parameter<number> | db.SQLFragment;
       /**
       * **employees.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -385,10 +355,10 @@ declare module 'zapatos/schema' {
       business_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
       * **employees.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'employees_pkey' | 'employees_user_id_business_id_key';
     export type Column = keyof Selectable;
@@ -436,7 +406,7 @@ declare module 'zapatos/schema' {
       email: string;
       /**
       * **users.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
       created: Date | null;
@@ -474,10 +444,10 @@ declare module 'zapatos/schema' {
       email: string;
       /**
       * **users.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created: db.TimestampString | null;
+      created: db.TimestampTzString | null;
     }
     export interface Whereable {
       /**
@@ -512,10 +482,10 @@ declare module 'zapatos/schema' {
       email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **users.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -550,10 +520,10 @@ declare module 'zapatos/schema' {
       email: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **users.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -588,10 +558,10 @@ declare module 'zapatos/schema' {
       email?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **users.created**
-      * - `timestamp` in database
+      * - `timestamptz` in database
       * - Nullable, default: `now()`
       */
-      created?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'users_pkey';
     export type Column = keyof Selectable;

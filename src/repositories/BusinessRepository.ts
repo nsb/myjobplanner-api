@@ -14,7 +14,7 @@ class BusinessRepository {
       const idCol = <const>['id']
       type userCols = s.users.OnlyCols<typeof idCol>
       const userQuery = db.sql<s.users.SQL, userCols[]>`
-          SELECT ${db.cols(idCol)} FROM ${"users"} WHERE ${"user_id"} = ${db.vals({ user_id })}`
+          (SELECT ${db.cols(idCol)} FROM ${"users"} WHERE ${"user_id"} = ${db.vals({ user_id })})`
 
       const employee: s.employees.Insertable = {
         user_id: userQuery,
@@ -22,7 +22,7 @@ class BusinessRepository {
       }
 
       await db.sql<s.employees.SQL, s.employees.Selectable>`
-          INSERT INTO ${"employees"} ${"user_id"}, ${"business_id"}
+          INSERT INTO ${"employees"} (${"business_id"}, ${"user_id"})
           VALUES (${db.vals(employee)})`.run(txnClient)
 
       return createdBusiness
