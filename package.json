@@ -29,6 +29,9 @@
     "zapatos": "^5.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
     "@jest/types": "^27.1.1",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.2",
