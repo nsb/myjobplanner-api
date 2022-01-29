@@ -149,13 +149,11 @@ test('POST /v1/businesses', async () => {
       rows: [{
         result: {}
       }]
-    })
-
-    // .mockResolvedValueOnce({
-    //   rows: [{
-    //     result: [1]
-    //   }]
-    // });
+    }).mockResolvedValueOnce({
+      rows: [{
+        result: [1]
+      }]
+    });
 
     return pool
   }
