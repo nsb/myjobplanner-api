@@ -2,11 +2,18 @@ import { Request, Response } from 'express'
 import type * as s from 'zapatos/schema';
 import BusinessRepository from '../repositories/BusinessRepository';
 
+interface BusinessDTO {
+  id?: number,
+  name: string,
+  timezone: string,
+  countryCode: string
+}
+
 export class BusinessController {
   constructor(private repository: BusinessRepository) { }
   public static inject = ['businessRepository'] as const;
 
-  async createBusinesses(req: Request, res: Response): Promise<void> {
+  async createBusinesses(req: Request<{}, {}, BusinessDTO>, res: Response<BusinessDTO>): Promise<void> {
     if (req.user) {
 
       const business: s.businesses.Insertable = {
