@@ -77,9 +77,7 @@ test('GET /v1/businesses', async () => {
     "id": 1,
     "name": "Idealrent",
     "timezone": "Europe/Copenhagen",
-    "countryCode": "da",
-    // "vat_number": null,
-    // "created": "2021-10-12T06:48:57.616Z"
+    "countryCode": "da"
   }])
 })
 
@@ -131,7 +129,12 @@ test('POST /v1/businesses', async () => {
     (pool as any).release = jest.fn().mockReturnThis();
     (pool as any).query = jest.fn().mockReturnThis();
 
+    // TX Begin
     (pool as any).query.mockResolvedValueOnce({
+      rows: [{
+        result: {}
+      }] // TX Query
+    }).mockResolvedValueOnce({
       rows: [{
         result: {
           "id": 1,
@@ -141,8 +144,18 @@ test('POST /v1/businesses', async () => {
           "vat_number": null,
           "country_code": "da"
         }
+      }] // TX Commit
+    }).mockResolvedValueOnce({
+      rows: [{
+        result: {}
       }]
-    });
+    })
+
+    // .mockResolvedValueOnce({
+    //   rows: [{
+    //     result: [1]
+    //   }]
+    // });
 
     return pool
   }
@@ -163,13 +176,11 @@ test('POST /v1/businesses', async () => {
       timezone: 'Europe/Copenhagen',
       countryCode: 'da'
     })
-  // expect(res.statusCode).toEqual(200)
+  expect(res.statusCode).toEqual(200)
   expect(res.body).toEqual({
     "id": 1,
     "name": "Idealrent",
     "timezone": "Europe/Copenhagen",
-    "countryCode": "da",
-    // "vat_number": null,
-    // "created": "2021-10-12T06:48:57.616Z"
+    "countryCode": "da"
   })
 })
