@@ -16,7 +16,7 @@ export class BusinessController {
   async createBusinesses(req: Request<{}, {}, BusinessDTO>, res: Response<BusinessDTO>): Promise<void> {
     if (req.user) {
 
-      const business: s.businesses.Insertable = {
+      const business = {
         name: req.body.name,
         timezone: req.body.timezone,
         country_code: req.body.countryCode
