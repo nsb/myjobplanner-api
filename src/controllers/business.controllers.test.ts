@@ -133,7 +133,7 @@ test('POST /v1/businesses', async () => {
     (pool as any).query.mockResolvedValueOnce({
       rows: [{
         result: {}
-      }] // TX Query
+      }] // TX business
     }).mockResolvedValueOnce({
       rows: [{
         result: {
@@ -144,14 +144,14 @@ test('POST /v1/businesses', async () => {
           "vat_number": null,
           "country_code": "da"
         }
+      }] // TX employee
+    }).mockResolvedValueOnce({
+      rows: [{
+        result: [1]
       }] // TX Commit
     }).mockResolvedValueOnce({
       rows: [{
         result: {}
-      }]
-    }).mockResolvedValueOnce({
-      rows: [{
-        result: [1]
       }]
     });
 
