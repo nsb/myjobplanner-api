@@ -2,7 +2,12 @@ import { Pool } from 'pg'
 import * as db from 'zapatos/db';
 import type * as s from 'zapatos/schema';
 
-class BusinessRepository {
+export interface IBusinessRepository {
+  create(user_id: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable>
+  find(user_id: string, business?: s.businesses.Whereable): Promise<s.businesses.JSONSelectable[]>
+}
+
+class BusinessRepository implements IBusinessRepository {
   constructor(private pool: Pool) { }
   public static inject = ['pool'] as const
 
