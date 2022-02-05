@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import type * as s from 'zapatos/schema';
 import { IBusinessRepository } from '../repositories/BusinessRepository';
 
@@ -13,7 +13,7 @@ export class BusinessController {
   constructor(private repository: IBusinessRepository) { }
   public static inject = ['businessRepository'] as const;
 
-  async createBusinesses(req: Request<{}, {}, BusinessDTO>, res: Response<BusinessDTO>): Promise<void> {
+  async createBusinesses(req: Request<{}, {}, BusinessDTO>, res: Response<BusinessDTO>, next: NextFunction): Promise<void> {
     if (req.user) {
 
       const business = {
@@ -22,24 +22,32 @@ export class BusinessController {
         country_code: req.body.countryCode
       }
 
-      const result = await this.repository.create(req.user.sub, business)
-      res.status(200).json({
-        ...result,
-        countryCode: result.country_code
-      })
+      try {
+        const result = await this.repository.create(req.user.sub, business)
+        res.status(200).json({
+          ...result,
+          countryCode: result.country_code
+        })
+      } catch (err) {
+        next(err)
+      }
     }
   }
 
-  async getBusinesses(req: Request, res: Response): Promise<void> {
+  async getBusinesses(req: Request, res: Response, next: NextFunction): Promise<void> {
     if (req.user) {
-      const businesses = await this.repository.find(req.user.sub, req.params)
+      try {
+        const businesses = await this.repository.find(req.user.sub, req.params)
 
-      res.status(200).json(businesses.map(business => {
-        return {
-          ...business,
-          countryCode: business.country_code
-        }
-      }))
+        res.status(200).json(businesses.map(business => {
+          return {
+            ...business,
+            countryCode: business.country_code
+          }
+        }))
+      } catch (err) {
+        next(err)
+      }
     }
   }
 }
