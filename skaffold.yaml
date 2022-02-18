@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta23
+apiVersion: skaffold/v2beta27
 kind: Config
 build:
   artifacts:
@@ -7,6 +7,9 @@ build:
       docker:
         dockerfile: Dockerfile
 deploy:
+  logs:
+    jsonParse:
+      fields: ["res"]
   kustomize:
     paths:
     - k8s/local
