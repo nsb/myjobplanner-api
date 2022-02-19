@@ -14,3 +14,9 @@ deploy:
     paths:
     - k8s/local
   kubeContext: minikube
+portForward:
+- resourceType: deployment
+  resourceName: myjobplanner-api-deployment
+  port: 3000
+  address: 0.0.0.0
+  localPort: 3000
