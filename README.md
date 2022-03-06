@@ -18,7 +18,7 @@ This is the myJobPlanner API. You need `Node.js` to run it.
 
 ### Skaffold
 
-`skaffold dev --tail --port-forward`
+`npm run skaffold`
 
 `minikube dashboard`
 
