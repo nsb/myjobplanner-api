@@ -28,3 +28,9 @@ This is the myJobPlanner API. You need `Node.js` to run it.
     npm run build
 
     npm start
+
+### Start minikube cluster
+
+    minikube start -p knative
+
+    minikube tunnel -p knative

@@ -18,8 +18,8 @@ app.use(
   })
 )
 
-const server = app.listen(3000, () => {
-  console.log('The application is listening on port 3000!');
+const server = app.listen(process.env.PORT, () => {
+  console.log(`The application is listening on port ${process.env.PORT}!`);
 })
 
 export default server
