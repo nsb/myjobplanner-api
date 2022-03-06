@@ -18,6 +18,14 @@ declare module 'zapatos/schema' {
 
   /* --- enums --- */
 
+  export type employee_role = 'admin' | 'worker';
+  export namespace every {
+    export type employee_role = ['admin', 'worker'];
+  }
+  export type invoice_job_choices = 'closed' | 'monthly' | 'never' | 'visit';
+  export namespace every {
+    export type invoice_job_choices = ['closed', 'monthly', 'never', 'visit'];
+  }
 
   /* --- tables --- */
 
@@ -59,11 +67,23 @@ declare module 'zapatos/schema' {
       */
       vat_number: string | null;
       /**
+      * **businesses.vat**
+      * - `int4` in database
+      * - `NOT NULL`, default: `25`
+      */
+      vat: number;
+      /**
+      * **businesses.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      visit_reminders: boolean;
+      /**
       * **businesses.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
-      created: Date | null;
+      created: Date;
     }
     export interface JSONSelectable {
       /**
@@ -97,11 +117,23 @@ declare module 'zapatos/schema' {
       */
       vat_number: string | null;
       /**
+      * **businesses.vat**
+      * - `int4` in database
+      * - `NOT NULL`, default: `25`
+      */
+      vat: number;
+      /**
+      * **businesses.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      visit_reminders: boolean;
+      /**
       * **businesses.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
-      created: db.TimestampTzString | null;
+      created: db.TimestampTzString;
     }
     export interface Whereable {
       /**
@@ -135,9 +167,21 @@ declare module 'zapatos/schema' {
       */
       vat_number?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
+      * **businesses.vat**
+      * - `int4` in database
+      * - `NOT NULL`, default: `25`
+      */
+      vat?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **businesses.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      visit_reminders?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **businesses.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
       created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
@@ -173,11 +217,23 @@ declare module 'zapatos/schema' {
       */
       vat_number?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
+      * **businesses.vat**
+      * - `int4` in database
+      * - `NOT NULL`, default: `25`
+      */
+      vat?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **businesses.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      visit_reminders?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
       * **businesses.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
-      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -211,11 +267,23 @@ declare module 'zapatos/schema' {
       */
       vat_number?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
+      * **businesses.vat**
+      * - `int4` in database
+      * - `NOT NULL`, default: `25`
+      */
+      vat?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **businesses.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      visit_reminders?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
       * **businesses.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
-      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'businesses_pkey';
     export type Column = keyof Selectable;
@@ -239,10 +307,10 @@ declare module 'zapatos/schema' {
       id: number;
       /**
       * **employees.user_id**
-      * - `int4` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      user_id: number;
+      user_id: string;
       /**
       * **employees.business_id**
       * - `int4` in database
@@ -250,11 +318,17 @@ declare module 'zapatos/schema' {
       */
       business_id: number;
       /**
+      * **employees.role**
+      * - `employee_role` in database
+      * - `NOT NULL`, no default
+      */
+      role: employee_role;
+      /**
       * **employees.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
-      created: Date | null;
+      created: Date;
     }
     export interface JSONSelectable {
       /**
@@ -265,10 +339,10 @@ declare module 'zapatos/schema' {
       id: number;
       /**
       * **employees.user_id**
-      * - `int4` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      user_id: number;
+      user_id: string;
       /**
       * **employees.business_id**
       * - `int4` in database
@@ -276,11 +350,17 @@ declare module 'zapatos/schema' {
       */
       business_id: number;
       /**
+      * **employees.role**
+      * - `employee_role` in database
+      * - `NOT NULL`, no default
+      */
+      role: employee_role;
+      /**
       * **employees.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
-      created: db.TimestampTzString | null;
+      created: db.TimestampTzString;
     }
     export interface Whereable {
       /**
@@ -291,10 +371,10 @@ declare module 'zapatos/schema' {
       id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **employees.user_id**
-      * - `int4` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      user_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      user_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **employees.business_id**
       * - `int4` in database
@@ -302,9 +382,15 @@ declare module 'zapatos/schema' {
       */
       business_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
+      * **employees.role**
+      * - `employee_role` in database
+      * - `NOT NULL`, no default
+      */
+      role?: employee_role | db.Parameter<employee_role> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, employee_role | db.Parameter<employee_role> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **employees.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
       created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
@@ -317,10 +403,10 @@ declare module 'zapatos/schema' {
       id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
       /**
       * **employees.user_id**
-      * - `int4` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      user_id: number | db.Parameter<number> | db.SQLFragment;
+      user_id: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **employees.business_id**
       * - `int4` in database
@@ -328,11 +414,17 @@ declare module 'zapatos/schema' {
       */
       business_id: number | db.Parameter<number> | db.SQLFragment;
       /**
+      * **employees.role**
+      * - `employee_role` in database
+      * - `NOT NULL`, no default
+      */
+      role: employee_role | db.Parameter<employee_role> | db.SQLFragment;
+      /**
       * **employees.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
-      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -343,10 +435,10 @@ declare module 'zapatos/schema' {
       id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
       /**
       * **employees.user_id**
-      * - `int4` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      user_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      user_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **employees.business_id**
       * - `int4` in database
@@ -354,11 +446,17 @@ declare module 'zapatos/schema' {
       */
       business_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
+      * **employees.role**
+      * - `employee_role` in database
+      * - `NOT NULL`, no default
+      */
+      role?: employee_role | db.Parameter<employee_role> | db.SQLFragment | db.SQLFragment<any, employee_role | db.Parameter<employee_role> | db.SQLFragment>;
+      /**
       * **employees.created**
       * - `timestamptz` in database
-      * - Nullable, default: `now()`
+      * - `NOT NULL`, default: `now()`
       */
-      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'employees_pkey' | 'employees_user_id_business_id_key';
     export type Column = keyof Selectable;
@@ -367,272 +465,61 @@ declare module 'zapatos/schema' {
     export type SQL = SQLExpression | SQLExpression[];
   }
 
-  /**
-   * **users**
-   * - Table in database
-   */
-  export namespace users {
-    export type Table = 'users';
-    export interface Selectable {
-      /**
-      * **users.id**
-      * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
-      */
-      id: number;
-      /**
-      * **users.user_id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      user_id: string;
-      /**
-      * **users.picture**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      picture: string | null;
-      /**
-      * **users.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
-      /**
-      * **users.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email: string;
-      /**
-      * **users.created**
-      * - `timestamptz` in database
-      * - Nullable, default: `now()`
-      */
-      created: Date | null;
-    }
-    export interface JSONSelectable {
-      /**
-      * **users.id**
-      * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
-      */
-      id: number;
-      /**
-      * **users.user_id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      user_id: string;
-      /**
-      * **users.picture**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      picture: string | null;
-      /**
-      * **users.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
-      /**
-      * **users.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email: string;
-      /**
-      * **users.created**
-      * - `timestamptz` in database
-      * - Nullable, default: `now()`
-      */
-      created: db.TimestampTzString | null;
-    }
-    export interface Whereable {
-      /**
-      * **users.id**
-      * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
-      */
-      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **users.user_id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      user_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **users.picture**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      picture?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **users.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **users.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **users.created**
-      * - `timestamptz` in database
-      * - Nullable, default: `now()`
-      */
-      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
-    }
-    export interface Insertable {
-      /**
-      * **users.id**
-      * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
-      */
-      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
-      /**
-      * **users.user_id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      user_id: string | db.Parameter<string> | db.SQLFragment;
-      /**
-      * **users.picture**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      picture?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
-      /**
-      * **users.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string | db.Parameter<string> | db.SQLFragment;
-      /**
-      * **users.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email: string | db.Parameter<string> | db.SQLFragment;
-      /**
-      * **users.created**
-      * - `timestamptz` in database
-      * - Nullable, default: `now()`
-      */
-      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
-    }
-    export interface Updatable {
-      /**
-      * **users.id**
-      * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
-      */
-      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
-      /**
-      * **users.user_id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      user_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
-      /**
-      * **users.picture**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      picture?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
-      /**
-      * **users.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
-      /**
-      * **users.email**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
-      /**
-      * **users.created**
-      * - `timestamptz` in database
-      * - Nullable, default: `now()`
-      */
-      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
-    }
-    export type UniqueIndex = 'users_pkey';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
-  }
-
   /* === cross-table types === */
 
-  export type Table = businesses.Table | employees.Table | users.Table;
-  export type Selectable = businesses.Selectable | employees.Selectable | users.Selectable;
-  export type JSONSelectable = businesses.JSONSelectable | employees.JSONSelectable | users.JSONSelectable;
-  export type Whereable = businesses.Whereable | employees.Whereable | users.Whereable;
-  export type Insertable = businesses.Insertable | employees.Insertable | users.Insertable;
-  export type Updatable = businesses.Updatable | employees.Updatable | users.Updatable;
-  export type UniqueIndex = businesses.UniqueIndex | employees.UniqueIndex | users.UniqueIndex;
-  export type Column = businesses.Column | employees.Column | users.Column;
-  export type AllBaseTables = [businesses.Table, employees.Table, users.Table];
+  export type Table = businesses.Table | employees.Table;
+  export type Selectable = businesses.Selectable | employees.Selectable;
+  export type JSONSelectable = businesses.JSONSelectable | employees.JSONSelectable;
+  export type Whereable = businesses.Whereable | employees.Whereable;
+  export type Insertable = businesses.Insertable | employees.Insertable;
+  export type Updatable = businesses.Updatable | employees.Updatable;
+  export type UniqueIndex = businesses.UniqueIndex | employees.UniqueIndex;
+  export type Column = businesses.Column | employees.Column;
+  export type AllBaseTables = [businesses.Table, employees.Table];
   export type AllForeignTables = [];
   export type AllViews = [];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [businesses.Table, employees.Table, users.Table];
+  export type AllTablesAndViews = [businesses.Table, employees.Table];
 
 
   export type SelectableForTable<T extends Table> = {
     businesses: businesses.Selectable;
     employees: employees.Selectable;
-    users: users.Selectable;
   }[T];
 
   export type JSONSelectableForTable<T extends Table> = {
     businesses: businesses.JSONSelectable;
     employees: employees.JSONSelectable;
-    users: users.JSONSelectable;
   }[T];
 
   export type WhereableForTable<T extends Table> = {
     businesses: businesses.Whereable;
     employees: employees.Whereable;
-    users: users.Whereable;
   }[T];
 
   export type InsertableForTable<T extends Table> = {
     businesses: businesses.Insertable;
     employees: employees.Insertable;
-    users: users.Insertable;
   }[T];
 
   export type UpdatableForTable<T extends Table> = {
     businesses: businesses.Updatable;
     employees: employees.Updatable;
-    users: users.Updatable;
   }[T];
 
   export type UniqueIndexForTable<T extends Table> = {
     businesses: businesses.UniqueIndex;
     employees: employees.UniqueIndex;
-    users: users.UniqueIndex;
   }[T];
 
   export type ColumnForTable<T extends Table> = {
     businesses: businesses.Column;
     employees: employees.Column;
-    users: users.Column;
   }[T];
 
   export type SQLForTable<T extends Table> = {
     businesses: businesses.SQL;
     employees: employees.SQL;
-    users: users.SQL;
   }[T];
 
 }

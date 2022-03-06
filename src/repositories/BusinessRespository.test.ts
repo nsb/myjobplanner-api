@@ -13,24 +13,16 @@ describe("BusinessRepository", () => {
 
             (pool as any).query.mockResolvedValueOnce({
                 rows: [{
-                    result: {
-                        "id": 1,
-                        "name": "Niels Sandholt Busch",
-                        "email": "niels.busch@gmail.com",
-                        "created": "2021-11-11T22:55:57.405524",
-                        "picture": null,
-                        "user_id": "abc",
-                        "businesses": [
-                            {
-                                "id": 1,
-                                "name": "Idealrent",
-                                "created": "2021-11-11T22:55:57.405524",
-                                "timezone": "Europe/Copenhagen",
-                                "vat_number": null,
-                                "country_code": "da"
-                            }
-                        ]
-                    }
+                    result: [
+                        {
+                            "id": 1,
+                            "name": "Idealrent",
+                            "created": "2021-11-11T22:55:57.405524",
+                            "timezone": "Europe/Copenhagen",
+                            "vat_number": null,
+                            "country_code": "da"
+                        }
+                    ]
                 }]
             });
 
@@ -64,17 +56,9 @@ describe("BusinessRepository", () => {
 
             (pool as any).query.mockResolvedValueOnce({
                 rows: [{
-                    result: {
-                        "id": 1,
-                        "name": "Niels Sandholt Busch",
-                        "email": "niels.busch@gmail.com",
-                        "created": "2021-11-11T22:55:57.405524",
-                        "picture": null,
-                        "user_id": "abc",
-                        "businesses": [
-                            null
-                        ]
-                    }
+                    result: [
+                        null
+                    ]
                 }]
             });
 

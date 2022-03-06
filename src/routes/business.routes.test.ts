@@ -33,6 +33,8 @@ describe("BusinessController", () => {
             "timezone": "Europe/Copenhagen",
             "country_code": "da",
             "vat_number": null,
+            "vat": 25,
+            "visit_reminders": false,
             "created": "2021-11-11T22:55:57.405524Z"
         }]
 
@@ -91,6 +93,8 @@ describe("BusinessController", () => {
             "timezone": "Europe/Copenhagen",
             "country_code": "da",
             "vat_number": null,
+            "vat": 25,
+            "visit_reminders": false,
             "created": "2021-11-11T22:55:57.405524Z"
         }
 

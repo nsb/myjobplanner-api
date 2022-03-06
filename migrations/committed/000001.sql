@@ -1,18 +1,7 @@
 --! Previous: -
---! Hash: sha1:fc9a36b61487e3a2d056fd447e8ef0a4beca24b8
+--! Hash: sha1:37511836f1f6e6245ac8ca1e1fd5c692eb0f6ed0
 
 -- Enter migration here
-
-DROP TABLE IF EXISTS users CASCADE;
-
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  user_id VARCHAR (128) NOT NULL,
-  picture VARCHAR (512),
-  name VARCHAR (256) NOT NULL,
-  email VARCHAR (256) NOT NULL,
-  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
-);
 
 DROP TABLE IF EXISTS businesses CASCADE;
 
@@ -34,12 +23,15 @@ DROP TABLE IF EXISTS employees CASCADE;
 
 CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_id VARCHAR (512) NOT NULL,
   business_id INTEGER NOT NULL REFERENCES businesses(id),
   role EMPLOYEE_ROLE NOT NULL,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
   UNIQUE(user_id, business_id)
 );
+
+DROP INDEX IF EXISTS employees_user_id_idx;
+CREATE INDEX employees_user_id_idx ON employees (user_id);
 
 DROP TABLE IF EXISTS services CASCADE;
 
@@ -76,6 +68,16 @@ CREATE TABLE clients (
   imported_via VARCHAR (128),
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
+
+DROP INDEX IF EXISTS clients_first_name_idx;
+CREATE INDEX clients_first_name_idx ON clients (first_name);
+
+DROP INDEX IF EXISTS clients_last_name_idx;
+CREATE INDEX clients_last_name_idx ON clients (last_name);
+
+DROP INDEX IF EXISTS clients_business_name;
+CREATE INDEX clients_business_name ON clients (business_name);
+
 
 DROP TABLE IF EXISTS properties CASCADE;
 
@@ -129,8 +131,21 @@ CREATE TABLE invoices (
   client_id INTEGER NOT NULL REFERENCES clients (id) ON DELETE CASCADE,
   description TEXT,
   date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()  
+  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
+
+DROP TABLE IF EXISTS invoice_reminders CASCADE;
+
+CREATE TABLE invoice_reminders (
+  id SERIAL PRIMARY KEY,
+  job_id INTEGER NOT NULL REFERENCES jobs (id) ON DELETE CASCADE,
+  date TIMESTAMP WITH TIME ZONE NOT NULL,
+  invoice_id INTEGER NOT NULL REFERENCES invoices (id) ON DELETE SET NULL,
+  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+DROP INDEX IF EXISTS invoice_reminders_date_idx;
+CREATE INDEX invoice_reminders_date_idx ON invoice_reminders (date);
 
 DROP TABLE IF EXISTS visits CASCADE;
 
@@ -144,6 +159,15 @@ CREATE TABLE visits (
   anytime BOOLEAN NOT NULL DEFAULT true,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
+
+DROP INDEX IF EXISTS visits_completed_idx;
+CREATE INDEX visits_completed_idx ON visits (completed);
+
+DROP INDEX IF EXISTS visits_begins_idx;
+CREATE INDEX visits_begins_idx ON visits (begins);
+
+DROP INDEX IF EXISTS visits_ends_idx;
+CREATE INDEX visits_ends_idx ON visits (ends);
 
 DROP TABLE IF EXISTS visit_assignments CASCADE;
 

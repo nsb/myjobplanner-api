@@ -16,18 +16,14 @@ class BusinessRepository implements IBusinessRepository {
     return db.readCommitted(this.pool, async txnClient => {
       const createdBusiness = await db.insert('businesses', business).run(txnClient)
 
-      const idCol = <const>['id']
-      type userCols = s.users.OnlyCols<typeof idCol>
-      const userQuery = db.sql<s.users.SQL, userCols[]>`
-          (SELECT ${db.cols(idCol)} FROM ${"users"} WHERE ${"user_id"} = ${db.vals({ user_id })})`
-
       const employee: s.employees.Insertable = {
-        user_id: userQuery,
-        business_id: createdBusiness.id
+        user_id,
+        business_id: createdBusiness.id,
+        role: 'admin'
       }
 
       await db.sql<s.employees.SQL, s.employees.Selectable>`
-          INSERT INTO ${"employees"} (${"business_id"}, ${"user_id"})
+          INSERT INTO ${"employees"} (${db.cols(employee)})
           VALUES (${db.vals(employee)})`.run(txnClient)
 
       return createdBusiness
@@ -36,15 +32,11 @@ class BusinessRepository implements IBusinessRepository {
 
   async find(user_id: string, business?: s.businesses.Whereable): Promise<Array<s.businesses.JSONSelectable>> {
 
-    const userBusinesses = await db.selectOne('users', { user_id }, {
-      lateral: {
-        businesses: db.select('employees', { user_id: db.parent('id') }, {
-          lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') })
-        })
-      }
+    const businesses = await db.select('employees', { user_id }, {
+      lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') })
     }).run(this.pool)
 
-    return (userBusinesses?.businesses || []).filter(business => business != null)
+    return businesses?.filter(business => business != null)
   }
 }
 
