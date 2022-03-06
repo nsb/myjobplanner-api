@@ -34,3 +34,7 @@ This is the myJobPlanner API. You need `Node.js` to run it.
     minikube start -p knative
 
     minikube tunnel -p knative
+
+### Bind to 0.0.0.0 interface
+
+    proxyboi -l 0.0.0.0:3000 http://myjobplanner-api.default.10.110.225.77.sslip.io
