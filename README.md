@@ -37,4 +37,4 @@ This is the myJobPlanner API. You need `Node.js` to run it.
 
 ### Bind to 0.0.0.0 interface
 
-    proxyboi -l 0.0.0.0:3000 http://myjobplanner-api.default.10.110.225.77.sslip.io
+    proxyboi -l 0.0.0.0:3000 --upstream-header="Host:myjobplanner-api.default.10.110.225.77.sslip.io" http://myjobplanner-api.default.10.110.225.77.sslip.io
