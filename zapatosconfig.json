@@ -11,8 +11,18 @@
     "public": {
       "include": [
         "businesses",
-        "users",
-        "employees"
+        "clients",
+        "employees",
+        "invoice_reminders",
+        "invoices",
+        "job_assignments",
+        "jobs",
+        "lineitem_overrides",
+        "lineitems",
+        "properties",
+        "services",
+        "visit_assignments",
+        "visits"
       ],
       "exclude": []
     }

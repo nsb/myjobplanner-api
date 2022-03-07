@@ -293,6 +293,629 @@ declare module 'zapatos/schema' {
   }
 
   /**
+   * **clients**
+   * - Table in database
+   */
+  export namespace clients {
+    export type Table = 'clients';
+    export interface Selectable {
+      /**
+      * **clients.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('clients_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **clients.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id: number;
+      /**
+      * **clients.first_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      first_name: string | null;
+      /**
+      * **clients.last_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      last_name: string | null;
+      /**
+      * **clients.business_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      business_name: string | null;
+      /**
+      * **clients.is_business**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_business: boolean;
+      /**
+      * **clients.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1: string | null;
+      /**
+      * **clients.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2: string | null;
+      /**
+      * **clients.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city: string | null;
+      /**
+      * **clients.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code: string | null;
+      /**
+      * **clients.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country: string | null;
+      /**
+      * **clients.address_use_property**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      address_use_property: boolean;
+      /**
+      * **clients.email**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      email: string | null;
+      /**
+      * **clients.phone**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      phone: string | null;
+      /**
+      * **clients.is_active**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      is_active: boolean;
+      /**
+      * **clients.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      visit_reminders: boolean;
+      /**
+      * **clients.external_id**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      external_id: string | null;
+      /**
+      * **clients.imported_from**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_from: string | null;
+      /**
+      * **clients.imported_via**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_via: string | null;
+      /**
+      * **clients.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **clients.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('clients_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **clients.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id: number;
+      /**
+      * **clients.first_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      first_name: string | null;
+      /**
+      * **clients.last_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      last_name: string | null;
+      /**
+      * **clients.business_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      business_name: string | null;
+      /**
+      * **clients.is_business**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_business: boolean;
+      /**
+      * **clients.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1: string | null;
+      /**
+      * **clients.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2: string | null;
+      /**
+      * **clients.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city: string | null;
+      /**
+      * **clients.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code: string | null;
+      /**
+      * **clients.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country: string | null;
+      /**
+      * **clients.address_use_property**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      address_use_property: boolean;
+      /**
+      * **clients.email**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      email: string | null;
+      /**
+      * **clients.phone**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      phone: string | null;
+      /**
+      * **clients.is_active**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      is_active: boolean;
+      /**
+      * **clients.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      visit_reminders: boolean;
+      /**
+      * **clients.external_id**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      external_id: string | null;
+      /**
+      * **clients.imported_from**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_from: string | null;
+      /**
+      * **clients.imported_via**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_via: string | null;
+      /**
+      * **clients.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **clients.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('clients_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.first_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      first_name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.last_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      last_name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.business_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      business_name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.is_business**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_business?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.address_use_property**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      address_use_property?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.email**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.phone**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      phone?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.is_active**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      is_active?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      visit_reminders?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.external_id**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      external_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.imported_from**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_from?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.imported_via**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_via?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **clients.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **clients.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('clients_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **clients.first_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      first_name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.last_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      last_name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.business_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      business_name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.is_business**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_business?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.address_use_property**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      address_use_property?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.email**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      email?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.phone**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      phone?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.is_active**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      is_active?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      visit_reminders?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.external_id**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      external_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.imported_from**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_from?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.imported_via**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_via?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **clients.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **clients.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('clients_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **clients.first_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      first_name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.last_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      last_name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.business_name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      business_name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.is_business**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_business?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.address_use_property**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      address_use_property?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.email**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      email?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.phone**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      phone?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.is_active**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      is_active?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.visit_reminders**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      visit_reminders?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.external_id**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      external_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.imported_from**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_from?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.imported_via**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      imported_via?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **clients.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'clients_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
    * **employees**
    * - Table in database
    */
@@ -465,61 +1088,2389 @@ declare module 'zapatos/schema' {
     export type SQL = SQLExpression | SQLExpression[];
   }
 
+  /**
+   * **invoice_reminders**
+   * - Table in database
+   */
+  export namespace invoice_reminders {
+    export type Table = 'invoice_reminders';
+    export interface Selectable {
+      /**
+      * **invoice_reminders.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoice_reminders_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **invoice_reminders.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number;
+      /**
+      * **invoice_reminders.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      date: Date;
+      /**
+      * **invoice_reminders.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id: number;
+      /**
+      * **invoice_reminders.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **invoice_reminders.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoice_reminders_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **invoice_reminders.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number;
+      /**
+      * **invoice_reminders.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      date: db.TimestampTzString;
+      /**
+      * **invoice_reminders.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id: number;
+      /**
+      * **invoice_reminders.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **invoice_reminders.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoice_reminders_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **invoice_reminders.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **invoice_reminders.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      date?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **invoice_reminders.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **invoice_reminders.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **invoice_reminders.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoice_reminders_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **invoice_reminders.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **invoice_reminders.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      date: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **invoice_reminders.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **invoice_reminders.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **invoice_reminders.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoice_reminders_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **invoice_reminders.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **invoice_reminders.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      date?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **invoice_reminders.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **invoice_reminders.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'invoice_reminders_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **invoices**
+   * - Table in database
+   */
+  export namespace invoices {
+    export type Table = 'invoices';
+    export interface Selectable {
+      /**
+      * **invoices.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoices_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **invoices.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number;
+      /**
+      * **invoices.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
+      * **invoices.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      date: Date;
+      /**
+      * **invoices.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **invoices.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoices_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **invoices.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number;
+      /**
+      * **invoices.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
+      * **invoices.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      date: db.TimestampTzString;
+      /**
+      * **invoices.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **invoices.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoices_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **invoices.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **invoices.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **invoices.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      date?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **invoices.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **invoices.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoices_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **invoices.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **invoices.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **invoices.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      date?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+      /**
+      * **invoices.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **invoices.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('invoices_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **invoices.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **invoices.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **invoices.date**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      date?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **invoices.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'invoices_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **job_assignments**
+   * - Table in database
+   */
+  export namespace job_assignments {
+    export type Table = 'job_assignments';
+    export interface Selectable {
+      /**
+      * **job_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('job_assignments_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **job_assignments.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number;
+      /**
+      * **job_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id: number;
+      /**
+      * **job_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **job_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('job_assignments_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **job_assignments.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number;
+      /**
+      * **job_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id: number;
+      /**
+      * **job_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **job_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('job_assignments_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **job_assignments.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **job_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **job_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **job_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('job_assignments_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **job_assignments.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **job_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **job_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **job_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('job_assignments_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **job_assignments.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **job_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **job_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'job_assignments_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **jobs**
+   * - Table in database
+   */
+  export namespace jobs {
+    export type Table = 'jobs';
+    export interface Selectable {
+      /**
+      * **jobs.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('jobs_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **jobs.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number;
+      /**
+      * **jobs.property_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      property_id: number;
+      /**
+      * **jobs.recurrences**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      recurrences: string | null;
+      /**
+      * **jobs.begins**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      begins: Date;
+      /**
+      * **jobs.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends: Date | null;
+      /**
+      * **jobs.start_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      start_time: Date | null;
+      /**
+      * **jobs.finish_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      finish_time: Date | null;
+      /**
+      * **jobs.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime: boolean;
+      /**
+      * **jobs.title**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      title: string | null;
+      /**
+      * **jobs.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
+      * **jobs.closed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      closed: boolean;
+      /**
+      * **jobs.invoice**
+      * - `invoice_job_choices` in database
+      * - `NOT NULL`, default: `'never'::invoice_job_choices`
+      */
+      invoice: invoice_job_choices;
+      /**
+      * **jobs.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **jobs.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('jobs_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **jobs.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number;
+      /**
+      * **jobs.property_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      property_id: number;
+      /**
+      * **jobs.recurrences**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      recurrences: string | null;
+      /**
+      * **jobs.begins**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      begins: db.TimestampTzString;
+      /**
+      * **jobs.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends: db.TimestampTzString | null;
+      /**
+      * **jobs.start_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      start_time: db.TimestampTzString | null;
+      /**
+      * **jobs.finish_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      finish_time: db.TimestampTzString | null;
+      /**
+      * **jobs.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime: boolean;
+      /**
+      * **jobs.title**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      title: string | null;
+      /**
+      * **jobs.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
+      * **jobs.closed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      closed: boolean;
+      /**
+      * **jobs.invoice**
+      * - `invoice_job_choices` in database
+      * - `NOT NULL`, default: `'never'::invoice_job_choices`
+      */
+      invoice: invoice_job_choices;
+      /**
+      * **jobs.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **jobs.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('jobs_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.property_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      property_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.recurrences**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      recurrences?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.begins**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      begins?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.start_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      start_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.finish_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      finish_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.title**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      title?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.closed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      closed?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.invoice**
+      * - `invoice_job_choices` in database
+      * - `NOT NULL`, default: `'never'::invoice_job_choices`
+      */
+      invoice?: invoice_job_choices | db.Parameter<invoice_job_choices> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, invoice_job_choices | db.Parameter<invoice_job_choices> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **jobs.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **jobs.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('jobs_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **jobs.property_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      property_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **jobs.recurrences**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      recurrences?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.begins**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      begins?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.start_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      start_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.finish_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      finish_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.title**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      title?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.closed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      closed?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.invoice**
+      * - `invoice_job_choices` in database
+      * - `NOT NULL`, default: `'never'::invoice_job_choices`
+      */
+      invoice?: invoice_job_choices | db.Parameter<invoice_job_choices> | db.DefaultType | db.SQLFragment;
+      /**
+      * **jobs.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **jobs.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('jobs_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **jobs.property_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      property_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **jobs.recurrences**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      recurrences?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.begins**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      begins?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.start_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      start_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.finish_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      finish_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.title**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      title?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.closed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      closed?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.invoice**
+      * - `invoice_job_choices` in database
+      * - `NOT NULL`, default: `'never'::invoice_job_choices`
+      */
+      invoice?: invoice_job_choices | db.Parameter<invoice_job_choices> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, invoice_job_choices | db.Parameter<invoice_job_choices> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **jobs.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'jobs_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **lineitem_overrides**
+   * - Table in database
+   */
+  export namespace lineitem_overrides {
+    export type Table = 'lineitem_overrides';
+    export interface Selectable {
+      /**
+      * **lineitem_overrides.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitem_overrides_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **lineitem_overrides.lineitem_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      lineitem_id: number;
+      /**
+      * **lineitem_overrides.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id: number;
+      /**
+      * **lineitem_overrides.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity: number;
+      /**
+      * **lineitem_overrides.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **lineitem_overrides.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitem_overrides_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **lineitem_overrides.lineitem_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      lineitem_id: number;
+      /**
+      * **lineitem_overrides.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id: number;
+      /**
+      * **lineitem_overrides.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity: number;
+      /**
+      * **lineitem_overrides.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **lineitem_overrides.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitem_overrides_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitem_overrides.lineitem_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      lineitem_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitem_overrides.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitem_overrides.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitem_overrides.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **lineitem_overrides.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitem_overrides_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **lineitem_overrides.lineitem_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      lineitem_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **lineitem_overrides.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **lineitem_overrides.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **lineitem_overrides.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **lineitem_overrides.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitem_overrides_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **lineitem_overrides.lineitem_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      lineitem_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **lineitem_overrides.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **lineitem_overrides.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **lineitem_overrides.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'lineitem_overrides_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **lineitems**
+   * - Table in database
+   */
+  export namespace lineitems {
+    export type Table = 'lineitems';
+    export interface Selectable {
+      /**
+      * **lineitems.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitems_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **lineitems.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number;
+      /**
+      * **lineitems.service_id**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      service_id: number | null;
+      /**
+      * **lineitems.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name: string;
+      /**
+      * **lineitems.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity: number;
+      /**
+      * **lineitems.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, default: `0`
+      */
+      unit_cost: number;
+      /**
+      * **lineitems.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **lineitems.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitems_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **lineitems.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number;
+      /**
+      * **lineitems.service_id**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      service_id: number | null;
+      /**
+      * **lineitems.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name: string;
+      /**
+      * **lineitems.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity: number;
+      /**
+      * **lineitems.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, default: `0`
+      */
+      unit_cost: number;
+      /**
+      * **lineitems.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **lineitems.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitems_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitems.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitems.service_id**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      service_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitems.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitems.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitems.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, default: `0`
+      */
+      unit_cost?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **lineitems.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **lineitems.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitems_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **lineitems.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **lineitems.service_id**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      service_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **lineitems.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **lineitems.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **lineitems.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, default: `0`
+      */
+      unit_cost?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **lineitems.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **lineitems.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('lineitems_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **lineitems.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **lineitems.service_id**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      service_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **lineitems.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **lineitems.quantity**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      quantity?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **lineitems.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, default: `0`
+      */
+      unit_cost?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **lineitems.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'lineitems_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **properties**
+   * - Table in database
+   */
+  export namespace properties {
+    export type Table = 'properties';
+    export interface Selectable {
+      /**
+      * **properties.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('properties_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **properties.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number;
+      /**
+      * **properties.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
+      * **properties.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1: string | null;
+      /**
+      * **properties.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2: string | null;
+      /**
+      * **properties.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city: string | null;
+      /**
+      * **properties.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code: string | null;
+      /**
+      * **properties.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country: string | null;
+      /**
+      * **properties.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **properties.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('properties_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **properties.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number;
+      /**
+      * **properties.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
+      * **properties.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1: string | null;
+      /**
+      * **properties.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2: string | null;
+      /**
+      * **properties.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city: string | null;
+      /**
+      * **properties.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code: string | null;
+      /**
+      * **properties.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country: string | null;
+      /**
+      * **properties.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **properties.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('properties_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **properties.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **properties.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **properties.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **properties.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **properties.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **properties.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **properties.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **properties.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **properties.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('properties_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **properties.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **properties.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **properties.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **properties.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **properties.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **properties.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **properties.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **properties.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **properties.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('properties_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **properties.client_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      client_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **properties.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **properties.address1**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address1?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **properties.address2**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      address2?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **properties.city**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      city?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **properties.postal_code**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postal_code?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **properties.country**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      country?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **properties.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'properties_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **services**
+   * - Table in database
+   */
+  export namespace services {
+    export type Table = 'services';
+    export interface Selectable {
+      /**
+      * **services.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('services_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **services.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id: number;
+      /**
+      * **services.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name: string;
+      /**
+      * **services.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
+      * **services.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      unit_cost: number;
+      /**
+      * **services.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **services.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('services_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **services.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id: number;
+      /**
+      * **services.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name: string;
+      /**
+      * **services.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
+      * **services.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      unit_cost: number;
+      /**
+      * **services.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **services.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('services_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **services.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **services.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **services.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **services.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      unit_cost?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **services.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **services.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('services_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **services.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **services.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **services.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **services.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      unit_cost: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **services.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **services.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('services_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **services.business_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      business_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **services.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **services.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **services.unit_cost**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      unit_cost?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **services.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'services_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **visit_assignments**
+   * - Table in database
+   */
+  export namespace visit_assignments {
+    export type Table = 'visit_assignments';
+    export interface Selectable {
+      /**
+      * **visit_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visit_assignments_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **visit_assignments.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id: number;
+      /**
+      * **visit_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id: number;
+      /**
+      * **visit_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **visit_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visit_assignments_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **visit_assignments.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id: number;
+      /**
+      * **visit_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id: number;
+      /**
+      * **visit_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **visit_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visit_assignments_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visit_assignments.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visit_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visit_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **visit_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visit_assignments_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **visit_assignments.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **visit_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **visit_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **visit_assignments.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visit_assignments_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **visit_assignments.visit_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      visit_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **visit_assignments.employee_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      employee_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **visit_assignments.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'visit_assignments_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **visits**
+   * - Table in database
+   */
+  export namespace visits {
+    export type Table = 'visits';
+    export interface Selectable {
+      /**
+      * **visits.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visits_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **visits.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number;
+      /**
+      * **visits.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id: number;
+      /**
+      * **visits.completed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      completed: boolean;
+      /**
+      * **visits.begins**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      begins: Date | null;
+      /**
+      * **visits.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends: Date | null;
+      /**
+      * **visits.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime: boolean;
+      /**
+      * **visits.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **visits.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visits_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **visits.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number;
+      /**
+      * **visits.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id: number;
+      /**
+      * **visits.completed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      completed: boolean;
+      /**
+      * **visits.begins**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      begins: db.TimestampTzString | null;
+      /**
+      * **visits.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends: db.TimestampTzString | null;
+      /**
+      * **visits.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime: boolean;
+      /**
+      * **visits.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **visits.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visits_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visits.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visits.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visits.completed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      completed?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visits.begins**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      begins?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visits.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visits.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **visits.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **visits.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visits_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **visits.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **visits.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **visits.completed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      completed?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
+      * **visits.begins**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      begins?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **visits.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **visits.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+      /**
+      * **visits.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **visits.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('visits_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **visits.job_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      job_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **visits.invoice_id**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      invoice_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **visits.completed**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      completed?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **visits.begins**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      begins?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **visits.ends**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      ends?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **visits.anytime**
+      * - `bool` in database
+      * - `NOT NULL`, default: `true`
+      */
+      anytime?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **visits.created**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'visits_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
   /* === cross-table types === */
 
-  export type Table = businesses.Table | employees.Table;
-  export type Selectable = businesses.Selectable | employees.Selectable;
-  export type JSONSelectable = businesses.JSONSelectable | employees.JSONSelectable;
-  export type Whereable = businesses.Whereable | employees.Whereable;
-  export type Insertable = businesses.Insertable | employees.Insertable;
-  export type Updatable = businesses.Updatable | employees.Updatable;
-  export type UniqueIndex = businesses.UniqueIndex | employees.UniqueIndex;
-  export type Column = businesses.Column | employees.Column;
-  export type AllBaseTables = [businesses.Table, employees.Table];
+  export type Table = businesses.Table | clients.Table | employees.Table | invoice_reminders.Table | invoices.Table | job_assignments.Table | jobs.Table | lineitem_overrides.Table | lineitems.Table | properties.Table | services.Table | visit_assignments.Table | visits.Table;
+  export type Selectable = businesses.Selectable | clients.Selectable | employees.Selectable | invoice_reminders.Selectable | invoices.Selectable | job_assignments.Selectable | jobs.Selectable | lineitem_overrides.Selectable | lineitems.Selectable | properties.Selectable | services.Selectable | visit_assignments.Selectable | visits.Selectable;
+  export type JSONSelectable = businesses.JSONSelectable | clients.JSONSelectable | employees.JSONSelectable | invoice_reminders.JSONSelectable | invoices.JSONSelectable | job_assignments.JSONSelectable | jobs.JSONSelectable | lineitem_overrides.JSONSelectable | lineitems.JSONSelectable | properties.JSONSelectable | services.JSONSelectable | visit_assignments.JSONSelectable | visits.JSONSelectable;
+  export type Whereable = businesses.Whereable | clients.Whereable | employees.Whereable | invoice_reminders.Whereable | invoices.Whereable | job_assignments.Whereable | jobs.Whereable | lineitem_overrides.Whereable | lineitems.Whereable | properties.Whereable | services.Whereable | visit_assignments.Whereable | visits.Whereable;
+  export type Insertable = businesses.Insertable | clients.Insertable | employees.Insertable | invoice_reminders.Insertable | invoices.Insertable | job_assignments.Insertable | jobs.Insertable | lineitem_overrides.Insertable | lineitems.Insertable | properties.Insertable | services.Insertable | visit_assignments.Insertable | visits.Insertable;
+  export type Updatable = businesses.Updatable | clients.Updatable | employees.Updatable | invoice_reminders.Updatable | invoices.Updatable | job_assignments.Updatable | jobs.Updatable | lineitem_overrides.Updatable | lineitems.Updatable | properties.Updatable | services.Updatable | visit_assignments.Updatable | visits.Updatable;
+  export type UniqueIndex = businesses.UniqueIndex | clients.UniqueIndex | employees.UniqueIndex | invoice_reminders.UniqueIndex | invoices.UniqueIndex | job_assignments.UniqueIndex | jobs.UniqueIndex | lineitem_overrides.UniqueIndex | lineitems.UniqueIndex | properties.UniqueIndex | services.UniqueIndex | visit_assignments.UniqueIndex | visits.UniqueIndex;
+  export type Column = businesses.Column | clients.Column | employees.Column | invoice_reminders.Column | invoices.Column | job_assignments.Column | jobs.Column | lineitem_overrides.Column | lineitems.Column | properties.Column | services.Column | visit_assignments.Column | visits.Column;
+  export type AllBaseTables = [businesses.Table, clients.Table, employees.Table, invoice_reminders.Table, invoices.Table, job_assignments.Table, jobs.Table, lineitem_overrides.Table, lineitems.Table, properties.Table, services.Table, visit_assignments.Table, visits.Table];
   export type AllForeignTables = [];
   export type AllViews = [];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [businesses.Table, employees.Table];
+  export type AllTablesAndViews = [businesses.Table, clients.Table, employees.Table, invoice_reminders.Table, invoices.Table, job_assignments.Table, jobs.Table, lineitem_overrides.Table, lineitems.Table, properties.Table, services.Table, visit_assignments.Table, visits.Table];
 
 
   export type SelectableForTable<T extends Table> = {
     businesses: businesses.Selectable;
+    clients: clients.Selectable;
     employees: employees.Selectable;
+    invoice_reminders: invoice_reminders.Selectable;
+    invoices: invoices.Selectable;
+    job_assignments: job_assignments.Selectable;
+    jobs: jobs.Selectable;
+    lineitem_overrides: lineitem_overrides.Selectable;
+    lineitems: lineitems.Selectable;
+    properties: properties.Selectable;
+    services: services.Selectable;
+    visit_assignments: visit_assignments.Selectable;
+    visits: visits.Selectable;
   }[T];
 
   export type JSONSelectableForTable<T extends Table> = {
     businesses: businesses.JSONSelectable;
+    clients: clients.JSONSelectable;
     employees: employees.JSONSelectable;
+    invoice_reminders: invoice_reminders.JSONSelectable;
+    invoices: invoices.JSONSelectable;
+    job_assignments: job_assignments.JSONSelectable;
+    jobs: jobs.JSONSelectable;
+    lineitem_overrides: lineitem_overrides.JSONSelectable;
+    lineitems: lineitems.JSONSelectable;
+    properties: properties.JSONSelectable;
+    services: services.JSONSelectable;
+    visit_assignments: visit_assignments.JSONSelectable;
+    visits: visits.JSONSelectable;
   }[T];
 
   export type WhereableForTable<T extends Table> = {
     businesses: businesses.Whereable;
+    clients: clients.Whereable;
     employees: employees.Whereable;
+    invoice_reminders: invoice_reminders.Whereable;
+    invoices: invoices.Whereable;
+    job_assignments: job_assignments.Whereable;
+    jobs: jobs.Whereable;
+    lineitem_overrides: lineitem_overrides.Whereable;
+    lineitems: lineitems.Whereable;
+    properties: properties.Whereable;
+    services: services.Whereable;
+    visit_assignments: visit_assignments.Whereable;
+    visits: visits.Whereable;
   }[T];
 
   export type InsertableForTable<T extends Table> = {
     businesses: businesses.Insertable;
+    clients: clients.Insertable;
     employees: employees.Insertable;
+    invoice_reminders: invoice_reminders.Insertable;
+    invoices: invoices.Insertable;
+    job_assignments: job_assignments.Insertable;
+    jobs: jobs.Insertable;
+    lineitem_overrides: lineitem_overrides.Insertable;
+    lineitems: lineitems.Insertable;
+    properties: properties.Insertable;
+    services: services.Insertable;
+    visit_assignments: visit_assignments.Insertable;
+    visits: visits.Insertable;
   }[T];
 
   export type UpdatableForTable<T extends Table> = {
     businesses: businesses.Updatable;
+    clients: clients.Updatable;
     employees: employees.Updatable;
+    invoice_reminders: invoice_reminders.Updatable;
+    invoices: invoices.Updatable;
+    job_assignments: job_assignments.Updatable;
+    jobs: jobs.Updatable;
+    lineitem_overrides: lineitem_overrides.Updatable;
+    lineitems: lineitems.Updatable;
+    properties: properties.Updatable;
+    services: services.Updatable;
+    visit_assignments: visit_assignments.Updatable;
+    visits: visits.Updatable;
   }[T];
 
   export type UniqueIndexForTable<T extends Table> = {
     businesses: businesses.UniqueIndex;
+    clients: clients.UniqueIndex;
     employees: employees.UniqueIndex;
+    invoice_reminders: invoice_reminders.UniqueIndex;
+    invoices: invoices.UniqueIndex;
+    job_assignments: job_assignments.UniqueIndex;
+    jobs: jobs.UniqueIndex;
+    lineitem_overrides: lineitem_overrides.UniqueIndex;
+    lineitems: lineitems.UniqueIndex;
+    properties: properties.UniqueIndex;
+    services: services.UniqueIndex;
+    visit_assignments: visit_assignments.UniqueIndex;
+    visits: visits.UniqueIndex;
   }[T];
 
   export type ColumnForTable<T extends Table> = {
     businesses: businesses.Column;
+    clients: clients.Column;
     employees: employees.Column;
+    invoice_reminders: invoice_reminders.Column;
+    invoices: invoices.Column;
+    job_assignments: job_assignments.Column;
+    jobs: jobs.Column;
+    lineitem_overrides: lineitem_overrides.Column;
+    lineitems: lineitems.Column;
+    properties: properties.Column;
+    services: services.Column;
+    visit_assignments: visit_assignments.Column;
+    visits: visits.Column;
   }[T];
 
   export type SQLForTable<T extends Table> = {
     businesses: businesses.SQL;
+    clients: clients.SQL;
     employees: employees.SQL;
+    invoice_reminders: invoice_reminders.SQL;
+    invoices: invoices.SQL;
+    job_assignments: job_assignments.SQL;
+    jobs: jobs.SQL;
+    lineitem_overrides: lineitem_overrides.SQL;
+    lineitems: lineitems.SQL;
+    properties: properties.SQL;
+    services: services.SQL;
+    visit_assignments: visit_assignments.SQL;
+    visits: visits.SQL;
   }[T];
 
 }
