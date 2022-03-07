@@ -40,6 +40,7 @@ describe("BusinessController", () => {
 
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedQueryResult),
+            getById: jest.fn(),
             create: jest.fn().mockResolvedValueOnce({})
         }))
 
@@ -68,6 +69,7 @@ describe("BusinessController", () => {
 
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedQueryResult),
+            getById: jest.fn(),
             create: jest.fn().mockResolvedValue({})
         }))
 
@@ -100,6 +102,7 @@ describe("BusinessController", () => {
 
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn(),
+            getById: jest.fn(),
             create: jest.fn().mockResolvedValue(mockedQueryResult)
         }))
 

@@ -76,6 +76,47 @@ describe("BusinessRepository", () => {
         expect(businesses).toEqual([])
     })
 
+    test('getById', async () => {
+
+        function poolDecorator(pool: Pool) {
+            (pool as any).connect = jest.fn().mockReturnThis();
+            (pool as any).release = jest.fn().mockReturnThis();
+            (pool as any).query = jest.fn().mockReturnThis();
+
+            (pool as any).query.mockResolvedValueOnce({
+                rows: [{
+                    result: {
+                        "id": 1,
+                        "name": "Idealrent",
+                        "created": "2021-11-11T22:55:57.405524",
+                        "timezone": "Europe/Copenhagen",
+                        "vat_number": null,
+                        "country_code": "da"
+                    }
+                }]
+            });
+
+            return pool
+        }
+        poolDecorator.inject = ['pool'] as const
+
+        const container = createInjector()
+            .provideValue('pool', pool)
+            .provideFactory('pool', poolDecorator)
+
+        const repository = container.injectClass(BusinessRepository)
+
+        const business = await repository.getById('abc', 1)
+        expect(business).toEqual({
+            "id": 1,
+            "name": "Idealrent",
+            "timezone": "Europe/Copenhagen",
+            "country_code": "da",
+            "vat_number": null,
+            "created": "2021-11-11T22:55:57.405524"
+        })
+    })
+
     test('create business', async () => {
 
         function poolDecorator(pool: Pool) {

@@ -3,21 +3,22 @@ import * as db from 'zapatos/db';
 import type * as s from 'zapatos/schema';
 
 export interface IBusinessRepository {
-  create(user_id: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable>
-  find(user_id: string, business?: s.businesses.Whereable): Promise<s.businesses.JSONSelectable[]>
+  create(userId: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable>
+  find(userId: string, business?: s.businesses.Whereable): Promise<s.businesses.JSONSelectable[]>
+  getById(userId: string, id: number): Promise<s.businesses.JSONSelectable>
 }
 
 class BusinessRepository implements IBusinessRepository {
   constructor(private pool: Pool) { }
   public static inject = ['pool'] as const
 
-  async create(user_id: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable> {
+  async create(userId: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable> {
 
     return db.readCommitted(this.pool, async txnClient => {
       const createdBusiness = await db.insert('businesses', business).run(txnClient)
 
       const employee: s.employees.Insertable = {
-        user_id,
+        user_id: userId,
         business_id: createdBusiness.id,
         role: 'admin'
       }
@@ -30,13 +31,21 @@ class BusinessRepository implements IBusinessRepository {
     })
   }
 
-  async find(user_id: string, business?: s.businesses.Whereable): Promise<Array<s.businesses.JSONSelectable>> {
+  async find(userId: string, business?: s.businesses.Whereable): Promise<Array<s.businesses.JSONSelectable>> {
 
-    const businesses = await db.select('employees', { user_id }, {
+    const businesses = await db.select('employees', { user_id: userId }, {
       lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') })
     }).run(this.pool)
 
     return businesses?.filter(business => business != null)
+  }
+
+  async getById(userId: string, id: number): Promise<s.businesses.JSONSelectable> {
+
+    return await db.selectExactlyOne('employees', { user_id: userId, business_id: id }, {
+      lateral: db.selectExactlyOne('businesses', { id: db.parent('business_id') })
+    }).run(this.pool)
+
   }
 }
 
