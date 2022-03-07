@@ -37,7 +37,9 @@ export class BusinessController {
   async getBusinesses(req: Request, res: Response, next: NextFunction): Promise<void> {
     if (req.user) {
       try {
-        const businesses = await this.repository.find(req.user.sub, req.params)
+        const offset = parseInt(req.params.offset, 10) || 0
+        const limit = parseInt(req.params.limit, 10) || 20
+        const businesses = await this.repository.find(req.user.sub, req.params, { offset, limit })
 
         res.status(200).json(businesses.map(business => {
           return {
