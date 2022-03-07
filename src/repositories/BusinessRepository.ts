@@ -41,7 +41,8 @@ class BusinessRepository implements IBusinessRepository {
     const businesses = await db.select('employees', { user_id: userId }, {
       lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') }),
       limit,
-      offset
+      offset,
+      order: { by: 'created', direction: 'DESC' }
     }).run(this.pool)
 
     return businesses?.filter(business => business != null)
