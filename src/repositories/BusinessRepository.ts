@@ -2,14 +2,16 @@ import { Pool } from 'pg'
 import * as db from 'zapatos/db';
 import type * as s from 'zapatos/schema';
 
-type defaultQueryParams = {
+type defaultQueryParams<T extends s.Table> = {
   limit: number,
-  offset: number
+  offset: number,
+  orderBy: s.SQLForTable<T>,
+  orderDirection: 'ASC' | 'DESC'
 }
 
 export interface IBusinessRepository {
   create(userId: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable>
-  find(userId: string, business?: s.businesses.Whereable, extraParams?: defaultQueryParams): Promise<s.businesses.JSONSelectable[]>
+  find(userId: string, business?: s.businesses.Whereable, extraParams?: defaultQueryParams<s.businesses.Table>): Promise<s.businesses.JSONSelectable[]>
   getById(userId: string, id: number): Promise<s.businesses.JSONSelectable>
 }
 
@@ -36,13 +38,13 @@ class BusinessRepository implements IBusinessRepository {
     })
   }
 
-  async find(userId: string, business?: s.businesses.Whereable, { limit, offset }: defaultQueryParams = { limit: 20, offset: 0 }): Promise<s.businesses.JSONSelectable[]> {
-
+  async find(userId: string, business?: s.businesses.Whereable, { limit, offset, orderBy, orderDirection }: defaultQueryParams<s.businesses.Table> = { limit: 20, offset: 0, orderBy: 'created', orderDirection: 'DESC' }): Promise<s.businesses.JSONSelectable[]> {
     const businesses = await db.select('employees', { user_id: userId }, {
-      lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') }),
       limit,
       offset,
-      order: { by: 'created', direction: 'DESC' }
+      order: { by: db.sql`result->'${orderBy}'`, direction: orderDirection },
+      lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') },
+      ),
     }).run(this.pool)
 
     return businesses?.filter(business => business != null)
