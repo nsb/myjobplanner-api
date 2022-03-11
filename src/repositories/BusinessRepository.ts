@@ -2,20 +2,12 @@ import { Pool } from 'pg'
 import * as db from 'zapatos/db';
 import * as s from 'zapatos/schema';
 import logger from '../logger';
-
-type defaultQueryParams<T extends s.Table> = {
-  limit: number,
-  offset: number,
-  orderBy: s.SQLForTable<T>,
-  orderDirection: 'ASC' | 'DESC'
-}
-
-type ListResponse<T> = { totalCount: number, result: T[] }
+import type { defaultQueryParams, ListResponse } from '../types';
 
 export interface IBusinessRepository {
   create(userId: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable>
   find(userId: string, business?: s.businesses.Whereable, extraParams?: defaultQueryParams<s.businesses.Table>): Promise<ListResponse<s.businesses.JSONSelectable>>
-  getById(userId: string, id: number): Promise<s.businesses.JSONSelectable>
+  getById(userId: string, id: number): Promise<s.businesses.JSONSelectable | undefined>
 }
 
 class BusinessRepository implements IBusinessRepository {
@@ -70,12 +62,10 @@ class BusinessRepository implements IBusinessRepository {
     return { totalCount: totalCount[0].result, result: businesses?.filter(business => business != null) }
   }
 
-  async getById(userId: string, id: number): Promise<s.businesses.JSONSelectable> {
-
-    return await db.selectExactlyOne('employees', { user_id: userId, business_id: id }, {
+  async getById(userId: string, id: number): Promise<s.businesses.JSONSelectable | undefined> {
+    return await db.selectOne('employees', { user_id: userId, business_id: id }, {
       lateral: db.selectExactlyOne('businesses', { id: db.parent('business_id') })
     }).run(this.pool)
-
   }
 }
 
