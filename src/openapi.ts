@@ -150,6 +150,113 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
+    '/clients': {
+      get: {
+        description: 'Returns all clients',
+        operationId: 'findClients',
+        parameters: [
+          {
+            name: 'limit',
+            in: 'query',
+            description: 'maximum number of results to return',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 1,
+              maximum: 200
+            }
+          }, {
+            name: 'offset',
+            in: 'query',
+            description: 'offset from beginning',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 1,
+              // maximum: 20
+            }
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'client response',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    data: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/Client'
+                      }
+                    },
+                    meta: {
+                      type: 'object',
+                      properties: {
+                        totalCount: {
+                          readOnly: true,
+                          type: 'number'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        description: "Create client",
+        operationId: "createClient",
+        requestBody: {
+          description: "Create client",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: '#/components/schemas/Client'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'client response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Client'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
   },
   security: [{
     oauth2: []
@@ -185,12 +292,29 @@ export const apiSpec: OpenAPIV3.Document = {
           //         #   $ref: '#/components/schemas/PetType'
         }
       },
-      //     # PetType:
-      //     #   type: string
-      //     #   enum:
-      //     #     - dog
-      //     #     - cat
-
+      Client: {
+        additionalProperties: false,
+        type: 'object',
+        required: [
+          'id',
+          'businessId'
+        ],
+        properties: {
+          id: {
+            readOnly: true,
+            type: 'number'
+          },
+          businessId: {
+            type: 'number'
+          },
+          firstName: {
+            type: 'string'
+          },
+          lastName: {
+            type: 'string'
+          },
+        }
+      },
       Error: {
         type: 'object',
         required: [

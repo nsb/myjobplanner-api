@@ -8,3 +8,10 @@ export type defaultQueryParams<T extends s.Table> = {
 }
 
 export type ListResponse<T> = { totalCount: number, result: T[] }
+
+export type ApiEnvelope<T> = {
+    data: T[]
+    meta: {
+        totalCount: number
+    }
+}
