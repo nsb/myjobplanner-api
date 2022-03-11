@@ -86,7 +86,7 @@ describe("BusinessRepository", () => {
         expect(result).toEqual([])
     })
 
-    test('getById', async () => {
+    test('get', async () => {
 
         function poolDecorator(pool: Pool) {
             (pool as any).connect = jest.fn().mockReturnThis();
@@ -116,7 +116,7 @@ describe("BusinessRepository", () => {
 
         const repository = container.injectClass(BusinessRepository)
 
-        const business = await repository.getById('abc', 1)
+        const business = await repository.get('abc', 1)
         expect(business).toEqual({
             "id": 1,
             "name": "Idealrent",
