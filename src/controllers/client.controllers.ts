@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import { clients } from 'zapatos/schema'
 import { IClientRepository } from '../repositories/ClientRepository'
 import type { ApiEnvelope } from '../types'
 
@@ -10,10 +11,14 @@ interface ClientDTO {
 }
 
 type defaultQueryParams = {
-    limit: string | undefined
-    offset: string | undefined
-    orderBy: string | undefined
-    orderDirection: string | undefined
+    limit?: string
+    offset?: string
+    orderBy?: string
+    orderDirection?: string
+}
+
+type clientQueryParams = {
+    businessId?: number
 }
 
 export class ClientController {
@@ -43,14 +48,15 @@ export class ClientController {
         }
     }
 
-    async getClients(req: Request<unknown, unknown, unknown, defaultQueryParams>, res: Response<ApiEnvelope<ClientDTO>>, next: NextFunction): Promise<void> {
+    async getClients(req: Request<unknown, unknown, unknown, defaultQueryParams & clientQueryParams>, res: Response<ApiEnvelope<ClientDTO>>, next: NextFunction): Promise<void> {
         if (req.user) {
             try {
                 const offset = parseInt(req.query.offset || "0", 10)
                 const limit = parseInt(req.query.limit || "20", 10)
                 const orderBy = 'created'
                 const orderDirection = 'ASC'
-                const { totalCount, result } = await this.repository.find(req.user.sub, {}, { limit, offset, orderBy, orderDirection })
+                const where: clients.Whereable = { business_id: req.query.businessId }
+                const { totalCount, result } = await this.repository.find(req.user.sub, where, { limit, offset, orderBy, orderDirection })
 
                 res.status(200).json({
                     data: result.map(client => {
