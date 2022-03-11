@@ -58,7 +58,7 @@ class BusinessRepository implements IBusinessRepository {
     const businessesPromise = businessesSql.run(this.pool)
 
     const countSql = db.sql<s.businesses.SQL | s.employees.SQL, Array<{ result: number }>>`
-      SELECT COUNT(*) AS result
+      SELECT COUNT(*)::int AS result
       FROM ${"businesses"} JOIN ${"employees"}
       ON ${"businesses"}.${"id"} = ${"employees"}.${"business_id"}
       WHERE ${{ ...business, user_id: userId }}`
