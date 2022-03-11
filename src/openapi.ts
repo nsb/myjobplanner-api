@@ -78,9 +78,23 @@ export const apiSpec: OpenAPIV3.Document = {
             content: {
               'application/json': {
                 schema: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/Business'
+                  type: 'object',
+                  properties: {
+                    data: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/Business'
+                      }
+                    },
+                    meta: {
+                      type: 'object',
+                      properties: {
+                        totalCount: {
+                          readOnly: true,
+                          type: 'number'
+                        }
+                      }
+                    }
                   }
                 }
               }

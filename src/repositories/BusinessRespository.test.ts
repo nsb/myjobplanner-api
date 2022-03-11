@@ -24,7 +24,11 @@ describe("BusinessRepository", () => {
                         }
                     ]
                 }]
-            });
+            }).mockResolvedValueOnce({
+                rows: [{
+                    result: 1
+                }]
+            })
 
             return pool
         }
@@ -36,8 +40,9 @@ describe("BusinessRepository", () => {
 
         const repository = container.injectClass(BusinessRepository)
 
-        const businesses = await repository.find('abc')
-        expect(businesses).toEqual([{
+        const { totalCount, result } = await repository.find('abc')
+        expect(totalCount).toEqual(1)
+        expect(result).toEqual([{
             "id": 1,
             "name": "Idealrent",
             "timezone": "Europe/Copenhagen",
@@ -60,7 +65,11 @@ describe("BusinessRepository", () => {
                         null
                     ]
                 }]
-            });
+            }).mockResolvedValueOnce({
+                rows: [{
+                    result: 0
+                }]
+            })
 
             return pool
         }
@@ -72,8 +81,9 @@ describe("BusinessRepository", () => {
 
         const repository = container.injectClass(BusinessRepository)
 
-        const businesses = await repository.find('abc')
-        expect(businesses).toEqual([])
+        const { totalCount, result } = await repository.find('abc')
+        expect(totalCount).toEqual(0)
+        expect(result).toEqual([])
     })
 
     test('getById', async () => {

@@ -4,6 +4,7 @@ import app from './app'
 import BusinessRouter from './routes/business.routes'
 import container from './container'
 import HealthRouter from './routes/health.routes'
+import logger from './logger'
 
 app.use('/healthz', container.injectFunction(HealthRouter))
 app.use('/v1/businesses', container.injectFunction(BusinessRouter))
@@ -19,7 +20,7 @@ app.use(
 )
 
 const server = app.listen(process.env.PORT, () => {
-  console.log(`The application is listening on port ${process.env.PORT}!`);
+  logger.info(`The application is listening on port ${process.env.PORT}!`);
 })
 
 export default server

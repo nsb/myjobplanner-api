@@ -27,19 +27,22 @@ jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwt
 describe("BusinessController", () => {
     test('GET /v1/businesses', async () => {
 
-        const mockedQueryResult: s.businesses.JSONSelectable[] = [{
-            "id": 1,
-            "name": "Idealrent",
-            "timezone": "Europe/Copenhagen",
-            "country_code": "da",
-            "vat_number": null,
-            "vat": 25,
-            "visit_reminders": false,
-            "created": "2021-11-11T22:55:57.405524Z"
-        }]
+        const mockedResult = {
+            totalCount: 1,
+            result: [{
+                "id": 1,
+                "name": "Idealrent",
+                "timezone": "Europe/Copenhagen",
+                "country_code": "da",
+                "vat_number": null,
+                "vat": 25,
+                "visit_reminders": false,
+                "created": "2021-11-11T22:55:57.405524Z"
+            }]
+        }
 
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
-            find: jest.fn().mockResolvedValue(mockedQueryResult),
+            find: jest.fn().mockResolvedValue(mockedResult),
             getById: jest.fn(),
             create: jest.fn().mockResolvedValueOnce({})
         }))
@@ -55,17 +58,22 @@ describe("BusinessController", () => {
         const res = await request(app)
             .get('/v1/businesses').send()
         expect(res.statusCode).toEqual(200)
-        expect(res.body).toEqual([{
-            "id": 1,
-            "name": "Idealrent",
-            "timezone": "Europe/Copenhagen",
-            "countryCode": "da"
-        }])
+        expect(res.body).toEqual({
+            data: [{
+                "id": 1,
+                "name": "Idealrent",
+                "timezone": "Europe/Copenhagen",
+                "countryCode": "da"
+            }],
+            meta: {
+                totalCount: 1
+            }
+        })
     })
 
     test('GET /v1/businesses not found', async () => {
 
-        const mockedQueryResult: s.businesses.JSONSelectable[] = []
+        const mockedQueryResult = { totalCount: 0, result: [] }
 
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedQueryResult),
@@ -84,7 +92,12 @@ describe("BusinessController", () => {
         const res = await request(app)
             .get('/v1/businesses').send()
         expect(res.statusCode).toEqual(200)
-        expect(res.body).toEqual([])
+        expect(res.body).toEqual({
+            data: [],
+            meta: {
+                totalCount: 0
+            }
+        })
     })
 
     test('POST /v1/businesses', async () => {

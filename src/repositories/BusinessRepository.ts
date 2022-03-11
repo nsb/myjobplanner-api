@@ -1,6 +1,7 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db';
-import type * as s from 'zapatos/schema';
+import * as s from 'zapatos/schema';
+import logger from '../logger';
 
 type defaultQueryParams<T extends s.Table> = {
   limit: number,
@@ -9,9 +10,11 @@ type defaultQueryParams<T extends s.Table> = {
   orderDirection: 'ASC' | 'DESC'
 }
 
+type ListResponse<T> = { totalCount: number, result: T[] }
+
 export interface IBusinessRepository {
   create(userId: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable>
-  find(userId: string, business?: s.businesses.Whereable, extraParams?: defaultQueryParams<s.businesses.Table>): Promise<s.businesses.JSONSelectable[]>
+  find(userId: string, business?: s.businesses.Whereable, extraParams?: defaultQueryParams<s.businesses.Table>): Promise<ListResponse<s.businesses.JSONSelectable>>
   getById(userId: string, id: number): Promise<s.businesses.JSONSelectable>
 }
 
@@ -38,16 +41,33 @@ class BusinessRepository implements IBusinessRepository {
     })
   }
 
-  async find(userId: string, business?: s.businesses.Whereable, { limit, offset, orderBy, orderDirection }: defaultQueryParams<s.businesses.Table> = { limit: 20, offset: 0, orderBy: 'created', orderDirection: 'DESC' }): Promise<s.businesses.JSONSelectable[]> {
-    const businesses = await db.select('employees', { user_id: userId }, {
+  async find(
+    userId: string,
+    business?: s.businesses.Whereable,
+    { limit, offset, orderBy, orderDirection }: defaultQueryParams<s.businesses.Table> = { limit: 20, offset: 0, orderBy: 'created', orderDirection: 'DESC' }
+  ): Promise<ListResponse<s.businesses.JSONSelectable>> {
+
+    const businessesSql = db.select('employees', { user_id: userId }, {
       limit,
       offset,
       order: { by: db.sql`result->'${orderBy}'`, direction: orderDirection },
       lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') },
       ),
-    }).run(this.pool)
+    })
+    logger.debug(businessesSql.compile())
+    const businessesPromise = businessesSql.run(this.pool)
 
-    return businesses?.filter(business => business != null)
+    const countSql = db.sql<s.businesses.SQL | s.employees.SQL, Array<{ result: number }>>`
+      SELECT COUNT(*) AS result
+      FROM ${"businesses"} JOIN ${"employees"}
+      ON ${"businesses"}.${"id"} = ${"employees"}.${"business_id"}
+      WHERE ${{ ...business, user_id: userId }}`
+    logger.debug(countSql.compile())
+    const countPromise = countSql.run(this.pool)
+
+    const [totalCount, businesses] = await Promise.all([countPromise, businessesPromise])
+
+    return { totalCount: totalCount[0].result, result: businesses?.filter(business => business != null) }
   }
 
   async getById(userId: string, id: number): Promise<s.businesses.JSONSelectable> {

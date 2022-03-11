@@ -7,7 +7,7 @@
     "build": "tsc --project ./",
     "dev": "nodemon -r dotenv/config src/server.ts",
     "start": "node build/src/server.js",
-    "test": "jest",
+    "test": "LOG_LEVEL=info jest",
     "graphile-watch": "npx env-cmd --no-override graphile-migrate watch",
     "graphile-migrate": "npx env-cmd --no-override graphile-migrate migrate",
     "graphile-commit": "npx env-cmd --no-override graphile-migrate commit",

@@ -3,17 +3,24 @@ import type * as s from 'zapatos/schema';
 import { IBusinessRepository } from '../repositories/BusinessRepository';
 
 interface BusinessDTO {
-  id?: number,
-  name: string,
-  timezone: string,
+  id?: number
+  name: string
+  timezone: string
   countryCode: string
 }
 
 type defaultQueryParams = {
-  limit: string | undefined,
-  offset: string | undefined,
-  orderBy: string | undefined,
+  limit: string | undefined
+  offset: string | undefined
+  orderBy: string | undefined
   orderDirection: string | undefined
+}
+
+type ApiEnvelope<T> = {
+  data: T[]
+  meta: {
+    totalCount: number
+  }
 }
 
 export class BusinessController {
@@ -41,21 +48,26 @@ export class BusinessController {
     }
   }
 
-  async getBusinesses(req: Request<unknown, unknown, unknown, defaultQueryParams>, res: Response, next: NextFunction): Promise<void> {
+  async getBusinesses(req: Request<unknown, unknown, unknown, defaultQueryParams>, res: Response<ApiEnvelope<BusinessDTO>>, next: NextFunction): Promise<void> {
     if (req.user) {
       try {
         const offset = parseInt(req.query.offset || "0", 10)
         const limit = parseInt(req.query.limit || "20", 10)
         const orderBy = 'created'
         const orderDirection = 'ASC'
-        const businesses = await this.repository.find(req.user.sub, {}, { limit, offset, orderBy, orderDirection })
+        const { totalCount, result } = await this.repository.find(req.user.sub, {}, { limit, offset, orderBy, orderDirection })
 
-        res.status(200).json(businesses.map(business => {
-          return {
-            ...business,
-            countryCode: business.country_code
+        res.status(200).json({
+          data: result.map(business => {
+            return {
+              ...business,
+              countryCode: business.country_code
+            }
+          }),
+          meta: {
+            totalCount
           }
-        }))
+        })
       } catch (err) {
         next(err)
       }
