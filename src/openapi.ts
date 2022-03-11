@@ -177,7 +177,18 @@ export const apiSpec: OpenAPIV3.Document = {
               minimum: 1,
               // maximum: 20
             }
-          }
+          },
+          {
+            name: 'businessId',
+            in: 'query',
+            description: 'filter by business',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 1
+            }
+          },
         ],
         responses: {
           '200': {
