@@ -52,7 +52,8 @@ describe("ClientRepository", () => {
 
         const repository = container.injectClass(ClientRepository)
 
-        const { totalCount, result } = await repository.find('abc')
+        const { totalCount, result } = await repository.find('abc', { business_id: 1 })
+        console.log(totalCount, result)
         expect(totalCount).toEqual(1)
         expect(result).toEqual([{
             "id": 1,

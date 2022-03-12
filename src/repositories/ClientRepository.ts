@@ -42,21 +42,28 @@ class ClientRepository implements IClientRepository {
     { limit, offset, orderBy, orderDirection }: defaultQueryParams<s.clients.Table> = { limit: 20, offset: 0, orderBy: 'created', orderDirection: 'DESC' }
   ): Promise<ListResponse<s.clients.JSONSelectable>> {
 
-    const clientsSql = db.select('employees', { user_id: userId }, {
-      limit,
-      offset,
-      order: { by: db.sql`result->'${orderBy}'`, direction: orderDirection },
-      lateral: db.selectExactlyOne('clients', { ...client, id: db.parent('business_id') },
-      ),
-    })
+    const clientsSql = db.sql<s.clients.SQL | s.employees.SQL, s.clients.JSONSelectable[]>`
+      SELECT c.* FROM ${'employees'} JOIN
+      (SELECT *
+      FROM ${"clients"}
+      WHERE ${{ ...client }}) AS c
+      ON c.${'business_id'} = ${"employees"}.${"business_id"}
+      WHERE ${"employees"}.${"user_id"} = ${db.param(userId)}
+      ORDER BY ${db.param(orderBy)} ${db.raw(orderDirection)}
+      LIMIT ${db.param(limit)}
+      OFFSET ${db.param(offset)}`
+
     logger.debug(clientsSql.compile())
     const clientsPromise = clientsSql.run(this.pool)
 
     const countSql = db.sql<s.clients.SQL | s.employees.SQL, Array<{ result: number }>>`
       SELECT COUNT(*)::int AS result
-      FROM ${"clients"} JOIN ${"employees"}
-      ON ${"clients"}.${"business_id"} = ${"employees"}.${"business_id"}
-      WHERE ${{ ...client, user_id: userId }}`
+      FROM ${'employees'} JOIN
+      (SELECT *
+      FROM ${"clients"}
+      WHERE ${{ ...client }}) AS c
+      ON c.${'business_id'} = ${"employees"}.${"business_id"}
+      WHERE ${"employees"}.${"user_id"} = ${db.param(userId)}`
     logger.debug(countSql.compile())
     const countPromise = countSql.run(this.pool)
 
