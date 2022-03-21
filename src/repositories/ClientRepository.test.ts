@@ -4,58 +4,16 @@ import type { Pool } from 'pg'
 import ClientRepository from '../repositories/ClientRepository'
 
 describe("ClientRepository", () => {
-    test('find', async () => {
+  test('find', async () => {
 
-        function poolDecorator(pool: Pool) {
-            (pool as any).connect = jest.fn().mockReturnThis();
-            (pool as any).release = jest.fn().mockReturnThis();
-            (pool as any).query = jest.fn().mockReturnThis();
+    function poolDecorator(pool: Pool) {
+      (pool as any).connect = jest.fn().mockReturnThis();
+      (pool as any).release = jest.fn().mockReturnThis();
+      (pool as any).query = jest.fn().mockReturnThis();
 
-            (pool as any).query.mockResolvedValueOnce({
-                rows: [{
-                    result: [
-                        {
-                            "id": 1,
-                            "business_id": 1,
-                            "first_name": "Ole",
-                            "last_name": "Hansen",
-                            "business_name": null,
-                            "is_business": false,
-                            "address1": "my address",
-                            "address2": null,
-                            "city": "Copenhagen",
-                            "postal_code": "2450",
-                            "country": "DK",
-                            "email": "olehansen@example.com",
-                            "phone": "12341324",
-                            "is_active": true,
-                            "visit_reminders": false,
-                            "external_id": null,
-                            "imported_via": null,
-                            "created": "2021-11-11T22:55:57.405524",
-                        }
-                    ]
-                }]
-            }).mockResolvedValueOnce({
-                rows: [{
-                    result: 1
-                }]
-            })
-
-            return pool
-        }
-        poolDecorator.inject = ['pool'] as const
-
-        const container = createInjector()
-            .provideValue('pool', pool)
-            .provideFactory('pool', poolDecorator)
-
-        const repository = container.injectClass(ClientRepository)
-
-        const { totalCount, result } = await repository.find('abc', { business_id: 1 })
-        console.log(totalCount, result)
-        expect(totalCount).toEqual(1)
-        expect(result).toEqual([{
+      (pool as any).query.mockResolvedValueOnce({
+        rows: [
+          {
             "id": 1,
             "business_id": 1,
             "first_name": "Ole",
@@ -74,87 +32,88 @@ describe("ClientRepository", () => {
             "external_id": null,
             "imported_via": null,
             "created": "2021-11-11T22:55:57.405524",
-        }])
-    })
+          }
+        ]
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: 1
+        }]
+      })
 
-    test('find not found', async () => {
+      return pool
+    }
+    poolDecorator.inject = ['pool'] as const
 
-        function poolDecorator(pool: Pool) {
-            (pool as any).connect = jest.fn().mockReturnThis();
-            (pool as any).release = jest.fn().mockReturnThis();
-            (pool as any).query = jest.fn().mockReturnThis();
+    const container = createInjector()
+      .provideValue('pool', pool)
+      .provideFactory('pool', poolDecorator)
 
-            (pool as any).query.mockResolvedValueOnce({
-                rows: [{
-                    result: [
-                        null
-                    ]
-                }]
-            }).mockResolvedValueOnce({
-                rows: [{
-                    result: 0
-                }]
-            })
+    const repository = container.injectClass(ClientRepository)
 
-            return pool
-        }
-        poolDecorator.inject = ['pool'] as const
+    const { totalCount, result } = await repository.find('abc', { business_id: 1 })
+    expect(totalCount).toEqual(1)
+    expect(result).toEqual([{
+      "id": 1,
+      "business_id": 1,
+      "first_name": "Ole",
+      "last_name": "Hansen",
+      "business_name": null,
+      "is_business": false,
+      "address1": "my address",
+      "address2": null,
+      "city": "Copenhagen",
+      "postal_code": "2450",
+      "country": "DK",
+      "email": "olehansen@example.com",
+      "phone": "12341324",
+      "is_active": true,
+      "visit_reminders": false,
+      "external_id": null,
+      "imported_via": null,
+      "created": "2021-11-11T22:55:57.405524",
+    }])
+  })
 
-        const container = createInjector()
-            .provideValue('pool', pool)
-            .provideFactory('pool', poolDecorator)
+  test('find not found', async () => {
 
-        const repository = container.injectClass(ClientRepository)
+    function poolDecorator(pool: Pool) {
+      (pool as any).connect = jest.fn().mockReturnThis();
+      (pool as any).release = jest.fn().mockReturnThis();
+      (pool as any).query = jest.fn().mockReturnThis();
 
-        const { totalCount, result } = await repository.find('abc')
-        expect(totalCount).toEqual(0)
-        expect(result).toEqual([])
-    })
+      (pool as any).query.mockResolvedValueOnce({
+        rows: []
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: 0
+        }]
+      })
 
-    test('getById', async () => {
+      return pool
+    }
+    poolDecorator.inject = ['pool'] as const
 
-        function poolDecorator(pool: Pool) {
-            (pool as any).connect = jest.fn().mockReturnThis();
-            (pool as any).release = jest.fn().mockReturnThis();
-            (pool as any).query = jest.fn().mockReturnThis();
+    const container = createInjector()
+      .provideValue('pool', pool)
+      .provideFactory('pool', poolDecorator)
 
-            (pool as any).query.mockResolvedValueOnce({
-                rows: [{
-                    result: {
-                        "id": 1,
-                        "business_id": 1,
-                        "first_name": "Ole",
-                        "last_name": "Hansen",
-                        "business_name": null,
-                        "is_business": false,
-                        "address1": "my address",
-                        "address2": null,
-                        "city": "Copenhagen",
-                        "postal_code": "2450",
-                        "country": "DK",
-                        "email": "olehansen@example.com",
-                        "phone": "12341324",
-                        "is_active": true,
-                        "visit_reminders": false,
-                        "external_id": null,
-                        "imported_via": null,
-                        "created": "2021-11-11T22:55:57.405524",
-                    }
-                }]
-            });
+    const repository = container.injectClass(ClientRepository)
 
-            return pool
-        }
-        poolDecorator.inject = ['pool'] as const
+    const { totalCount, result } = await repository.find('abc')
+    expect(totalCount).toEqual(0)
+    expect(result).toEqual([])
+  })
 
-        const container = createInjector()
-            .provideValue('pool', pool)
-            .provideFactory('pool', poolDecorator)
+  test('getById', async () => {
 
-        const repository = container.injectClass(ClientRepository)
+    function poolDecorator(pool: Pool) {
+      (pool as any).connect = jest.fn().mockReturnThis();
+      (pool as any).release = jest.fn().mockReturnThis();
+      (pool as any).query = jest.fn().mockReturnThis();
 
-        const business = await repository.getById('abc', 1)
-        expect(business).toEqual({
+      (pool as any).query.mockResolvedValueOnce({
+        rows: [{
+          result: {
             "id": 1,
             "business_id": 1,
             "first_name": "Ole",
@@ -173,92 +132,69 @@ describe("ClientRepository", () => {
             "external_id": null,
             "imported_via": null,
             "created": "2021-11-11T22:55:57.405524",
-        })
+          }
+        }]
+      });
+
+      return pool
+    }
+    poolDecorator.inject = ['pool'] as const
+
+    const container = createInjector()
+      .provideValue('pool', pool)
+      .provideFactory('pool', poolDecorator)
+
+    const repository = container.injectClass(ClientRepository)
+
+    const business = await repository.getById('abc', 1)
+    expect(business).toEqual({
+      "id": 1,
+      "business_id": 1,
+      "first_name": "Ole",
+      "last_name": "Hansen",
+      "business_name": null,
+      "is_business": false,
+      "address1": "my address",
+      "address2": null,
+      "city": "Copenhagen",
+      "postal_code": "2450",
+      "country": "DK",
+      "email": "olehansen@example.com",
+      "phone": "12341324",
+      "is_active": true,
+      "visit_reminders": false,
+      "external_id": null,
+      "imported_via": null,
+      "created": "2021-11-11T22:55:57.405524",
     })
+  })
 
-    test('create business', async () => {
+  test('create business', async () => {
 
-        function poolDecorator(pool: Pool) {
-            (pool as any).connect = jest.fn().mockReturnThis();
-            (pool as any).release = jest.fn().mockReturnThis();
-            (pool as any).query = jest.fn().mockReturnThis();
+    function poolDecorator(pool: Pool) {
+      (pool as any).connect = jest.fn().mockReturnThis();
+      (pool as any).release = jest.fn().mockReturnThis();
+      (pool as any).query = jest.fn().mockReturnThis();
 
-            // TX Begin
-            (pool as any).query.mockResolvedValueOnce({
-                rows: [{
-                    result: {}
-                }] // TX business
-            }).mockResolvedValueOnce({
-                rows: [{
-                    result: {
-                        "id": 1,
-                        "name": "Idealrent",
-                        "created": "2021-11-11T22:55:57.405524",
-                        "timezone": "Europe/Copenhagen",
-                        "vat_number": null,
-                        "country_code": "da"
-                    }
-                }] // TX client
-            }).mockResolvedValueOnce({
-                rows: [{
-                    result: {
-                        "id": 1,
-                        "business_id": 1,
-                        "first_name": "Ole",
-                        "last_name": "Hansen",
-                        "business_name": null,
-                        "is_business": false,
-                        "address1": "my address",
-                        "address2": null,
-                        "city": "Copenhagen",
-                        "postal_code": "2450",
-                        "country": "DK",
-                        "email": "olehansen@example.com",
-                        "phone": "12341324",
-                        "is_active": true,
-                        "visit_reminders": false,
-                        "external_id": null,
-                        "imported_via": null,
-                        "created": "2021-11-11T22:55:57.405524",
-                    }
-                }] // TX Commit
-            }).mockResolvedValueOnce({
-                rows: [{
-                    result: {}
-                }]
-            });
-
-            return pool
-        }
-        poolDecorator.inject = ['pool'] as const
-
-        const container = createInjector()
-            .provideValue('pool', pool)
-            .provideFactory('pool', poolDecorator)
-
-        const repository = container.injectClass(ClientRepository)
-
-        const client = await repository.create('abc', {
+      // TX Begin
+      (pool as any).query.mockResolvedValueOnce({
+        rows: [{
+          result: {}
+        }] // TX business
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {
             "id": 1,
-            "business_id": 1,
-            "first_name": "Ole",
-            "last_name": "Hansen",
-            "business_name": null,
-            "is_business": false,
-            "address1": "my address",
-            "address2": null,
-            "city": "Copenhagen",
-            "postal_code": "2450",
-            "country": "DK",
-            "email": "olehansen@example.com",
-            "phone": "12341324",
-            "is_active": true,
-            "visit_reminders": false,
-            "external_id": null,
-            "imported_via": null
-        })
-
-        expect(client).toEqual({
+            "name": "Idealrent",
+            "created": "2021-11-11T22:55:57.405524",
+            "timezone": "Europe/Copenhagen",
+            "vat_number": null,
+            "country_code": "da"
+          }
+        }] // TX client
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {
             "id": 1,
             "business_id": 1,
             "first_name": "Ole",
@@ -277,6 +213,63 @@ describe("ClientRepository", () => {
             "external_id": null,
             "imported_via": null,
             "created": "2021-11-11T22:55:57.405524",
-        })
+          }
+        }] // TX Commit
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {}
+        }]
+      });
+
+      return pool
+    }
+    poolDecorator.inject = ['pool'] as const
+
+    const container = createInjector()
+      .provideValue('pool', pool)
+      .provideFactory('pool', poolDecorator)
+
+    const repository = container.injectClass(ClientRepository)
+
+    const client = await repository.create('abc', {
+      "id": 1,
+      "business_id": 1,
+      "first_name": "Ole",
+      "last_name": "Hansen",
+      "business_name": null,
+      "is_business": false,
+      "address1": "my address",
+      "address2": null,
+      "city": "Copenhagen",
+      "postal_code": "2450",
+      "country": "DK",
+      "email": "olehansen@example.com",
+      "phone": "12341324",
+      "is_active": true,
+      "visit_reminders": false,
+      "external_id": null,
+      "imported_via": null
     })
+
+    expect(client).toEqual({
+      "id": 1,
+      "business_id": 1,
+      "first_name": "Ole",
+      "last_name": "Hansen",
+      "business_name": null,
+      "is_business": false,
+      "address1": "my address",
+      "address2": null,
+      "city": "Copenhagen",
+      "postal_code": "2450",
+      "country": "DK",
+      "email": "olehansen@example.com",
+      "phone": "12341324",
+      "is_active": true,
+      "visit_reminders": false,
+      "external_id": null,
+      "imported_via": null,
+      "created": "2021-11-11T22:55:57.405524",
+    })
+  })
 })
