@@ -52,6 +52,32 @@ export const apiSpec: OpenAPIV3.Document = {
               minimum: 1,
               // maximum: 20
             }
+          }, {
+            name: 'orderBy',
+            in: 'query',
+            description: 'Order by field',
+            required: false,
+            schema: {
+              type: 'string',
+              enum: [
+                'id',
+                'created',
+                'name'
+              ]
+            }
+          },
+          {
+            name: 'orderDirection',
+            in: 'query',
+            description: 'Order direction',
+            required: false,
+            schema: {
+              type: 'string',
+              enum: [
+                'ASC',
+                'DESC'
+              ]
+            }
           }
           //         - name: tags
           //           in: query
@@ -62,15 +88,6 @@ export const apiSpec: OpenAPIV3.Document = {
           //             type: array
           //             items:
           //               type: string
-          //         - name: limit
-          //           in: query
-          //           description: maximum number of results to return
-          //           required: false
-          //           schema:
-          //             type: integer
-          //             format: int32
-          //             minimum: 1
-          //             maximum: 20
         ],
         responses: {
           '200': {

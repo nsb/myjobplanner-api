@@ -12,8 +12,8 @@ interface BusinessDTO {
 type defaultQueryParams = {
   limit: string | undefined
   offset: string | undefined
-  orderBy: string | undefined
-  orderDirection: string | undefined
+  orderBy: 'id' | 'created' | 'name' | undefined
+  orderDirection: 'ASC' | 'DESC' | undefined
 }
 
 type ApiEnvelope<T> = {
@@ -27,7 +27,11 @@ export class BusinessController {
   constructor(private repository: IBusinessRepository) { }
   public static inject = ['businessRepository'] as const;
 
-  async createBusinesses(req: Request<{}, {}, BusinessDTO>, res: Response<BusinessDTO>, next: NextFunction): Promise<void> {
+  async createBusinesses(
+    req: Request<{}, {}, BusinessDTO>,
+    res: Response<BusinessDTO>,
+    next: NextFunction
+  ): Promise<void> {
     if (req.user) {
 
       const business = {
@@ -48,14 +52,20 @@ export class BusinessController {
     }
   }
 
-  async getBusinesses(req: Request<unknown, unknown, unknown, defaultQueryParams>, res: Response<ApiEnvelope<BusinessDTO>>, next: NextFunction): Promise<void> {
+  async getBusinesses(
+    req: Request<unknown, unknown, unknown, defaultQueryParams>,
+    res: Response<ApiEnvelope<BusinessDTO>>,
+    next: NextFunction
+  ): Promise<void> {
     if (req.user) {
       try {
-        const offset = parseInt(req.query.offset || "0", 10)
-        const limit = parseInt(req.query.limit || "20", 10)
-        const orderBy = 'created'
-        const orderDirection = 'ASC'
-        const { totalCount, result } = await this.repository.find(req.user.sub, {}, { limit, offset, orderBy, orderDirection })
+        const options = {
+          limit: parseInt(req.query.limit || "20", 10),
+          offset: parseInt(req.query.offset || "0", 10),
+          orderBy: req.query.orderBy || 'created',
+          orderDirection: req.query.orderDirection || 'ASC'
+        }
+        const { totalCount, result } = await this.repository.find(req.user.sub, {}, options)
 
         res.status(200).json({
           data: result.map(business => {
