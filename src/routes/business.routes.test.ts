@@ -71,6 +71,66 @@ describe("BusinessController", () => {
         })
     })
 
+    test('GET /v1/businesses?orderBy=id&orderDirection=ASC', async () => {
+
+        const mockedResult = {
+            totalCount: 2,
+            result: [{
+                "id": 1,
+                "name": "Idealrent",
+                "timezone": "Europe/Copenhagen",
+                "country_code": "da",
+                "vat_number": null,
+                "vat": 25,
+                "visit_reminders": false,
+                "created": "2021-11-11T22:55:57.405524Z"
+            }, {
+                "id": 2,
+                "name": "My super company",
+                "timezone": "Europe/Copenhagen",
+                "country_code": "da",
+                "vat_number": null,
+                "vat": 25,
+                "visit_reminders": false,
+                "created": "2021-11-11T22:55:57.405524Z"
+            }]
+        }
+
+        const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
+            find: jest.fn().mockResolvedValue(mockedResult),
+            get: jest.fn(),
+            create: jest.fn()
+        }))
+
+        const container = createInjector()
+            .provideClass('businessRepository', MockRepository)
+            .provideClass('businessController', BusinessController)
+
+        const app = express()
+        app.use(express.json())
+        app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+
+        const res = await request(app)
+            .get('/v1/businesses').send({ orderBy: 'id', orderDirection: 'ASC' })
+        expect(res.statusCode).toEqual(200)
+        expect(res.body).toEqual({
+            data: [{
+                "id": 1,
+                "name": "Idealrent",
+                "timezone": "Europe/Copenhagen",
+                "countryCode": "da"
+            }, {
+                "id": 2,
+                "name": "My super company",
+                "timezone": "Europe/Copenhagen",
+                "countryCode": "da"
+            }],
+            meta: {
+                totalCount: 2
+            }
+        })
+    })
+
     test('GET /v1/businesses not found', async () => {
 
         const mockedQueryResult = { totalCount: 0, result: [] }
