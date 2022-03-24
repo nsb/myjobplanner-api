@@ -17,19 +17,6 @@ export const apiSpec: OpenAPIV3.Document = {
         description: 'Returns all businesses',
         operationId: 'findBusinesses',
         parameters: [
-          //   {
-          //   name: 'type',
-          //   in: 'query',
-          //   description: 'maximum number of results to return',
-          //   required: false,
-          //   schema: {
-          //     type: 'string',
-          //     enum: [
-          //       'dog',
-          //       'cat'
-          //     ]
-          //   }
-          // },
           {
             name: 'limit',
             in: 'query',
@@ -49,8 +36,7 @@ export const apiSpec: OpenAPIV3.Document = {
             schema: {
               type: 'integer',
               format: 'int32',
-              minimum: 1,
-              // maximum: 20
+              minimum: 1
             }
           }, {
             name: 'orderBy',
@@ -65,8 +51,7 @@ export const apiSpec: OpenAPIV3.Document = {
                 'name'
               ]
             }
-          },
-          {
+          }, {
             name: 'orderDirection',
             in: 'query',
             description: 'Order direction',
