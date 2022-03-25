@@ -152,6 +152,44 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
+    '/businesses/{businessId}': {
+      get: {
+        description: 'Returns a single business',
+        operationId: 'getBusiness',
+        parameters: [{
+          in: 'path',
+          name: 'businessId',
+          schema: {
+            type: 'integer',
+            minimum: 1
+          },
+          required: true,
+          description: 'Numeric ID of the business to get'
+        }],
+        responses: {
+          '200': {
+            description: 'get business response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Business'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     '/clients': {
       get: {
         description: 'Returns all clients',

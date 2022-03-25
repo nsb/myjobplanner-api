@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express'
-import type * as s from 'zapatos/schema';
 import { IBusinessRepository } from '../repositories/BusinessRepository';
 
 interface BusinessDTO {
@@ -78,6 +77,33 @@ export class BusinessController {
             totalCount
           }
         })
+      } catch (err) {
+        next(err)
+      }
+    }
+  }
+
+  async getBusiness(
+    req: Request<{ businessId: string }, unknown, unknown, unknown>,
+    res: Response<BusinessDTO>,
+    next: NextFunction
+  ): Promise<void> {
+    if (req.user) {
+      try {
+        const business = await this.repository.get(
+          req.user.sub,
+          parseInt(req.params.businessId, 10)
+        )
+
+        if (business) {
+          res.status(200).json({
+            ...business,
+            countryCode: business.country_code
+          })
+
+        } else {
+          res.status(404).json()
+        }
       } catch (err) {
         next(err)
       }
