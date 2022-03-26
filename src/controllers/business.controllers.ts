@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { IBusinessRepository } from '../repositories/BusinessRepository';
+import type { ApiEnvelope } from '../types'
 
 interface BusinessDTO {
   id?: number
@@ -13,13 +14,6 @@ type defaultQueryParams = {
   offset: string | undefined
   orderBy: 'id' | 'created' | 'name' | undefined
   orderDirection: 'ASC' | 'DESC' | undefined
-}
-
-type ApiEnvelope<T> = {
-  data: T[]
-  meta: {
-    totalCount: number
-  }
 }
 
 export class BusinessController {
