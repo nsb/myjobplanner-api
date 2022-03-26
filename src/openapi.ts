@@ -317,6 +317,122 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         }
       }
+    }, '/properties': {
+      get: {
+        description: 'Returns all properties',
+        operationId: 'findProperties',
+        parameters: [
+          {
+            name: 'limit',
+            in: 'query',
+            description: 'maximum number of results to return',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 1,
+              maximum: 200
+            }
+          }, {
+            name: 'offset',
+            in: 'query',
+            description: 'offset from beginning',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 1
+            }
+          },
+          {
+            name: 'clientId',
+            in: 'query',
+            description: 'filter by client',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 1
+            }
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'property response',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    data: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/Property'
+                      }
+                    },
+                    meta: {
+                      type: 'object',
+                      properties: {
+                        totalCount: {
+                          readOnly: true,
+                          type: 'number'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        description: "Create property",
+        operationId: "createProperty",
+        requestBody: {
+          description: "Create property",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: '#/components/schemas/Property'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'property response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Property'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
     },
   },
   security: [{
@@ -374,6 +490,47 @@ export const apiSpec: OpenAPIV3.Document = {
           lastName: {
             type: 'string'
           },
+        }
+      },
+      Property: {
+        additionalProperties: false,
+        type: 'object',
+        required: [
+          'id',
+          'clientId'
+        ],
+        properties: {
+          id: {
+            readOnly: true,
+            type: 'number'
+          },
+          clientId: {
+            type: 'number'
+          },
+          description: {
+            type: 'string',
+            nullable: true
+          },
+          address1: {
+            type: 'string',
+            nullable: true
+          },
+          address2: {
+            type: 'string',
+            nullable: true
+          },
+          city: {
+            type: 'string',
+            nullable: true
+          },
+          postalCode: {
+            type: 'string',
+            nullable: true
+          },
+          country: {
+            type: 'string',
+            nullable: true
+          }
         }
       },
       Error: {
