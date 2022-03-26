@@ -37,7 +37,11 @@ type ClientQueryParams = QueryParams<s.clients.Table> & {
 export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, ClientDTO> {
   public static inject = ['clientRepository', 'clientTransformer'] as const;
 
-  async getClients(req: Request<unknown, unknown, unknown, ClientQueryParams>, res: Response<ApiEnvelope<ClientDTO>>, next: NextFunction): Promise<void> {
+  async getClients(
+    req: Request<unknown, unknown, unknown, ClientQueryParams>,
+    res: Response<ApiEnvelope<ClientDTO>>,
+    next: NextFunction
+  ): Promise<void> {
     if (req.user) {
       try {
         const offset = parseInt(req.query.offset || "0", 10)
