@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema';
 import { IPropertyRepository } from '../repositories/PropertyRepository'
-import type { ApiEnvelope, QueryParams } from '../types'
+import type { ApiEnvelope, QueryParams, ITransformer } from '../types'
+import BaseController from './BaseController';
 
 interface PropertyDTO {
   id?: number
@@ -14,42 +15,34 @@ interface PropertyDTO {
   country: string | null
 }
 
+export class PropertyTransformer implements ITransformer<PropertyDTO, s.properties.Insertable, s.properties.JSONSelectable> {
+  deserialize(dto: PropertyDTO): s.properties.Insertable {
+    return {
+      client_id: dto.clientId,
+      description: dto.description,
+      address1: dto.address1,
+      address2: dto.address1,
+      city: dto.city,
+      postal_code: dto.postalCode,
+      country: dto.country
+    }
+  }
+
+  serialize(model: s.properties.JSONSelectable): PropertyDTO {
+    return {
+      ...model,
+      clientId: model.client_id,
+      postalCode: model.postal_code
+    }
+  }
+}
+
 type PropertyQueryParams = QueryParams<s.properties.Table> & {
   clientId?: number
 }
 
-export class PropertyController {
-  constructor(private repository: IPropertyRepository) { }
-  public static inject = ['propertyRepository'] as const;
-
-  async createProperty(
-    req: Request<{}, {}, PropertyDTO>, res: Response<PropertyDTO>,
-    next: NextFunction
-  ): Promise<void> {
-    if (req.user) {
-
-      const property = {
-        client_id: req.body.clientId,
-        description: req.body.description,
-        address1: req.body.address1,
-        address2: req.body.address1,
-        city: req.body.city,
-        postal_code: req.body.postalCode,
-        country: req.body.country
-      }
-
-      try {
-        const result = await this.repository.create(req.user.sub, property)
-        res.status(200).json({
-          ...result,
-          clientId: result.client_id,
-          postalCode: result.postal_code
-        })
-      } catch (err) {
-        next(err)
-      }
-    }
-  }
+export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, PropertyDTO> {
+  public static inject = ['propertyRepository', 'propertyTransformer'] as const;
 
   async getProperties(
     req: Request<unknown, unknown, unknown, PropertyQueryParams>,

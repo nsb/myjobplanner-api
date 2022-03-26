@@ -12,7 +12,7 @@ function PropertyRouter(propertyController: PropertyController) {
         checkJwt,
         // jwtAuthz(['create:property', 'read:property']),
         openApi,
-        propertyController.createProperty.bind(propertyController)
+        propertyController.create.bind(propertyController)
     ).get(
         '/',
         checkJwt,

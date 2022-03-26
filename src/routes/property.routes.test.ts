@@ -5,7 +5,7 @@ import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import type * as s from 'zapatos/schema';
 import { IPropertyRepository } from '../repositories/PropertyRepository'
-import PropertyController from '../controllers/property.controllers'
+import PropertyController, { PropertyTransformer } from '../controllers/property.controllers'
 import PropertyRouter from './property.routes'
 
 function jwtMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -50,6 +50,7 @@ describe("PropertyController", () => {
 
         const container = createInjector()
             .provideClass('propertyRepository', MockRepository)
+            .provideClass('propertyTransformer', PropertyTransformer)
             .provideClass('propertyController', PropertyController)
 
         const app = express()
@@ -88,6 +89,7 @@ describe("PropertyController", () => {
 
         const container = createInjector()
             .provideClass('propertyRepository', MockRepository)
+            .provideClass('propertyTransformer', PropertyTransformer)
             .provideClass('propertyController', PropertyController)
 
         const app = express()
@@ -127,6 +129,7 @@ describe("PropertyController", () => {
 
         const container = createInjector()
             .provideClass('propertyRepository', MockRepository)
+            .provideClass('propertyTransformer', PropertyTransformer)
             .provideClass('propertyController', PropertyController)
 
         const app = express()
