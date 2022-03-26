@@ -175,7 +175,17 @@ export const apiSpec: OpenAPIV3.Document = {
                   $ref: '#/components/schemas/Business'
                 }
               }
-            }
+            },
+          },
+          '404': {
+            description: 'get business not found',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            },
           },
           default: {
             description: 'unexpected error',

@@ -85,7 +85,7 @@ export class BusinessController {
 
   async getBusiness(
     req: Request<{ businessId: string }, unknown, unknown, unknown>,
-    res: Response<BusinessDTO>,
+    res: Response<BusinessDTO | string>,
     next: NextFunction
   ): Promise<void> {
     if (req.user) {
@@ -100,9 +100,8 @@ export class BusinessController {
             ...business,
             countryCode: business.country_code
           })
-
         } else {
-          res.status(404).json()
+          res.status(404).send("Not found")
         }
       } catch (err) {
         next(err)

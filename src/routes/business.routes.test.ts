@@ -198,6 +198,27 @@ describe("BusinessController", () => {
         })
     })
 
+    test('GET /v1/businesses/1 not found', async () => {
+
+        const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
+            find: jest.fn(),
+            get: jest.fn().mockResolvedValue(undefined),
+            create: jest.fn().mockResolvedValueOnce({})
+        }))
+
+        const container = createInjector()
+            .provideClass('businessRepository', MockRepository)
+            .provideClass('businessController', BusinessController)
+
+        const app = express()
+        app.use(express.json())
+        app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+
+        const res = await request(app)
+            .get('/v1/businesses/1').send()
+        expect(res.statusCode).toEqual(404)
+    })
+
     test('POST /v1/businesses', async () => {
 
         const mockedQueryResult: s.businesses.JSONSelectable = {
