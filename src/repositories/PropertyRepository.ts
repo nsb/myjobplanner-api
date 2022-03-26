@@ -14,7 +14,10 @@ class PropertyRepository implements IPropertyRepository {
     constructor(private pool: Pool) { }
     public static inject = ['pool'] as const
 
-    async create(userId: string, property: s.properties.Insertable): Promise<s.properties.JSONSelectable> {
+    async create(
+        userId: string,
+        property: s.properties.Insertable
+    ): Promise<s.properties.JSONSelectable> {
 
         return db.readCommitted(this.pool, async txnClient => {
 
