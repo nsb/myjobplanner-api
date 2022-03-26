@@ -10,7 +10,7 @@ interface ClientDTO {
   lastName: string | null
 }
 
-type ClientQueryParams = QueryParams<s.businesses.Table> & {
+type ClientQueryParams = QueryParams<s.clients.Table> & {
   businessId?: number
 }
 
