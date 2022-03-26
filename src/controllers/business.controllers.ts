@@ -1,19 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
+import * as s from 'zapatos/schema';
 import { IBusinessRepository } from '../repositories/BusinessRepository';
-import type { ApiEnvelope } from '../types'
+import type { ApiEnvelope, QueryParams } from '../types'
 
 interface BusinessDTO {
   id?: number
   name: string
   timezone: string
   countryCode: string
-}
-
-type defaultQueryParams = {
-  limit: string | undefined
-  offset: string | undefined
-  orderBy: 'id' | 'created' | 'name' | undefined
-  orderDirection: 'ASC' | 'DESC' | undefined
 }
 
 export class BusinessController {
@@ -46,7 +40,7 @@ export class BusinessController {
   }
 
   async getBusinesses(
-    req: Request<unknown, unknown, unknown, defaultQueryParams>,
+    req: Request<unknown, unknown, unknown, QueryParams<s.businesses.Table>>,
     res: Response<ApiEnvelope<BusinessDTO>>,
     next: NextFunction
   ): Promise<void> {

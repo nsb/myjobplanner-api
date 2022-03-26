@@ -2,11 +2,11 @@ import { Pool } from 'pg'
 import * as db from 'zapatos/db';
 import * as s from 'zapatos/schema';
 import logger from '../logger';
-import type { defaultQueryParams, ListResponse } from '../types';
+import type { RepositoryOptions, ListResponse } from '../types';
 
 export interface IClientRepository {
   create(userId: string, client: s.clients.Insertable): Promise<s.clients.JSONSelectable>
-  find(userId: string, business?: s.clients.Whereable, extraParams?: defaultQueryParams<s.clients.Table>): Promise<ListResponse<s.clients.JSONSelectable>>
+  find(userId: string, business?: s.clients.Whereable, extraParams?: RepositoryOptions<s.clients.Table>): Promise<ListResponse<s.clients.JSONSelectable>>
   getById(userId: string, id: number): Promise<s.clients.JSONSelectable | undefined>
 }
 
@@ -39,7 +39,7 @@ class ClientRepository implements IClientRepository {
   async find(
     userId: string,
     client?: s.clients.Whereable,
-    { limit, offset, orderBy, orderDirection }: defaultQueryParams<s.clients.Table> = { limit: 20, offset: 0, orderBy: 'created', orderDirection: 'DESC' }
+    options?: RepositoryOptions<s.clients.Table>
   ): Promise<ListResponse<s.clients.JSONSelectable>> {
 
     const clientsSql = db.sql<s.clients.SQL | s.employees.SQL, s.clients.JSONSelectable[]>`
@@ -49,9 +49,9 @@ class ClientRepository implements IClientRepository {
       WHERE ${{ ...client }}) AS c
       ON c.${'business_id'} = ${"employees"}.${"business_id"}
       WHERE ${"employees"}.${"user_id"} = ${db.param(userId)}
-      ORDER BY ${db.param(orderBy)} ${db.raw(orderDirection)}
-      LIMIT ${db.param(limit)}
-      OFFSET ${db.param(offset)}`
+      ORDER BY ${db.param(options?.orderBy || 'created')} ${db.raw(options?.orderDirection || 'DESC')}
+      LIMIT ${db.param(options?.limit || 20)}
+      OFFSET ${db.param(options?.offset || 0)}`
 
     logger.debug(clientsSql.compile())
     const clientsPromise = clientsSql.run(this.pool)

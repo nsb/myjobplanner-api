@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema';
 import { IClientRepository } from '../repositories/ClientRepository'
-import type { ApiEnvelope } from '../types'
+import type { ApiEnvelope, QueryParams } from '../types'
 
 interface ClientDTO {
   id?: number
@@ -10,14 +10,7 @@ interface ClientDTO {
   lastName: string | null
 }
 
-type defaultQueryParams = {
-  limit?: string
-  offset?: string
-  orderBy?: string
-  orderDirection?: string
-}
-
-type clientQueryParams = {
+type defaultQueryParams = QueryParams<s.businesses.Table> & {
   businessId?: number
 }
 
@@ -48,7 +41,7 @@ export class ClientController {
     }
   }
 
-  async getClients(req: Request<unknown, unknown, unknown, defaultQueryParams & clientQueryParams>, res: Response<ApiEnvelope<ClientDTO>>, next: NextFunction): Promise<void> {
+  async getClients(req: Request<unknown, unknown, unknown, defaultQueryParams>, res: Response<ApiEnvelope<ClientDTO>>, next: NextFunction): Promise<void> {
     if (req.user) {
       try {
         const offset = parseInt(req.query.offset || "0", 10)

@@ -2,7 +2,7 @@ import { Pool } from 'pg'
 import * as db from 'zapatos/db';
 import * as s from 'zapatos/schema';
 import logger from '../logger';
-import type { defaultQueryParams, ListResponse } from '../types';
+import type { RepositoryOptions, ListResponse } from '../types';
 import { IRepository } from './BaseRepository';
 
 export interface IBusinessRepository extends IRepository<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table> { }
@@ -33,13 +33,16 @@ class BusinessRepository implements IBusinessRepository {
   async find(
     userId: string,
     business?: s.businesses.Whereable,
-    { limit, offset, orderBy, orderDirection }: defaultQueryParams<s.businesses.Table> = { limit: 20, offset: 0, orderBy: 'created', orderDirection: 'DESC' }
+    options?: RepositoryOptions<s.businesses.Table>
   ): Promise<ListResponse<s.businesses.JSONSelectable>> {
 
     const businessesSql = db.select('employees', { user_id: userId }, {
-      limit,
-      offset,
-      order: { by: db.sql`result->'${orderBy}'`, direction: orderDirection },
+      limit: options?.limit || 20,
+      offset: options?.offset || 0,
+      order: {
+        by: db.sql`result->'${options?.orderBy || 'created'}'`,
+        direction: options?.orderDirection || 'DESC'
+      },
       lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') },
       ),
     })
