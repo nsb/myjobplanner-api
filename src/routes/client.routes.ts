@@ -12,7 +12,7 @@ function ClientRouter(clientController: ClientController) {
         checkJwt,
         // jwtAuthz(['create:client', 'read:client']),
         openApi,
-        clientController.createClient.bind(clientController)
+        clientController.create.bind(clientController)
     ).get(
         '/',
         checkJwt,

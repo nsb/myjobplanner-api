@@ -2,7 +2,7 @@ import { createInjector } from 'typed-inject'
 import pool from './postgres'
 import { BusinessController } from './controllers/business.controllers'
 import BusinessRepository from './repositories/BusinessRepository'
-import ClientController from './controllers/client.controllers'
+import ClientController, { ClientTransformer } from './controllers/client.controllers'
 import ClientRepository from './repositories/ClientRepository'
 import PropertyController from './controllers/property.controllers'
 import PropertyRepository from './repositories/PropertyRepository'
@@ -12,6 +12,7 @@ const container = createInjector()
   .provideValue('pool', pool)
   .provideClass('businessRepository', BusinessRepository)
   .provideClass('businessController', BusinessController)
+  .provideClass('clientTransformer', ClientTransformer)
   .provideClass('clientRepository', ClientRepository)
   .provideClass('clientController', ClientController)
   .provideClass('propertyRepository', PropertyRepository)

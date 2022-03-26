@@ -5,7 +5,7 @@ import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import type * as s from 'zapatos/schema';
 import { IClientRepository } from '../repositories/ClientRepository'
-import ClientController from '../controllers/client.controllers'
+import ClientController, { ClientTransformer } from '../controllers/client.controllers'
 import ClientRouter from './client.routes'
 
 function jwtMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -53,12 +53,13 @@ describe("ClientController", () => {
 
         const MockRepository = jest.fn<IClientRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedResult),
-            getById: jest.fn(),
+            get: jest.fn(),
             create: jest.fn().mockResolvedValueOnce({})
         }))
 
         const container = createInjector()
             .provideClass('clientRepository', MockRepository)
+            .provideClass('clientTransformer', ClientTransformer)
             .provideClass('clientController', ClientController)
 
         const app = express()
@@ -87,12 +88,13 @@ describe("ClientController", () => {
 
         const MockRepository = jest.fn<IClientRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedQueryResult),
-            getById: jest.fn(),
+            get: jest.fn(),
             create: jest.fn().mockResolvedValue({})
         }))
 
         const container = createInjector()
             .provideClass('clientRepository', MockRepository)
+            .provideClass('clientTransformer', ClientTransformer)
             .provideClass('clientController', ClientController)
 
         const app = express()
@@ -137,12 +139,13 @@ describe("ClientController", () => {
 
         const MockRepository = jest.fn<IClientRepository, []>(() => ({
             find: jest.fn(),
-            getById: jest.fn(),
+            get: jest.fn(),
             create: jest.fn().mockResolvedValue(mockedQueryResult)
         }))
 
         const container = createInjector()
             .provideClass('clientRepository', MockRepository)
+            .provideClass('clientTransformer', ClientTransformer)
             .provideClass('clientController', ClientController)
 
         const app = express()

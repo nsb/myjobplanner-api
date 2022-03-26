@@ -22,3 +22,8 @@ export type ApiEnvelope<T> = {
         totalCount: number
     }
 }
+
+export interface ITransformer<DTO, Insertable, Selectable> {
+    deserialize: (dto: DTO) => Insertable
+    serialize: (model: Selectable) => DTO
+}

@@ -2,13 +2,10 @@ import { Pool } from 'pg'
 import * as db from 'zapatos/db';
 import * as s from 'zapatos/schema';
 import logger from '../logger';
-import type { RepositoryOptions, ListResponse } from '../types';
+import type { RepositoryOptions, ListResponse } from '../types'
+import type { IRepository } from '../repositories/BaseRepository'
 
-export interface IClientRepository {
-  create(userId: string, client: s.clients.Insertable): Promise<s.clients.JSONSelectable>
-  find(userId: string, business?: s.clients.Whereable, extraParams?: RepositoryOptions<s.clients.Table>): Promise<ListResponse<s.clients.JSONSelectable>>
-  getById(userId: string, id: number): Promise<s.clients.JSONSelectable | undefined>
-}
+export type IClientRepository = IRepository<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table>
 
 class ClientRepository implements IClientRepository {
   constructor(private pool: Pool) { }
@@ -72,7 +69,7 @@ class ClientRepository implements IClientRepository {
     return { totalCount: totalCount[0].result, result: clients?.filter(client => client != null) }
   }
 
-  async getById(userId: string, id: number): Promise<s.clients.JSONSelectable | undefined> {
+  async get(userId: string, id: number): Promise<s.clients.JSONSelectable | undefined> {
     return await db.selectOne('employees', { user_id: userId }, {
       lateral: db.selectExactlyOne('clients', { business_id: db.parent('business_id'), id })
     }).run(this.pool)

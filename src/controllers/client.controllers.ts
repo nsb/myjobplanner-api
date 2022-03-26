@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
-import * as s from 'zapatos/schema';
+import * as s from 'zapatos/schema'
 import { IClientRepository } from '../repositories/ClientRepository'
-import type { ApiEnvelope, QueryParams } from '../types'
+import BaseController from './BaseController'
+import type { ApiEnvelope, QueryParams, ITransformer } from '../types'
 
 interface ClientDTO {
   id?: number
@@ -10,36 +11,31 @@ interface ClientDTO {
   lastName: string | null
 }
 
+export class ClientTransformer implements ITransformer<ClientDTO, s.clients.Insertable, s.clients.JSONSelectable> {
+  deserialize(dto: ClientDTO): s.clients.Insertable {
+    return {
+      business_id: dto.businessId,
+      first_name: dto.firstName,
+      last_name: dto.lastName
+    }
+  }
+
+  serialize(model: s.clients.JSONSelectable): ClientDTO {
+    return {
+      ...model,
+      businessId: model.business_id,
+      firstName: model.first_name,
+      lastName: model.last_name
+    }
+  }
+}
+
 type ClientQueryParams = QueryParams<s.clients.Table> & {
   businessId?: number
 }
 
-export class ClientController {
-  constructor(private repository: IClientRepository) { }
-  public static inject = ['clientRepository'] as const;
-
-  async createClient(req: Request<{}, {}, ClientDTO>, res: Response<ClientDTO>, next: NextFunction): Promise<void> {
-    if (req.user) {
-
-      const client = {
-        business_id: req.body.businessId,
-        first_name: req.body.firstName,
-        last_name: req.body.lastName
-      }
-
-      try {
-        const result = await this.repository.create(req.user.sub, client)
-        res.status(200).json({
-          ...result,
-          businessId: result.business_id,
-          firstName: result.first_name,
-          lastName: result.last_name
-        })
-      } catch (err) {
-        next(err)
-      }
-    }
-  }
+export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, ClientDTO> {
+  public static inject = ['clientRepository', 'clientTransformer'] as const;
 
   async getClients(req: Request<unknown, unknown, unknown, ClientQueryParams>, res: Response<ApiEnvelope<ClientDTO>>, next: NextFunction): Promise<void> {
     if (req.user) {
@@ -55,14 +51,7 @@ export class ClientController {
         const { totalCount, result } = await this.repository.find(req.user.sub, where, { limit, offset, orderBy, orderDirection })
 
         res.status(200).json({
-          data: result.map(client => {
-            return {
-              ...client,
-              businessId: client.business_id,
-              firstName: client.first_name,
-              lastName: client.last_name
-            }
-          }),
+          data: result.map(this.transformer.serialize),
           meta: {
             totalCount
           }
