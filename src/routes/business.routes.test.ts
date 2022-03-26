@@ -160,6 +160,44 @@ describe("BusinessController", () => {
         })
     })
 
+    test('GET /v1/businesses/1', async () => {
+
+        const mockedResult = {
+            "id": 1,
+            "name": "Idealrent",
+            "timezone": "Europe/Copenhagen",
+            "country_code": "da",
+            "vat_number": null,
+            "vat": 25,
+            "visit_reminders": false,
+            "created": "2021-11-11T22:55:57.405524Z"
+        }
+
+        const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
+            find: jest.fn(),
+            get: jest.fn().mockResolvedValue(mockedResult),
+            create: jest.fn().mockResolvedValueOnce({})
+        }))
+
+        const container = createInjector()
+            .provideClass('businessRepository', MockRepository)
+            .provideClass('businessController', BusinessController)
+
+        const app = express()
+        app.use(express.json())
+        app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+
+        const res = await request(app)
+            .get('/v1/businesses/1').send()
+        expect(res.statusCode).toEqual(200)
+        expect(res.body).toEqual({
+            "id": 1,
+            "name": "Idealrent",
+            "timezone": "Europe/Copenhagen",
+            "countryCode": "da"
+        })
+    })
+
     test('POST /v1/businesses', async () => {
 
         const mockedQueryResult: s.businesses.JSONSelectable = {
