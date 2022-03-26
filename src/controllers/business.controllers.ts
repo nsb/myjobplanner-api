@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema';
 import { IBusinessRepository } from '../repositories/BusinessRepository';
-import type { ApiEnvelope, QueryParams } from '../types'
+import type { ApiEnvelope, QueryParams, RepositoryOptions } from '../types'
 
 interface BusinessDTO {
   id?: number
@@ -46,10 +46,10 @@ export class BusinessController {
   ): Promise<void> {
     if (req.user) {
       try {
-        const options = {
+        const options: RepositoryOptions<s.businesses.Table> = {
           limit: parseInt(req.query.limit || "20", 10),
           offset: parseInt(req.query.offset || "0", 10),
-          orderBy: req.query.orderBy || 'created',
+          orderBy: req.query.orderBy,
           orderDirection: req.query.orderDirection || 'ASC'
         }
         const { totalCount, result } = await this.repository.find(req.user.sub, {}, options)

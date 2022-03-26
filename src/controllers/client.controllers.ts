@@ -10,7 +10,7 @@ interface ClientDTO {
   lastName: string | null
 }
 
-type defaultQueryParams = QueryParams<s.businesses.Table> & {
+type ClientQueryParams = QueryParams<s.businesses.Table> & {
   businessId?: number
 }
 
@@ -41,7 +41,7 @@ export class ClientController {
     }
   }
 
-  async getClients(req: Request<unknown, unknown, unknown, defaultQueryParams>, res: Response<ApiEnvelope<ClientDTO>>, next: NextFunction): Promise<void> {
+  async getClients(req: Request<unknown, unknown, unknown, ClientQueryParams>, res: Response<ApiEnvelope<ClientDTO>>, next: NextFunction): Promise<void> {
     if (req.user) {
       try {
         const offset = parseInt(req.query.offset || "0", 10)
