@@ -75,10 +75,7 @@ class BusinessController extends BaseController<s.businesses.Insertable, s.busin
         )
 
         if (business) {
-          res.status(200).json({
-            ...business,
-            countryCode: business.country_code
-          })
+          res.status(200).json(this.transformer.serialize(business))
         } else {
           res.status(404).send("Not found")
         }
