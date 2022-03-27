@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema'
-import { IClientRepository } from '../repositories/ClientRepository'
 import BaseController from './BaseController'
 import type { ApiEnvelope, QueryParams, ITransformer } from '../types'
 
