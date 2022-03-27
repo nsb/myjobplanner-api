@@ -1,7 +1,5 @@
-import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema';
-import { IPropertyRepository } from '../repositories/PropertyRepository'
-import type { ApiEnvelope, QueryParams, ITransformer } from '../types'
+import type { QueryParams, ITransformer } from '../types'
 import BaseController from './BaseController';
 
 interface PropertyDTO {
@@ -41,47 +39,16 @@ type PropertyQueryParams = QueryParams<s.properties.Table> & {
   clientId?: number
 }
 
-export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, PropertyDTO> {
-  public static inject = ['propertyRepository', 'propertyTransformer'] as const;
-
-  async getProperties(
-    req: Request<unknown, unknown, unknown, PropertyQueryParams>,
-    res: Response<ApiEnvelope<PropertyDTO>>,
-    next: NextFunction
-  ): Promise<void> {
-    if (req.user) {
-      try {
-        const offset = parseInt(req.query.offset || "0", 10)
-        const limit = parseInt(req.query.limit || "20", 10)
-        const orderBy = 'created'
-        const orderDirection = 'ASC'
-        const where: s.properties.Whereable = {}
-        if (req.query.clientId) {
-          where.client_id = req.query.clientId
-        }
-        const { totalCount, result } = await this.repository.find(
-          req.user.sub,
-          where,
-          { limit, offset, orderBy, orderDirection }
-        )
-
-        res.status(200).json({
-          data: result.map(property => {
-            return {
-              ...property,
-              clientId: property.client_id,
-              postalCode: property.postal_code
-            }
-          }),
-          meta: {
-            totalCount
-          }
-        })
-      } catch (err) {
-        next(err)
-      }
-    }
+export function fromQuery(query: PropertyQueryParams): s.properties.Whereable {
+  const where: s.properties.Whereable = {}
+  if (query.clientId) {
+    where.client_id = query.clientId
   }
+  return where
+}
+
+export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, PropertyDTO, PropertyQueryParams> {
+  public static inject = ['propertyRepository', 'propertyTransformer', 'propertyQuery'] as const;
 }
 
 export default PropertyController

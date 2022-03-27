@@ -33,37 +33,16 @@ type ClientQueryParams = QueryParams<s.clients.Table> & {
   businessId?: number
 }
 
-export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, ClientDTO> {
-  public static inject = ['clientRepository', 'clientTransformer'] as const;
-
-  async getClients(
-    req: Request<unknown, unknown, unknown, ClientQueryParams>,
-    res: Response<ApiEnvelope<ClientDTO>>,
-    next: NextFunction
-  ): Promise<void> {
-    if (req.user) {
-      try {
-        const offset = parseInt(req.query.offset || "0", 10)
-        const limit = parseInt(req.query.limit || "20", 10)
-        const orderBy = 'created'
-        const orderDirection = 'ASC'
-        const where: s.clients.Whereable = {}
-        if (req.query.businessId) {
-          where.business_id = req.query.businessId
-        }
-        const { totalCount, result } = await this.repository.find(req.user.sub, where, { limit, offset, orderBy, orderDirection })
-
-        res.status(200).json({
-          data: result.map(this.transformer.serialize),
-          meta: {
-            totalCount
-          }
-        })
-      } catch (err) {
-        next(err)
-      }
-    }
+export function fromQuery(query: ClientQueryParams): s.clients.Whereable {
+  const where: s.clients.Whereable = {}
+  if (query.businessId) {
+    where.business_id = query.businessId
   }
+  return where
+}
+
+export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, ClientDTO, ClientQueryParams> {
+  public static inject = ['clientRepository', 'clientTransformer', 'clientQuery'] as const;
 }
 
 export default ClientController

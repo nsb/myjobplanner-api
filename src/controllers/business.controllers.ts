@@ -27,40 +27,12 @@ export class BusinessTransformer implements ITransformer<BusinessDTO, s.business
   }
 }
 
-class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, BusinessDTO> {
-  public static inject = ['businessRepository', 'businessTransformer'] as const;
+export function fromQuery(query: QueryParams<s.businesses.Table>): s.businesses.Whereable {
+  return {}
+}
 
-  async getBusinesses(
-    req: Request<unknown, unknown, unknown, QueryParams<s.businesses.Table>>,
-    res: Response<ApiEnvelope<BusinessDTO>>,
-    next: NextFunction
-  ): Promise<void> {
-    if (req.user) {
-      try {
-        const options: RepositoryOptions<s.businesses.Table> = {
-          limit: parseInt(req.query.limit || "20", 10),
-          offset: parseInt(req.query.offset || "0", 10),
-          orderBy: req.query.orderBy,
-          orderDirection: req.query.orderDirection || 'ASC'
-        }
-        const { totalCount, result } = await this.repository.find(req.user.sub, {}, options)
-
-        res.status(200).json({
-          data: result.map(business => {
-            return {
-              ...business,
-              countryCode: business.country_code
-            }
-          }),
-          meta: {
-            totalCount
-          }
-        })
-      } catch (err) {
-        next(err)
-      }
-    }
-  }
+class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, BusinessDTO, QueryParams<s.businesses.Table>> {
+  public static inject = ['businessRepository', 'businessTransformer', 'businessQuery'] as const;
 
   async getBusiness(
     req: Request<{ businessId: string }, unknown, unknown, unknown>,

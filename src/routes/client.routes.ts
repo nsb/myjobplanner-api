@@ -18,7 +18,7 @@ function ClientRouter(clientController: ClientController) {
         checkJwt,
         // jwtAuthz(['read:client']),
         openApi,
-        clientController.getClients.bind(clientController)
+        clientController.getList.bind(clientController)
     )
 }
 ClientRouter.inject = ['clientController'] as const

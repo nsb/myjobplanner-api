@@ -18,7 +18,7 @@ function BusinessRouter(businessController: BusinessController) {
     checkJwt,
     jwtAuthz(['read:business']),
     openApi,
-    businessController.getBusinesses.bind(businessController)
+    businessController.getList.bind(businessController)
   ).get(
     '/:businessId',
     checkJwt,

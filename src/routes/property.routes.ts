@@ -18,7 +18,7 @@ function PropertyRouter(propertyController: PropertyController) {
         checkJwt,
         // jwtAuthz(['read:property']),
         openApi,
-        propertyController.getProperties.bind(propertyController)
+        propertyController.getList.bind(propertyController)
     )
 }
 PropertyRouter.inject = ['propertyController'] as const
