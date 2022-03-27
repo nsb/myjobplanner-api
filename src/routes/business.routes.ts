@@ -12,7 +12,7 @@ function BusinessRouter(businessController: BusinessController) {
     checkJwt,
     jwtAuthz(['create:business', 'read:business']),
     openApi,
-    businessController.createBusinesses.bind(businessController)
+    businessController.create.bind(businessController)
   ).get(
     '/',
     checkJwt,

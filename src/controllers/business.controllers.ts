@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema';
-import { IBusinessRepository } from '../repositories/BusinessRepository';
-import type { ApiEnvelope, QueryParams, RepositoryOptions } from '../types'
+import type { ApiEnvelope, QueryParams, RepositoryOptions, ITransformer } from '../types'
+import BaseController from './BaseController';
 
 interface BusinessDTO {
   id?: number
@@ -10,34 +10,25 @@ interface BusinessDTO {
   countryCode: string
 }
 
-export class BusinessController {
-  constructor(private repository: IBusinessRepository) { }
-  public static inject = ['businessRepository'] as const;
-
-  async createBusinesses(
-    req: Request<{}, {}, BusinessDTO>,
-    res: Response<BusinessDTO>,
-    next: NextFunction
-  ): Promise<void> {
-    if (req.user) {
-
-      const business = {
-        name: req.body.name,
-        timezone: req.body.timezone,
-        country_code: req.body.countryCode
-      }
-
-      try {
-        const result = await this.repository.create(req.user.sub, business)
-        res.status(200).json({
-          ...result,
-          countryCode: result.country_code
-        })
-      } catch (err) {
-        next(err)
-      }
+export class BusinessTransformer implements ITransformer<BusinessDTO, s.businesses.Insertable, s.businesses.JSONSelectable> {
+  deserialize(dto: BusinessDTO): s.businesses.Insertable {
+    return {
+      name: dto.name,
+      timezone: dto.timezone,
+      country_code: dto.countryCode
     }
   }
+
+  serialize(model: s.businesses.JSONSelectable): BusinessDTO {
+    return {
+      ...model,
+      countryCode: model.country_code
+    }
+  }
+}
+
+class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, BusinessDTO> {
+  public static inject = ['businessRepository', 'businessTransformer'] as const;
 
   async getBusinesses(
     req: Request<unknown, unknown, unknown, QueryParams<s.businesses.Table>>,
