@@ -27,11 +27,13 @@ export class BusinessTransformer implements ITransformer<BusinessDTO, s.business
   }
 }
 
-export function fromQuery(query: QueryParams<s.businesses.Table>): s.businesses.Whereable {
+type BusinessQueryParams = QueryParams<s.businesses.Table>
+
+export function fromQuery(query: BusinessQueryParams): s.businesses.Whereable {
   return {}
 }
 
-class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, BusinessDTO, QueryParams<s.businesses.Table>> {
+class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, BusinessDTO, BusinessQueryParams> {
   public static inject = ['businessRepository', 'businessTransformer', 'businessQuery'] as const;
 
   async getBusiness(
