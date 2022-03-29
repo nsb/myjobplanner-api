@@ -27,14 +27,23 @@ export class BusinessTransformer implements ITransformer<BusinessDTO, s.business
   }
 }
 
-type BusinessQueryParams = QueryParams<s.businesses.Table>
+type BusinessQueryParams = QueryParams<BusinessDTO>
 
 export function fromQuery(query: BusinessQueryParams): s.businesses.Whereable {
   return {}
 }
 
+export function getBusinessOrderBy(key: keyof BusinessDTO): s.SQLForTable<s.businesses.Table> {
+  switch (key) {
+    case 'countryCode':
+      return 'country_code'
+    default:
+      return key
+  }
+}
+
 class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, BusinessDTO, BusinessQueryParams> {
-  public static inject = ['businessRepository', 'businessTransformer', 'businessQuery'] as const;
+  public static inject = ['businessRepository', 'businessTransformer', 'businessQuery', 'getBusinessOrderBy'] as const;
 
   async getBusiness(
     req: Request<{ businessId: string }, unknown, unknown, unknown>,

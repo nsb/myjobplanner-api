@@ -1,9 +1,9 @@
 import * as s from 'zapatos/schema';
 
-export type QueryParams<T extends s.Table> = {
+export type QueryParams<DTO> = {
     limit?: string
     offset?: string
-    orderBy?: s.SQLForTable<T>
+    orderBy?: keyof DTO
     orderDirection?: 'ASC' | 'DESC'
 }
 
@@ -26,4 +26,8 @@ export type ApiEnvelope<T> = {
 export interface ITransformer<DTO, Insertable, Selectable> {
     deserialize: (dto: DTO) => Insertable
     serialize: (model: Selectable) => DTO
+}
+
+export interface IGetOrderBy<Params, DTO, T extends s.Table> {
+    (key: keyof DTO): s.SQLForTable<T>
 }

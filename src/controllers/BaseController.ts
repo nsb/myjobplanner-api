@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema';
 import { IRepository } from '../repositories/BaseRepository'
-import type { ITransformer, ApiEnvelope, QueryParams } from '../types'
+import type { ITransformer, ApiEnvelope, QueryParams, IGetOrderBy } from '../types'
 
-export abstract class BaseController<Insertable, Selectable, Whereable, Table extends s.Table, DTO, Params extends QueryParams<Table>> {
+export abstract class BaseController<Insertable, Selectable, Whereable, Table extends s.Table, DTO, Params extends QueryParams<DTO>> {
   constructor(
     public repository: IRepository<Insertable, Selectable, Whereable, Table>,
     public transformer: ITransformer<DTO, Insertable, Selectable>,
-    public fromQuery: (params: Params) => Whereable
+    public fromQuery: (params: Params) => Whereable,
+    public getOrderBy: IGetOrderBy<Params, DTO, Table>
   ) { }
 
   async create(req: Request<{}, {}, DTO>, res: Response<DTO>, next: NextFunction): Promise<void> {
@@ -33,7 +34,7 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
       try {
         const offset = parseInt(req.query.offset || "0", 10)
         const limit = parseInt(req.query.limit || "20", 10)
-        const orderBy = req.query.orderBy
+        const orderBy = req.query.orderBy ? this.getOrderBy(req.query.orderBy) : undefined
         const orderDirection = req.query.orderDirection || 'ASC'
         const where = this.fromQuery(req.query)
         const { totalCount, result } = await this.repository.find(req.user.sub, where, { limit, offset, orderBy, orderDirection })
