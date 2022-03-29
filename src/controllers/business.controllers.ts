@@ -44,29 +44,6 @@ export function getBusinessOrderBy(key: keyof BusinessDTO): s.SQLForTable<s.busi
 
 class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, BusinessDTO, BusinessQueryParams> {
   public static inject = ['businessRepository', 'businessTransformer', 'businessQuery', 'getBusinessOrderBy'] as const;
-
-  async getBusiness(
-    req: Request<{ businessId: string }, unknown, unknown, unknown>,
-    res: Response<BusinessDTO | string>,
-    next: NextFunction
-  ): Promise<void> {
-    if (req.user) {
-      try {
-        const business = await this.repository.get(
-          req.user.sub,
-          parseInt(req.params.businessId, 10)
-        )
-
-        if (business) {
-          res.status(200).json(this.transformer.serialize(business))
-        } else {
-          res.status(404).send("Not found")
-        }
-      } catch (err) {
-        next(err)
-      }
-    }
-  }
 }
 
 export default BusinessController

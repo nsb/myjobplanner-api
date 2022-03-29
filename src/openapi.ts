@@ -152,13 +152,13 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
-    '/businesses/{businessId}': {
+    '/businesses/{ID}': {
       get: {
         description: 'Returns a single business',
         operationId: 'getBusiness',
         parameters: [{
           in: 'path',
-          name: 'businessId',
+          name: 'ID',
           schema: {
             type: 'integer',
             minimum: 1
