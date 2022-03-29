@@ -39,7 +39,6 @@ class BusinessController extends BaseController<s.businesses.Insertable, s.busin
   fromQuery(query: QueryParams<DTO>) {
     return {}
   }
-
 }
 
 export default BusinessController

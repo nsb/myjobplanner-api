@@ -2,7 +2,7 @@ import * as s from 'zapatos/schema';
 import type { QueryParams } from '../types'
 import BaseController from './BaseController';
 
-interface PropertyDTO {
+interface DTO {
   id?: number
   clientId: number
   description: string | null
@@ -13,14 +13,14 @@ interface PropertyDTO {
   country: string | null
 }
 
-type PropertyQueryParams = QueryParams<PropertyDTO> & {
+type PropertyQueryParams = QueryParams<DTO> & {
   clientId?: number
 }
 
-export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, PropertyDTO, PropertyQueryParams> {
+export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, DTO, PropertyQueryParams> {
   public static inject = ['propertyRepository'] as const;
 
-  deserialize(dto: PropertyDTO): s.properties.Insertable {
+  deserialize(dto: DTO) {
     return {
       client_id: dto.clientId,
       description: dto.description,
@@ -32,7 +32,7 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
     }
   }
 
-  serialize(model: s.properties.JSONSelectable): PropertyDTO {
+  serialize(model: s.properties.JSONSelectable) {
     return {
       ...model,
       clientId: model.client_id,
@@ -40,7 +40,7 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
     }
   }
 
-  getOrderBy(key: keyof PropertyDTO): s.SQLForTable<s.properties.Table> {
+  getOrderBy(key: keyof DTO) {
     switch (key) {
       case 'clientId':
         return 'client_id'
@@ -51,7 +51,7 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
     }
   }
 
-  fromQuery(query: PropertyQueryParams): s.properties.Whereable {
+  fromQuery(query: PropertyQueryParams) {
     const where: s.properties.Whereable = {}
     if (query.clientId) {
       where.client_id = query.clientId

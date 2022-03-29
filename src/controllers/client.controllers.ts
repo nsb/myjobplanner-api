@@ -2,21 +2,21 @@ import * as s from 'zapatos/schema'
 import BaseController from './BaseController'
 import type { QueryParams } from '../types'
 
-interface ClientDTO {
+interface DTO {
   id?: number
   businessId: number
   firstName: string | null
   lastName: string | null
 }
 
-type ClientQueryParams = QueryParams<ClientDTO> & {
+type ClientQueryParams = QueryParams<DTO> & {
   businessId?: number
 }
 
-export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, ClientDTO, ClientQueryParams> {
+export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, DTO, ClientQueryParams> {
   public static inject = ['clientRepository'] as const;
 
-  deserialize(dto: ClientDTO): s.clients.Insertable {
+  deserialize(dto: DTO) {
     return {
       business_id: dto.businessId,
       first_name: dto.firstName,
@@ -24,7 +24,7 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
     }
   }
 
-  serialize(model: s.clients.JSONSelectable): ClientDTO {
+  serialize(model: s.clients.JSONSelectable) {
     return {
       ...model,
       businessId: model.business_id,
@@ -33,7 +33,7 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
     }
   }
 
-  getOrderBy(key: keyof ClientDTO): s.SQLForTable<s.clients.Table> {
+  getOrderBy(key: keyof DTO) {
     switch (key) {
       case 'businessId':
         return 'business_id'
@@ -46,15 +46,13 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
     }
   }
 
-  fromQuery(query: ClientQueryParams): s.clients.Whereable {
+  fromQuery(query: ClientQueryParams) {
     const where: s.clients.Whereable = {}
     if (query.businessId) {
       where.business_id = query.businessId
     }
     return where
   }
-
-
 }
 
 export default ClientController
