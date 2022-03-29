@@ -39,7 +39,11 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
         const orderBy = req.query.orderBy ? this.getOrderBy(req.query.orderBy) : undefined
         const orderDirection = req.query.orderDirection || 'ASC'
         const where = this.fromQuery(req.query)
-        const { totalCount, result } = await this.repository.find(req.user.sub, where, { limit, offset, orderBy, orderDirection })
+        const { totalCount, result } = await this.repository.find(
+          req.user.sub,
+          where,
+          { limit, offset, orderBy, orderDirection }
+        )
 
         res.status(200).json({
           data: result.map(this.serialize),
