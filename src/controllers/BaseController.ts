@@ -16,7 +16,11 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
   abstract getOrderBy(key: keyof DTO): s.SQLForTable<Table>
   abstract fromQuery(params: Params): Whereable
 
-  async create(req: Request<{}, {}, DTO>, res: Response<DTO>, next: NextFunction): Promise<void> {
+  async create(
+    req: Request<{}, {}, DTO>,
+    res: Response<DTO>,
+    next: NextFunction
+  ) {
     if (req.user) {
       try {
         const result = await this.repository.create(
@@ -34,7 +38,7 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
     req: Request<unknown, unknown, unknown, Params>,
     res: Response<ApiEnvelope<DTO>>,
     next: NextFunction
-  ): Promise<void> {
+  ) {
     if (req.user) {
       try {
         const offset = parseInt(req.query.offset || "NaN", 10) || this.offset
@@ -64,7 +68,7 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
     req: Request<{ ID: string }, unknown, unknown, unknown>,
     res: Response<DTO | string>,
     next: NextFunction
-  ): Promise<void> {
+  ) {
     if (req.user) {
       try {
         const result = await this.repository.get(
