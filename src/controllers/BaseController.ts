@@ -7,8 +7,8 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
   constructor(
     public repository: IRepository<Insertable, Selectable, Whereable, Table>,
     public transformer: ITransformer<DTO, Insertable, Selectable>,
-    public fromQuery: (params: Params) => Whereable,
-    public getOrderBy: IGetOrderBy<Params, DTO, Table>
+    private fromQuery: (params: Params) => Whereable,
+    private getOrderBy: IGetOrderBy<DTO, Table>
   ) { }
 
   async create(req: Request<{}, {}, DTO>, res: Response<DTO>, next: NextFunction): Promise<void> {
