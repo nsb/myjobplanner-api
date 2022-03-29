@@ -47,19 +47,19 @@ export function fromQuery(query: PropertyQueryParams): s.properties.Whereable {
   return where
 }
 
-export function getPropertyOrderBy(key: keyof PropertyDTO): s.SQLForTable<s.properties.Table> {
-  switch (key) {
-    case 'clientId':
-      return 'client_id'
-    case 'postalCode':
-      return 'postal_code'
-    default:
-      return key
-  }
-}
-
 export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, PropertyDTO, PropertyQueryParams> {
-  public static inject = ['propertyRepository', 'propertyTransformer', 'propertyQuery', 'getPropertyOrderBy'] as const;
+  public static inject = ['propertyRepository', 'propertyTransformer', 'propertyQuery'] as const;
+
+  getOrderBy(key: keyof PropertyDTO): s.SQLForTable<s.properties.Table> {
+    switch (key) {
+      case 'clientId':
+        return 'client_id'
+      case 'postalCode':
+        return 'postal_code'
+      default:
+        return key
+    }
+  }
 }
 
 export default PropertyController

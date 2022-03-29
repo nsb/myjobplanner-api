@@ -8,8 +8,9 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
     public repository: IRepository<Insertable, Selectable, Whereable, Table>,
     public transformer: ITransformer<DTO, Insertable, Selectable>,
     private fromQuery: (params: Params) => Whereable,
-    private getOrderBy: IGetOrderBy<DTO, Table>
   ) { }
+
+  abstract getOrderBy(key: keyof DTO): s.SQLForTable<Table>
 
   async create(req: Request<{}, {}, DTO>, res: Response<DTO>, next: NextFunction): Promise<void> {
     if (req.user) {

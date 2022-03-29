@@ -41,21 +41,22 @@ export function fromQuery(query: ClientQueryParams): s.clients.Whereable {
   return where
 }
 
-export function getClientOrderBy(key: keyof ClientDTO): s.SQLForTable<s.clients.Table> {
-  switch (key) {
-    case 'businessId':
-      return 'business_id'
-    case 'firstName':
-      return 'first_name'
-    case 'lastName':
-      return 'last_name'
-    default:
-      return key
-  }
-}
-
 export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, ClientDTO, ClientQueryParams> {
-  public static inject = ['clientRepository', 'clientTransformer', 'clientQuery', 'getClientOrderBy'] as const;
+  public static inject = ['clientRepository', 'clientTransformer', 'clientQuery'] as const;
+
+  getOrderBy(key: keyof ClientDTO): s.SQLForTable<s.clients.Table> {
+    switch (key) {
+      case 'businessId':
+        return 'business_id'
+      case 'firstName':
+        return 'first_name'
+      case 'lastName':
+        return 'last_name'
+      default:
+        return key
+    }
+  }
+
 }
 
 export default ClientController

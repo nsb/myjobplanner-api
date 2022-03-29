@@ -33,17 +33,17 @@ export function fromQuery(query: BusinessQueryParams): s.businesses.Whereable {
   return {}
 }
 
-export function getBusinessOrderBy(key: keyof BusinessDTO): s.SQLForTable<s.businesses.Table> {
-  switch (key) {
-    case 'countryCode':
-      return 'country_code'
-    default:
-      return key
-  }
-}
-
 class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, BusinessDTO, BusinessQueryParams> {
-  public static inject = ['businessRepository', 'businessTransformer', 'businessQuery', 'getBusinessOrderBy'] as const;
+  public static inject = ['businessRepository', 'businessTransformer', 'businessQuery'] as const;
+
+  getOrderBy(key: keyof BusinessDTO): s.SQLForTable<s.businesses.Table> {
+    switch (key) {
+      case 'countryCode':
+        return 'country_code'
+      default:
+        return key
+    }
+  }
 }
 
 export default BusinessController

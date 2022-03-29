@@ -5,7 +5,7 @@ import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import type * as s from 'zapatos/schema';
 import { IBusinessRepository } from '../repositories/BusinessRepository'
-import BusinessController, { BusinessTransformer, fromQuery as fromBusinessQuery, getBusinessOrderBy } from '../controllers/business.controllers'
+import BusinessController, { BusinessTransformer, fromQuery as fromBusinessQuery } from '../controllers/business.controllers'
 import BusinessRouter from './business.routes'
 
 function jwtMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -49,7 +49,6 @@ describe("BusinessController", () => {
 
         const container = createInjector()
             .provideClass('businessRepository', MockRepository)
-            .provideValue('getBusinessOrderBy', getBusinessOrderBy)
             .provideClass('businessTransformer', BusinessTransformer)
             .provideValue('businessQuery', fromBusinessQuery)
             .provideClass('businessController', BusinessController)
@@ -107,7 +106,6 @@ describe("BusinessController", () => {
 
         const container = createInjector()
             .provideClass('businessRepository', MockRepository)
-            .provideValue('getBusinessOrderBy', getBusinessOrderBy)
             .provideClass('businessTransformer', BusinessTransformer)
             .provideValue('businessQuery', fromBusinessQuery)
             .provideClass('businessController', BusinessController)
@@ -149,7 +147,6 @@ describe("BusinessController", () => {
 
         const container = createInjector()
             .provideClass('businessRepository', MockRepository)
-            .provideValue('getBusinessOrderBy', getBusinessOrderBy)
             .provideClass('businessTransformer', BusinessTransformer)
             .provideValue('businessQuery', fromBusinessQuery)
             .provideClass('businessController', BusinessController)
@@ -190,7 +187,6 @@ describe("BusinessController", () => {
 
         const container = createInjector()
             .provideClass('businessRepository', MockRepository)
-            .provideValue('getBusinessOrderBy', getBusinessOrderBy)
             .provideClass('businessTransformer', BusinessTransformer)
             .provideValue('businessQuery', fromBusinessQuery)
             .provideClass('businessController', BusinessController)
@@ -220,7 +216,6 @@ describe("BusinessController", () => {
 
         const container = createInjector()
             .provideClass('businessRepository', MockRepository)
-            .provideValue('getBusinessOrderBy', getBusinessOrderBy)
             .provideClass('businessTransformer', BusinessTransformer)
             .provideValue('businessQuery', fromBusinessQuery)
             .provideClass('businessController', BusinessController)
@@ -255,7 +250,6 @@ describe("BusinessController", () => {
 
         const container = createInjector()
             .provideClass('businessRepository', MockRepository)
-            .provideValue('getBusinessOrderBy', getBusinessOrderBy)
             .provideClass('businessTransformer', BusinessTransformer)
             .provideValue('businessQuery', fromBusinessQuery)
             .provideClass('businessController', BusinessController)
