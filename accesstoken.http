@@ -1,0 +1,9 @@
+POST {{$dotenv AUTH0_DOMAIN}}oauth/token HTTP/1.1
+content-type: application/json
+
+{
+  "audience": "{{$dotenv AUTH0_IDENTIFIER}}",
+  "grant_type": "client_credentials",
+  "client_id": "27LUHMvpzdicR4D7gKf1oIomK27KxLuC",
+  "client_secret": "rYoy3EhqjjpGzDU7uFSq-ylv8ljyW5H1gXD4bsBeo5eYyiANU8OX9QuEj2_VrfAr"
+}

@@ -28,6 +28,6 @@ export interface ITransformer<DTO, Insertable, Selectable> {
     serialize: (model: Selectable) => DTO
 }
 
-export interface IGetOrderBy<Params, DTO, T extends s.Table> {
+export interface IGetOrderBy<DTO, T extends s.Table> {
     (key: keyof DTO): s.SQLForTable<T>
 }
