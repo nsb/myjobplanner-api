@@ -5,7 +5,10 @@ import type { ApiEnvelope, QueryParams } from '../types'
 
 export abstract class BaseController<Insertable, Selectable, Whereable, Table extends s.Table, DTO, Params extends QueryParams<DTO>> {
   constructor(
-    public repository: IRepository<Insertable, Selectable, Whereable, Table>
+    public repository: IRepository<Insertable, Selectable, Whereable, Table>,
+    public offset: number = 0,
+    public limit: number = 20,
+    public orderDirection: 'ASC' | 'DESC' = 'ASC'
   ) { }
 
   abstract deserialize(dto: DTO): Insertable
@@ -34,10 +37,10 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
   ): Promise<void> {
     if (req.user) {
       try {
-        const offset = parseInt(req.query.offset || "0", 10)
-        const limit = parseInt(req.query.limit || "20", 10)
+        const offset = parseInt(req.query.offset || "NaN", 10) || this.offset
+        const limit = parseInt(req.query.limit || "Nan", 10) || this.limit
         const orderBy = req.query.orderBy ? this.getOrderBy(req.query.orderBy) : undefined
-        const orderDirection = req.query.orderDirection || 'ASC'
+        const orderDirection = req.query.orderDirection || this.orderDirection
         const where = this.fromQuery(req.query)
         const { totalCount, result } = await this.repository.find(
           req.user.sub,
