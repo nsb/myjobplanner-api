@@ -5,7 +5,7 @@ import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import type * as s from 'zapatos/schema';
 import { IClientRepository } from '../repositories/ClientRepository'
-import ClientController, { ClientTransformer, fromQuery as fromClientQuery } from '../controllers/client.controllers'
+import ClientController from '../controllers/client.controllers'
 import ClientRouter from './client.routes'
 
 function jwtMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -59,8 +59,6 @@ describe("ClientController", () => {
 
         const container = createInjector()
             .provideClass('clientRepository', MockRepository)
-            .provideClass('clientTransformer', ClientTransformer)
-            .provideValue('clientQuery', fromClientQuery)
             .provideClass('clientController', ClientController)
 
         const app = express()
@@ -95,8 +93,6 @@ describe("ClientController", () => {
 
         const container = createInjector()
             .provideClass('clientRepository', MockRepository)
-            .provideClass('clientTransformer', ClientTransformer)
-            .provideValue('clientQuery', fromClientQuery)
             .provideClass('clientController', ClientController)
 
         const app = express()
@@ -147,8 +143,6 @@ describe("ClientController", () => {
 
         const container = createInjector()
             .provideClass('clientRepository', MockRepository)
-            .provideClass('clientTransformer', ClientTransformer)
-            .provideValue('clientQuery', fromClientQuery)
             .provideClass('clientController', ClientController)
 
         const app = express()

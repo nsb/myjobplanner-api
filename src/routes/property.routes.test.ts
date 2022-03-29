@@ -4,7 +4,7 @@ import request from 'supertest'
 import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import { IPropertyRepository } from '../repositories/PropertyRepository'
-import PropertyController, { PropertyTransformer, fromQuery as fromPropertyQuery } from '../controllers/property.controllers'
+import PropertyController from '../controllers/property.controllers'
 import PropertyRouter from './property.routes'
 
 function jwtMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -49,8 +49,6 @@ describe("PropertyController", () => {
 
         const container = createInjector()
             .provideClass('propertyRepository', MockRepository)
-            .provideClass('propertyTransformer', PropertyTransformer)
-            .provideValue('propertyQuery', fromPropertyQuery)
             .provideClass('propertyController', PropertyController)
 
         const app = express()
@@ -89,8 +87,6 @@ describe("PropertyController", () => {
 
         const container = createInjector()
             .provideClass('propertyRepository', MockRepository)
-            .provideClass('propertyTransformer', PropertyTransformer)
-            .provideValue('propertyQuery', fromPropertyQuery)
             .provideClass('propertyController', PropertyController)
 
         const app = express()
@@ -130,8 +126,6 @@ describe("PropertyController", () => {
 
         const container = createInjector()
             .provideClass('propertyRepository', MockRepository)
-            .provideClass('propertyTransformer', PropertyTransformer)
-            .provideValue('propertyQuery', fromPropertyQuery)
             .provideClass('propertyController', PropertyController)
 
         const app = express()

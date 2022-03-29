@@ -1,5 +1,5 @@
 import * as s from 'zapatos/schema';
-import type { QueryParams, ITransformer } from '../types'
+import type { QueryParams } from '../types'
 import BaseController from './BaseController';
 
 interface PropertyDTO {
@@ -13,7 +13,13 @@ interface PropertyDTO {
   country: string | null
 }
 
-export class PropertyTransformer implements ITransformer<PropertyDTO, s.properties.Insertable, s.properties.JSONSelectable> {
+type PropertyQueryParams = QueryParams<PropertyDTO> & {
+  clientId?: number
+}
+
+export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, PropertyDTO, PropertyQueryParams> {
+  public static inject = ['propertyRepository'] as const;
+
   deserialize(dto: PropertyDTO): s.properties.Insertable {
     return {
       client_id: dto.clientId,
@@ -33,22 +39,6 @@ export class PropertyTransformer implements ITransformer<PropertyDTO, s.properti
       postalCode: model.postal_code
     }
   }
-}
-
-type PropertyQueryParams = QueryParams<PropertyDTO> & {
-  clientId?: number
-}
-
-export function fromQuery(query: PropertyQueryParams): s.properties.Whereable {
-  const where: s.properties.Whereable = {}
-  if (query.clientId) {
-    where.client_id = query.clientId
-  }
-  return where
-}
-
-export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, PropertyDTO, PropertyQueryParams> {
-  public static inject = ['propertyRepository', 'propertyTransformer', 'propertyQuery'] as const;
 
   getOrderBy(key: keyof PropertyDTO): s.SQLForTable<s.properties.Table> {
     switch (key) {
@@ -59,6 +49,14 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
       default:
         return key
     }
+  }
+
+  fromQuery(query: PropertyQueryParams): s.properties.Whereable {
+    const where: s.properties.Whereable = {}
+    if (query.clientId) {
+      where.client_id = query.clientId
+    }
+    return where
   }
 }
 
