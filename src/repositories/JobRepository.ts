@@ -2,13 +2,10 @@ import { Pool } from 'pg'
 import * as db from 'zapatos/db';
 import * as s from 'zapatos/schema';
 import logger from '../logger';
+import type { IRepository } from './BaseRepository';
 import type { RepositoryOptions, ListResponse } from '../types';
 
-export interface IJobRepository {
-    create(userId: string, job: s.jobs.Insertable): Promise<s.jobs.JSONSelectable>
-    find(userId: string, business?: s.jobs.Whereable, extraParams?: RepositoryOptions<s.jobs.Table>): Promise<ListResponse<s.jobs.JSONSelectable>>
-    get(userId: string, id: number): Promise<s.jobs.JSONSelectable | undefined>
-}
+export type IJobRepository = IRepository<s.jobs.Insertable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table>
 
 class JobRepository implements IJobRepository {
     constructor(private pool: Pool) { }
