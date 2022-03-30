@@ -133,53 +133,6 @@ describe("PropertyRepository", () => {
         })
     })
 
-    test('get', async () => {
-
-        function poolDecorator(pool: Pool) {
-            (pool as any).connect = jest.fn().mockReturnThis();
-            (pool as any).release = jest.fn().mockReturnThis();
-            (pool as any).query = jest.fn().mockReturnThis();
-
-            (pool as any).query.mockResolvedValueOnce({
-                rows: [{
-                    result: {
-                        "id": 1,
-                        "client_id": 1,
-                        "description": "my property",
-                        "address1": "My address1",
-                        "address2": null,
-                        "city": "Copenhagen",
-                        "postal_code": "2450",
-                        "country": "Denmark",
-                        "created": "2021-11-11T22:55:57.405524",
-                    }
-                }]
-            });
-
-            return pool
-        }
-        poolDecorator.inject = ['pool'] as const
-
-        const container = createInjector()
-            .provideValue('pool', pool)
-            .provideFactory('pool', poolDecorator)
-
-        const repository = container.injectClass(PropertyRepository)
-
-        const property = await repository.get('abc', 1)
-        expect(property).toEqual({
-            "id": 1,
-            "client_id": 1,
-            "description": "my property",
-            "address1": "My address1",
-            "address2": null,
-            "city": "Copenhagen",
-            "postal_code": "2450",
-            "country": "Denmark",
-            "created": "2021-11-11T22:55:57.405524"
-        })
-    })
-
     test('create business', async () => {
 
         function poolDecorator(pool: Pool) {
