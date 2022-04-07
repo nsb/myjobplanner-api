@@ -16,54 +16,26 @@ export const apiSpec: OpenAPIV3.Document = {
       get: {
         description: 'Returns all businesses',
         operationId: 'findBusinesses',
-        parameters: [
-          {
-            name: 'limit',
-            in: 'query',
-            description: 'maximum number of results to return',
-            required: false,
-            schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 1,
-              maximum: 200
-            }
-          }, {
-            name: 'offset',
-            in: 'query',
-            description: 'offset from beginning',
-            required: false,
-            schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 1
-            }
-          }, {
-            name: 'orderBy',
-            in: 'query',
-            description: 'Order by field',
-            required: false,
-            schema: {
-              type: 'string',
-              enum: [
-                'id',
-                'created',
-                'name'
-              ]
-            }
-          }, {
-            name: 'orderDirection',
-            in: 'query',
-            description: 'Order direction',
-            required: false,
-            schema: {
-              type: 'string',
-              enum: [
-                'ASC',
-                'DESC'
-              ]
-            }
+        parameters: [{
+          $ref: '#/components/parameters/offsetParam'
+        }, {
+          $ref: '#/components/parameters/limitParam'
+        }, {
+          $ref: '#/components/parameters/orderDirectionParam'
+        }, {
+          name: 'orderBy',
+          in: 'query',
+          description: 'Order by field',
+          required: false,
+          schema: {
+            type: 'string',
+            enum: [
+              'id',
+              'created',
+              'name'
+            ]
           }
+        },
           //         - name: tags
           //           in: query
           //           description: tags to filter by
@@ -206,27 +178,11 @@ export const apiSpec: OpenAPIV3.Document = {
         operationId: 'findClients',
         parameters: [
           {
-            name: 'limit',
-            in: 'query',
-            description: 'maximum number of results to return',
-            required: false,
-            schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 1,
-              maximum: 200
-            }
+            $ref: '#/components/parameters/offsetParam'
           }, {
-            name: 'offset',
-            in: 'query',
-            description: 'offset from beginning',
-            required: false,
-            schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 1,
-              // maximum: 20
-            }
+            $ref: '#/components/parameters/limitParam'
+          }, {
+            $ref: '#/components/parameters/orderDirectionParam'
           },
           {
             name: 'businessId',
@@ -323,26 +279,11 @@ export const apiSpec: OpenAPIV3.Document = {
         operationId: 'findProperties',
         parameters: [
           {
-            name: 'limit',
-            in: 'query',
-            description: 'maximum number of results to return',
-            required: false,
-            schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 1,
-              maximum: 200
-            }
+            $ref: '#/components/parameters/offsetParam'
           }, {
-            name: 'offset',
-            in: 'query',
-            description: 'offset from beginning',
-            required: false,
-            schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 1
-            }
+            $ref: '#/components/parameters/limitParam'
+          }, {
+            $ref: '#/components/parameters/orderDirectionParam'
           },
           {
             name: 'clientId',
@@ -547,6 +488,46 @@ export const apiSpec: OpenAPIV3.Document = {
           message: {
             type: 'string'
           }
+        }
+      }
+    },
+    parameters: {
+      offsetParam: {
+        name: 'offset',
+        in: 'query',
+        description: 'offset from beginning',
+        required: false,
+        schema: {
+          type: 'integer',
+          format: 'int32',
+          minimum: 0,
+          default: 0
+        }
+      },
+      limitParam: {
+        name: 'limit',
+        in: 'query',
+        description: 'maximum number of results to return',
+        required: false,
+        schema: {
+          type: 'integer',
+          format: 'int32',
+          minimum: 1,
+          maximum: 200,
+          default: 20
+        }
+      },
+      orderDirectionParam: {
+        name: 'orderDirection',
+        in: 'query',
+        description: 'Order direction',
+        required: false,
+        schema: {
+          type: 'string',
+          enum: [
+            'ASC',
+            'DESC'
+          ]
         }
       }
     },
