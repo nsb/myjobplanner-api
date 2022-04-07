@@ -273,7 +273,8 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         }
       }
-    }, '/properties': {
+    },
+    '/properties': {
       get: {
         description: 'Returns all properties',
         operationId: 'findProperties',
@@ -375,6 +376,108 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
+    '/jobs': {
+      get: {
+        description: 'Returns all jobs',
+        operationId: 'findJobs',
+        parameters: [
+          {
+            $ref: '#/components/parameters/offsetParam'
+          }, {
+            $ref: '#/components/parameters/limitParam'
+          }, {
+            $ref: '#/components/parameters/orderDirectionParam'
+          },
+          {
+            name: 'clientId',
+            in: 'query',
+            description: 'filter by client',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 1
+            }
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'job response',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    data: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/Job'
+                      }
+                    },
+                    meta: {
+                      type: 'object',
+                      properties: {
+                        totalCount: {
+                          readOnly: true,
+                          type: 'number'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        description: "Create job",
+        operationId: "createJob",
+        requestBody: {
+          description: "Create job",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: '#/components/schemas/Job'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'job response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Job'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   security: [{
     oauth2: []
@@ -471,6 +574,73 @@ export const apiSpec: OpenAPIV3.Document = {
           country: {
             type: 'string',
             nullable: true
+          }
+        }
+      },
+      Job: {
+        additionalProperties: false,
+        type: 'object',
+        required: [
+          'id',
+          'clientId',
+          'propertyId',
+          'begins',
+          'anytime',
+          'closed',
+          'invoice'
+        ],
+        properties: {
+          id: {
+            readOnly: true,
+            type: 'number'
+          },
+          clientId: {
+            type: 'number'
+          },
+          propertyId: {
+            type: 'number'
+          },
+          recurrences: {
+            type: 'string',
+            nullable: true
+          },
+          begins: {
+            type: 'string'
+          },
+          ends: {
+            type: 'string',
+            nullable: true
+          },
+          startTime: {
+            type: 'string',
+            nullable: true
+          },
+          finishTime: {
+            type: 'string',
+            nullable: true
+          },
+          anytime: {
+            type: 'boolean'
+          },
+          title: {
+            type: 'string',
+            nullable: true
+          },
+          description: {
+            type: 'string',
+            nullable: true
+          },
+          closed: {
+            type: 'boolean'
+          },
+          invoice: {
+            type: 'string',
+            enum: [
+              'closed',
+              'monthly',
+              'never',
+              'visit'
+            ]
           }
         }
       },
