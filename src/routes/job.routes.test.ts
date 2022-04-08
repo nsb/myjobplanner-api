@@ -85,34 +85,34 @@ describe("JobController", () => {
         })
     })
 
-    // test('GET /v1/properties not found', async () => {
+    test('GET /v1/jobs not found', async () => {
 
-    //     const mockedQueryResult = { totalCount: 0, result: [] }
+        const mockedQueryResult = { totalCount: 0, result: [] }
 
-    //     const MockRepository = jest.fn<IPropertyRepository, []>(() => ({
-    //         find: jest.fn().mockResolvedValue(mockedQueryResult),
-    //         get: jest.fn(),
-    //         create: jest.fn().mockResolvedValue({})
-    //     }))
+        const MockRepository = jest.fn<IJobRepository, []>(() => ({
+            find: jest.fn().mockResolvedValue(mockedQueryResult),
+            get: jest.fn(),
+            create: jest.fn().mockResolvedValue({})
+        }))
 
-    //     const container = createInjector()
-    //         .provideClass('propertyRepository', MockRepository)
-    //         .provideClass('propertyController', PropertyController)
+        const container = createInjector()
+            .provideClass('jobRepository', MockRepository)
+            .provideClass('jobController', JobController)
 
-    //     const app = express()
-    //     app.use(express.json())
-    //     app.use('/v1/properties', container.injectFunction(PropertyRouter))
+        const app = express()
+        app.use(express.json())
+        app.use('/v1/jobs', container.injectFunction(JobRouter))
 
-    //     const res = await request(app)
-    //         .get('/v1/properties').send()
-    //     expect(res.statusCode).toEqual(200)
-    //     expect(res.body).toEqual({
-    //         data: [],
-    //         meta: {
-    //             totalCount: 0
-    //         }
-    //     })
-    // })
+        const res = await request(app)
+            .get('/v1/jobs').send()
+        expect(res.statusCode).toEqual(200)
+        expect(res.body).toEqual({
+            data: [],
+            meta: {
+                totalCount: 0
+            }
+        })
+    })
 
     // test('POST /v1/properties', async () => {
 
