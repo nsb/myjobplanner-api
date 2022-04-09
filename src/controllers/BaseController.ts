@@ -38,6 +38,29 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
 
   protected async afterCreate (result: Selectable) { }
 
+  async update (
+    req: Request<{ ID: string }, {}, DTO>,
+    res: Response<DTO>,
+    next: NextFunction
+  ) {
+    if (req.user) {
+      const deserialized = this.deserialize(req.body)
+      try {
+        const result = await this.repository.update(
+          req.user.sub,
+          parseInt(req.params.ID, 10),
+          deserialized
+        )
+        await this.afterUpdate(result)
+        res.status(200).json(this.serialize(result))
+      } catch (err) {
+        next(err)
+      }
+    }
+  }
+
+  protected async afterUpdate (result: Selectable) { }
+
   async getList (
     req: Request<unknown, unknown, unknown, Params>,
     res: Response<ApiEnvelope<DTO>>,
