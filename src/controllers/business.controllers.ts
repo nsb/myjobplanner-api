@@ -9,7 +9,14 @@ interface DTO {
   countryCode: string
 }
 
-class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, DTO, QueryParams<DTO>> {
+class BusinessController extends BaseController<
+  s.businesses.Insertable,
+  s.businesses.JSONSelectable,
+  s.businesses.Whereable,
+  s.businesses.Table,
+  DTO,
+  QueryParams<DTO>
+> {
   public static inject = ['businessRepository'] as const;
 
   deserialize (dto: DTO) {
