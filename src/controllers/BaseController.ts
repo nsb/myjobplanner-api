@@ -3,7 +3,14 @@ import * as s from 'zapatos/schema'
 import { IRepository } from '../repositories/BaseRepository'
 import type { ApiEnvelope, QueryParams } from '../types'
 
-export abstract class BaseController<Insertable, Selectable, Whereable, Table extends s.Table, DTO, Params extends QueryParams<DTO>> {
+export abstract class BaseController<
+  Insertable,
+  Selectable,
+  Whereable,
+  Table extends s.Table,
+  DTO,
+  Params extends QueryParams<DTO>
+> {
   constructor (
     public repository: IRepository<Insertable, s.Updatable, Selectable, Whereable, Table>,
     public offset: number = 0,
