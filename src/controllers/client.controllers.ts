@@ -16,7 +16,7 @@ type ClientQueryParams = QueryParams<DTO> & {
 export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, DTO, ClientQueryParams> {
   public static inject = ['clientRepository'] as const;
 
-  deserialize(dto: DTO) {
+  deserialize (dto: DTO) {
     return {
       business_id: dto.businessId,
       first_name: dto.firstName,
@@ -24,7 +24,7 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
     }
   }
 
-  serialize(model: s.clients.JSONSelectable) {
+  serialize (model: s.clients.JSONSelectable) {
     return {
       ...model,
       businessId: model.business_id,
@@ -33,7 +33,7 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
     }
   }
 
-  getOrderBy(key: keyof DTO) {
+  getOrderBy (key: keyof DTO) {
     switch (key) {
       case 'businessId':
         return 'business_id'
@@ -46,7 +46,7 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
     }
   }
 
-  fromQuery(query: ClientQueryParams) {
+  fromQuery (query: ClientQueryParams) {
     const where: s.clients.Whereable = {}
     if (query.businessId) {
       where.business_id = query.businessId

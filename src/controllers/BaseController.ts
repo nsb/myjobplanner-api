@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-import * as s from 'zapatos/schema';
+import * as s from 'zapatos/schema'
 import { IRepository } from '../repositories/BaseRepository'
 import type { ApiEnvelope, QueryParams } from '../types'
 
 export abstract class BaseController<Insertable, Selectable, Whereable, Table extends s.Table, DTO, Params extends QueryParams<DTO>> {
-  constructor(
+  constructor (
     public repository: IRepository<Insertable, s.Updatable, Selectable, Whereable, Table>,
     public offset: number = 0,
     public limit: number = 20,
@@ -16,7 +16,7 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
   abstract getOrderBy(key: keyof DTO): s.SQLForTable<Table>
   abstract fromQuery(params: Params): Whereable
 
-  async create(
+  async create (
     req: Request<{}, {}, DTO>,
     res: Response<DTO>,
     next: NextFunction
@@ -36,17 +36,17 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
     }
   }
 
-  protected async afterCreate(result: Selectable) { }
+  protected async afterCreate (result: Selectable) { }
 
-  async getList(
+  async getList (
     req: Request<unknown, unknown, unknown, Params>,
     res: Response<ApiEnvelope<DTO>>,
     next: NextFunction
   ) {
     if (req.user) {
       try {
-        const offset = parseInt(req.query.offset || "NaN", 10) || this.offset
-        const limit = parseInt(req.query.limit || "Nan", 10) || this.limit
+        const offset = parseInt(req.query.offset || 'NaN', 10) || this.offset
+        const limit = parseInt(req.query.limit || 'Nan', 10) || this.limit
         const orderBy = req.query.orderBy ? this.getOrderBy(req.query.orderBy) : undefined
         const orderDirection = req.query.orderDirection || this.orderDirection
         const where = this.fromQuery(req.query)
@@ -68,7 +68,7 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
     }
   }
 
-  async getOne(
+  async getOne (
     req: Request<{ ID: string }, unknown, unknown, unknown>,
     res: Response<DTO | string>,
     next: NextFunction
@@ -83,7 +83,7 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
         if (result) {
           res.status(200).json(this.serialize(result))
         } else {
-          res.status(404).send("Not found")
+          res.status(404).send('Not found')
         }
       } catch (err) {
         next(err)

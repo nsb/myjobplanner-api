@@ -1,5 +1,5 @@
-import * as s from 'zapatos/schema';
-import type { RepositoryOptions, ListResponse } from '../types';
+import * as s from 'zapatos/schema'
+import type { RepositoryOptions, ListResponse } from '../types'
 
 export interface IRepository<Insertable, Updatable, Selectable, Whereable, Table extends s.Table> {
     create(userId: string, item: Insertable): Promise<Selectable>

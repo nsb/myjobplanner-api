@@ -6,7 +6,7 @@ export const apiSpec: OpenAPIV3.Document = {
   info: {
     version: '1.0.0',
     title: 'myJobPlanner API',
-    description: 'The myJobPlanner API',
+    description: 'The myJobPlanner API'
   },
   servers: [
     { url: '/v1' }
@@ -35,7 +35,7 @@ export const apiSpec: OpenAPIV3.Document = {
               'name'
             ]
           }
-        },
+        }
           //         - name: tags
           //           in: query
           //           description: tags to filter by
@@ -47,7 +47,7 @@ export const apiSpec: OpenAPIV3.Document = {
           //               type: string
         ],
         responses: {
-          '200': {
+          200: {
             description: 'business response',
             content: {
               'application/json': {
@@ -87,13 +87,13 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       },
       post: {
-        description: "Create business",
-        operationId: "createBusiness",
+        description: 'Create business',
+        operationId: 'createBusiness',
         requestBody: {
-          description: "Create business",
+          description: 'Create business',
           required: true,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
                 $ref: '#/components/schemas/Business'
               }
@@ -101,7 +101,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          '200': {
+          200: {
             description: 'business response',
             content: {
               'application/json': {
@@ -139,7 +139,7 @@ export const apiSpec: OpenAPIV3.Document = {
           description: 'Numeric ID of the business to get'
         }],
         responses: {
-          '200': {
+          200: {
             description: 'get business response',
             content: {
               'application/json': {
@@ -147,9 +147,9 @@ export const apiSpec: OpenAPIV3.Document = {
                   $ref: '#/components/schemas/Business'
                 }
               }
-            },
+            }
           },
-          '404': {
+          404: {
             description: 'get business not found',
             content: {
               'application/json': {
@@ -157,7 +157,7 @@ export const apiSpec: OpenAPIV3.Document = {
                   $ref: '#/components/schemas/Error'
                 }
               }
-            },
+            }
           },
           default: {
             description: 'unexpected error',
@@ -194,10 +194,10 @@ export const apiSpec: OpenAPIV3.Document = {
               format: 'int32',
               minimum: 1
             }
-          },
+          }
         ],
         responses: {
-          '200': {
+          200: {
             description: 'client response',
             content: {
               'application/json': {
@@ -237,13 +237,13 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       },
       post: {
-        description: "Create client",
-        operationId: "createClient",
+        description: 'Create client',
+        operationId: 'createClient',
         requestBody: {
-          description: "Create client",
+          description: 'Create client',
           required: true,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
                 $ref: '#/components/schemas/Client'
               }
@@ -251,7 +251,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          '200': {
+          200: {
             description: 'client response',
             content: {
               'application/json': {
@@ -296,10 +296,10 @@ export const apiSpec: OpenAPIV3.Document = {
               format: 'int32',
               minimum: 1
             }
-          },
+          }
         ],
         responses: {
-          '200': {
+          200: {
             description: 'property response',
             content: {
               'application/json': {
@@ -339,13 +339,13 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       },
       post: {
-        description: "Create property",
-        operationId: "createProperty",
+        description: 'Create property',
+        operationId: 'createProperty',
         requestBody: {
-          description: "Create property",
+          description: 'Create property',
           required: true,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
                 $ref: '#/components/schemas/Property'
               }
@@ -353,7 +353,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          '200': {
+          200: {
             description: 'property response',
             content: {
               'application/json': {
@@ -398,10 +398,10 @@ export const apiSpec: OpenAPIV3.Document = {
               format: 'int32',
               minimum: 1
             }
-          },
+          }
         ],
         responses: {
-          '200': {
+          200: {
             description: 'job response',
             content: {
               'application/json': {
@@ -441,13 +441,13 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       },
       post: {
-        description: "Create job",
-        operationId: "createJob",
+        description: 'Create job',
+        operationId: 'createJob',
         requestBody: {
-          description: "Create job",
+          description: 'Create job',
           required: true,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
                 $ref: '#/components/schemas/Job'
               }
@@ -455,7 +455,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          '200': {
+          200: {
             description: 'job response',
             content: {
               'application/json': {
@@ -533,7 +533,7 @@ export const apiSpec: OpenAPIV3.Document = {
           },
           lastName: {
             type: 'string'
-          },
+          }
         }
       },
       Property: {
@@ -708,10 +708,10 @@ export const apiSpec: OpenAPIV3.Document = {
           implicit: {
             authorizationUrl: `${process.env.AUTH0_DOMAIN}authorize/?audience=${process.env.AUTH0_IDENTIFIER}`,
             scopes: {
-              openid: "Open Id",
-              "create:business": "Create businesses",
-              "read:business": "Read businesses",
-              "email": "Read email address"
+              openid: 'Open Id',
+              'create:business': 'Create businesses',
+              'read:business': 'Read businesses',
+              email: 'Read email address'
             }
           }
         }
@@ -720,14 +720,13 @@ export const apiSpec: OpenAPIV3.Document = {
   }
 }
 
-
 const openApi = OpenApiValidator.middleware({
   apiSpec: apiSpec,
   validateRequests: {
-    removeAdditional: true,
+    removeAdditional: true
   },
   validateResponses: {
-    removeAdditional: 'failing',
+    removeAdditional: 'failing'
   }
 })
 

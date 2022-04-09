@@ -1,4 +1,4 @@
-import * as s from 'zapatos/schema';
+import * as s from 'zapatos/schema'
 
 export type QueryParams<DTO> = {
     limit?: string

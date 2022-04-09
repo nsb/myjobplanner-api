@@ -1,7 +1,7 @@
-import * as s from 'zapatos/schema';
+import * as s from 'zapatos/schema'
 import type { QueryParams } from '../types'
-import type * as db from 'zapatos/db';
-import BaseController from './BaseController';
+import type * as db from 'zapatos/db'
+import BaseController from './BaseController'
 
 interface DTO {
   id?: number
@@ -16,6 +16,7 @@ interface DTO {
   title: string | null
   description: string | null
   closed: boolean
+  // eslint-disable-next-line camelcase
   invoice: s.invoice_job_choices
 }
 
@@ -26,7 +27,7 @@ type JobQueryParams = QueryParams<DTO> & {
 export class JobController extends BaseController<s.jobs.Insertable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table, DTO, JobQueryParams> {
   public static inject = ['jobRepository'] as const;
 
-  deserialize(dto: DTO) {
+  deserialize (dto: DTO) {
     return {
       client_id: dto.clientId,
       property_id: dto.propertyId,
@@ -43,17 +44,17 @@ export class JobController extends BaseController<s.jobs.Insertable, s.jobs.JSON
     }
   }
 
-  serialize(model: s.jobs.JSONSelectable) {
+  serialize (model: s.jobs.JSONSelectable) {
     return {
       ...model,
       clientId: model.client_id,
       propertyId: model.property_id,
       startTime: model.start_time,
-      finishTime: model.finish_time,
+      finishTime: model.finish_time
     }
   }
 
-  getOrderBy(key: keyof DTO) {
+  getOrderBy (key: keyof DTO) {
     switch (key) {
       case 'clientId':
         return 'client_id'
@@ -68,7 +69,7 @@ export class JobController extends BaseController<s.jobs.Insertable, s.jobs.JSON
     }
   }
 
-  fromQuery(query: JobQueryParams) {
+  fromQuery (query: JobQueryParams) {
     const where: s.jobs.Whereable = {}
     if (query.clientId) {
       where.client_id = query.clientId

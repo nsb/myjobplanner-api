@@ -1,6 +1,6 @@
-import * as s from 'zapatos/schema';
+import * as s from 'zapatos/schema'
 import type { QueryParams } from '../types'
-import BaseController from './BaseController';
+import BaseController from './BaseController'
 
 interface DTO {
   id?: number
@@ -12,7 +12,7 @@ interface DTO {
 class BusinessController extends BaseController<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table, DTO, QueryParams<DTO>> {
   public static inject = ['businessRepository'] as const;
 
-  deserialize(dto: DTO) {
+  deserialize (dto: DTO) {
     return {
       name: dto.name,
       timezone: dto.timezone,
@@ -20,14 +20,14 @@ class BusinessController extends BaseController<s.businesses.Insertable, s.busin
     }
   }
 
-  serialize(model: s.businesses.JSONSelectable) {
+  serialize (model: s.businesses.JSONSelectable) {
     return {
       ...model,
       countryCode: model.country_code
     }
   }
 
-  getOrderBy(key: keyof DTO) {
+  getOrderBy (key: keyof DTO) {
     switch (key) {
       case 'countryCode':
         return 'country_code'
@@ -36,7 +36,7 @@ class BusinessController extends BaseController<s.businesses.Insertable, s.busin
     }
   }
 
-  fromQuery(query: QueryParams<DTO>) {
+  fromQuery (query: QueryParams<DTO>) {
     return {}
   }
 }

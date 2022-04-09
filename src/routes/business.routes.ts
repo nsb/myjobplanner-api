@@ -4,7 +4,7 @@ import checkJwt from '../jwt'
 import openApi from '../openapi'
 import BusinessController from '../controllers/business.controllers'
 
-function BusinessRouter(businessController: BusinessController) {
+function BusinessRouter (businessController: BusinessController) {
   const router = Router()
 
   return router.post(

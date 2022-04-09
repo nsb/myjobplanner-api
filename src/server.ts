@@ -16,7 +16,7 @@ app.use('/v1/properties', container.injectFunction(PropertyRouter))
 app.use('/v1/jobs', container.injectFunction(JobRouter))
 
 app.use(
-  "/",
+  '/',
   swaggerUi.serve,
   swaggerUi.setup(apiSpec, undefined, {
     oauth: {
@@ -26,7 +26,7 @@ app.use(
 )
 
 const server = app.listen(process.env.PORT, () => {
-  logger.info(`The application is listening on port ${process.env.PORT}!`);
+  logger.info(`The application is listening on port ${process.env.PORT}!`)
 })
 
 export default server

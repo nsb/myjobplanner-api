@@ -1,6 +1,6 @@
-import * as s from 'zapatos/schema';
+import * as s from 'zapatos/schema'
 import type { QueryParams } from '../types'
-import BaseController from './BaseController';
+import BaseController from './BaseController'
 
 interface DTO {
   id?: number
@@ -20,7 +20,7 @@ type PropertyQueryParams = QueryParams<DTO> & {
 export class PropertyController extends BaseController<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, DTO, PropertyQueryParams> {
   public static inject = ['propertyRepository'] as const;
 
-  deserialize(dto: DTO) {
+  deserialize (dto: DTO) {
     return {
       client_id: dto.clientId,
       description: dto.description,
@@ -32,7 +32,7 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
     }
   }
 
-  serialize(model: s.properties.JSONSelectable) {
+  serialize (model: s.properties.JSONSelectable) {
     return {
       ...model,
       clientId: model.client_id,
@@ -40,7 +40,7 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
     }
   }
 
-  getOrderBy(key: keyof DTO) {
+  getOrderBy (key: keyof DTO) {
     switch (key) {
       case 'clientId':
         return 'client_id'
@@ -51,7 +51,7 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
     }
   }
 
-  fromQuery(query: PropertyQueryParams) {
+  fromQuery (query: PropertyQueryParams) {
     const where: s.properties.Whereable = {}
     if (query.clientId) {
       where.client_id = query.clientId
