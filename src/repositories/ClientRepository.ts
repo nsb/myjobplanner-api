@@ -49,17 +49,20 @@ class ClientRepository implements IClientRepository {
     client?: s.clients.Whereable,
     options?: RepositoryOptions<s.clients.Table>
   ): Promise<ListResponse<s.clients.JSONSelectable>> {
-    const clientsSql = db.sql < s.clients.SQL | s.employees.SQL, Array<{ result: s.clients.JSONSelectable }>>`
-      SELECT to_jsonb(c.*) as result
-      FROM ${'employees'} JOIN
-      (SELECT *
-      FROM ${'clients'}
-      WHERE ${{ ...client }}) AS c
-      ON c.${'business_id'} = ${'employees'}.${'business_id'}
-      WHERE ${'employees'}.${'user_id'} = ${db.param(userId)}
-      ORDER BY ${db.param(options?.orderBy || 'created')} ${db.raw(options?.orderDirection || 'DESC')}
-      LIMIT ${db.param(options?.limit || 20)}
-      OFFSET ${db.param(options?.offset || 0)}`
+    let where
+    if (options?.businessId) {
+      where = { ...client, business_id: options.businessId }
+    } else {
+      where = client
+    }
+    const clientsSql = db.select('clients', { ...where }, {
+      limit: options?.limit || 20,
+      offset: options?.offset || 0,
+      order: {
+        by: options?.orderBy || 'created',
+        direction: options?.orderDirection || 'DESC'
+      }
+    })
 
     logger.debug(clientsSql.compile())
     const clientsPromise = clientsSql.run(this.pool)
@@ -69,7 +72,7 @@ class ClientRepository implements IClientRepository {
       FROM ${'employees'} JOIN
       (SELECT *
       FROM ${'clients'}
-      WHERE ${{ ...client }}) AS c
+      WHERE ${{ ...where }}) AS c
       ON c.${'business_id'} = ${'employees'}.${'business_id'}
       WHERE ${'employees'}.${'user_id'} = ${db.param(userId)}`
     logger.debug(countSql.compile())
@@ -77,7 +80,7 @@ class ClientRepository implements IClientRepository {
 
     const [totalCount, clients] = await Promise.all([countPromise, clientsPromise])
 
-    return { totalCount: totalCount[0].result, result: clients?.map(client => client.result) }
+    return { totalCount: totalCount[0].result, result: clients.filter(client => client != null) }
   }
 
   async get (userId: string, id: number): Promise<s.clients.JSONSelectable | undefined> {

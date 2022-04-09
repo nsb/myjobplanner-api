@@ -69,7 +69,7 @@ export abstract class BaseController<
   protected async afterUpdate (result: Selectable) { }
 
   async getList (
-    req: Request<unknown, unknown, unknown, Params>,
+    req: Request<{businessId?: string}, unknown, unknown, Params>,
     res: Response<ApiEnvelope<DTO>>,
     next: NextFunction
   ) {
@@ -79,11 +79,12 @@ export abstract class BaseController<
         const limit = parseInt(req.query.limit || 'Nan', 10) || this.limit
         const orderBy = req.query.orderBy ? this.getOrderBy(req.query.orderBy) : undefined
         const orderDirection = req.query.orderDirection || this.orderDirection
+        const businessId = parseInt(req.params.businessId || 'NaN', 10)
         const where = this.fromQuery(req.query)
         const { totalCount, result } = await this.repository.find(
           req.user.sub,
           where,
-          { limit, offset, orderBy, orderDirection }
+          { limit, offset, orderBy, orderDirection, businessId }
         )
 
         res.status(200).json({

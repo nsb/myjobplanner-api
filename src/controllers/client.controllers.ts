@@ -9,9 +9,7 @@ interface DTO {
   lastName: string | null
 }
 
-type ClientQueryParams = QueryParams<DTO> & {
-  businessId?: number
-}
+type ClientQueryParams = QueryParams<DTO>
 
 export class ClientController extends BaseController<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, DTO, ClientQueryParams> {
   public static inject = ['clientRepository'] as const;
@@ -48,9 +46,6 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
 
   fromQuery (query: ClientQueryParams) {
     const where: s.clients.Whereable = {}
-    if (query.businessId) {
-      where.business_id = query.businessId
-    }
     return where
   }
 }

@@ -24,7 +24,7 @@ jest.mock('express-jwt', () => { return (options: Options) => { return jwtMiddle
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwtMiddleware } })
 
 describe('ClientController', () => {
-  test('GET /v1/clients', async () => {
+  test('GET /v1/businesses/1/clients', async () => {
     const mockedResult = {
       totalCount: 1,
       result: [{
@@ -62,10 +62,10 @@ describe('ClientController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/clients', container.injectFunction(ClientRouter))
+    app.use('/v1/businesses/1/clients', container.injectFunction(ClientRouter))
 
     const res = await request(app)
-      .get('/v1/clients').send()
+      .get('/v1/businesses/1/clients').send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
@@ -80,7 +80,7 @@ describe('ClientController', () => {
     })
   })
 
-  test('GET /v1/clients not found', async () => {
+  test('GET /v1/businesses/1/clients not found', async () => {
     const mockedQueryResult = { totalCount: 0, result: [] }
 
     const MockRepository = jest.fn<IClientRepository, []>(() => ({
@@ -96,10 +96,10 @@ describe('ClientController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/clients', container.injectFunction(ClientRouter))
+    app.use('/v1/businesses/1/clients', container.injectFunction(ClientRouter))
 
     const res = await request(app)
-      .get('/v1/clients').send()
+      .get('/v1/businesses/1/clients').send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [],
@@ -109,7 +109,7 @@ describe('ClientController', () => {
     })
   })
 
-  test('POST /v1/clients', async () => {
+  test('POST /v1/businesses/1/clients', async () => {
     const mockedQueryResult: s.clients.JSONSelectable = {
       id: 1,
       business_id: 1,
@@ -146,10 +146,10 @@ describe('ClientController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/clients', container.injectFunction(ClientRouter))
+    app.use('/v1/businesses/1/clients', container.injectFunction(ClientRouter))
 
     const res = await request(app)
-      .post('/v1/clients')
+      .post('/v1/businesses/1/clients')
       .send({
         businessId: 1,
         firstName: 'Ole',

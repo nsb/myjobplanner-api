@@ -11,7 +11,8 @@ export type RepositoryOptions<T extends s.Table> = {
     limit?: number,
     offset?: number,
     orderBy?: s.SQLForTable<T>,
-    orderDirection?: 'ASC' | 'DESC'
+    orderDirection?: 'ASC' | 'DESC',
+    businessId?: number
 }
 
 export type ListResponse<T> = { totalCount: number, result: T[] }

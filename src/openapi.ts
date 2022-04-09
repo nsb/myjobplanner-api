@@ -129,14 +129,7 @@ export const apiSpec: OpenAPIV3.Document = {
         description: 'Returns a single business',
         operationId: 'getBusiness',
         parameters: [{
-          in: 'path',
-          name: 'Id',
-          schema: {
-            type: 'integer',
-            minimum: 1
-          },
-          required: true,
-          description: 'Numeric Id of the business to get'
+          $ref: '#/components/parameters/idParam'
         }],
         responses: {
           200: {
@@ -172,28 +165,20 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
-    '/clients': {
+    '/businesses/{businessId}/clients': {
       get: {
         description: 'Returns all clients',
         operationId: 'findClients',
         parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
           {
             $ref: '#/components/parameters/offsetParam'
           }, {
             $ref: '#/components/parameters/limitParam'
           }, {
             $ref: '#/components/parameters/orderDirectionParam'
-          },
-          {
-            name: 'businessId',
-            in: 'query',
-            description: 'filter by business',
-            required: false,
-            schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 1
-            }
           }
         ],
         responses: {
@@ -699,6 +684,26 @@ export const apiSpec: OpenAPIV3.Document = {
             'DESC'
           ]
         }
+      },
+      idParam: {
+        in: 'path',
+        name: 'Id',
+        schema: {
+          type: 'integer',
+          minimum: 1
+        },
+        required: true,
+        description: 'Numeric Id of the resource to get'
+      },
+      businessIdParam: {
+        in: 'path',
+        name: 'businessId',
+        schema: {
+          type: 'integer',
+          minimum: 1
+        },
+        required: true,
+        description: 'Numeric Id of the business to get'
       }
     },
     securitySchemes: {
