@@ -67,20 +67,13 @@ class ClientRepository implements IClientRepository {
     logger.debug(clientsSql.compile())
     const clientsPromise = clientsSql.run(this.pool)
 
-    const countSql = db.sql<s.clients.SQL | s.employees.SQL, Array<{ result: number }>>`
-      SELECT COUNT(*)::int AS result
-      FROM ${'employees'} JOIN
-      (SELECT *
-      FROM ${'clients'}
-      WHERE ${{ ...where }}) AS c
-      ON c.${'business_id'} = ${'employees'}.${'business_id'}
-      WHERE ${'employees'}.${'user_id'} = ${db.param(userId)}`
+    const countSql = db.count('clients', { ...where })
     logger.debug(countSql.compile())
     const countPromise = countSql.run(this.pool)
 
     const [totalCount, clients] = await Promise.all([countPromise, clientsPromise])
 
-    return { totalCount: totalCount[0].result, result: clients.filter(client => client != null) }
+    return { totalCount, result: clients.filter(client => client != null) }
   }
 
   async get (userId: string, id: number): Promise<s.clients.JSONSelectable | undefined> {
