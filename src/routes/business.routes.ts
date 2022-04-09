@@ -20,7 +20,7 @@ function BusinessRouter (businessController: BusinessController) {
     openApi,
     businessController.getList.bind(businessController)
   ).get(
-    '/:ID',
+    '/:Id',
     checkJwt,
     jwtAuthz(['read:business']),
     openApi,

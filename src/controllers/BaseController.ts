@@ -46,7 +46,7 @@ export abstract class BaseController<
   protected async afterCreate (result: Selectable) { }
 
   async update (
-    req: Request<{ ID: string }, {}, DTO>,
+    req: Request<{ Id: string }, {}, DTO>,
     res: Response<DTO>,
     next: NextFunction
   ) {
@@ -55,7 +55,7 @@ export abstract class BaseController<
       try {
         const result = await this.repository.update(
           req.user.sub,
-          parseInt(req.params.ID, 10),
+          parseInt(req.params.Id, 10),
           deserialized
         )
         await this.afterUpdate(result)
@@ -99,7 +99,7 @@ export abstract class BaseController<
   }
 
   async getOne (
-    req: Request<{ ID: string }, unknown, unknown, unknown>,
+    req: Request<{ Id: string }, unknown, unknown, unknown>,
     res: Response<DTO | string>,
     next: NextFunction
   ) {
@@ -107,7 +107,7 @@ export abstract class BaseController<
       try {
         const result = await this.repository.get(
           req.user.sub,
-          parseInt(req.params.ID, 10)
+          parseInt(req.params.Id, 10)
         )
 
         if (result) {
