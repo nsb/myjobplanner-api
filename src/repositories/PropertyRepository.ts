@@ -45,8 +45,9 @@ class PropertyRepository implements IPropertyRepository {
     options?: RepositoryOptions<s.properties.Table>
   ): Promise<ListResponse<s.properties.JSONSelectable>> {
 
-    const propertiesSql = db.sql<s.properties.SQL | s.clients.SQL | s.employees.SQL, s.properties.JSONSelectable[]>`
-      SELECT p.* FROM ${"employees"} e
+    const propertiesSql = db.sql<s.properties.SQL | s.clients.SQL | s.employees.SQL, Array<{ result: s.properties.JSONSelectable }>>`
+      SELECT to_jsonb(p.*) as result
+      FROM ${"employees"} e
       JOIN ${"clients"} c
       ON c.${"business_id"} = e.${"business_id"}
       JOIN
@@ -78,7 +79,7 @@ class PropertyRepository implements IPropertyRepository {
 
     const [totalCount, properties] = await Promise.all([countPromise, propertiesPromise])
 
-    return { totalCount: totalCount[0].result, result: properties?.filter(property => property != null) }
+    return { totalCount: totalCount[0].result, result: properties?.map(property => property.result) }
   }
 
   async get(userId: string, id: number): Promise<s.properties.JSONSelectable | undefined> {

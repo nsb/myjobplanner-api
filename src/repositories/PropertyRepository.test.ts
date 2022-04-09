@@ -12,8 +12,8 @@ describe("PropertyRepository", () => {
             (pool as any).query = jest.fn().mockReturnThis();
 
             (pool as any).query.mockResolvedValueOnce({
-                rows: [
-                    {
+                rows: [{
+                    result: {
                         "id": 1,
                         "client_id": 1,
                         "description": "my property",
@@ -24,7 +24,7 @@ describe("PropertyRepository", () => {
                         "country": "Denmark",
                         "created": "2021-11-11T22:55:57.405524",
                     }
-                ]
+                }]
             }).mockResolvedValueOnce({
                 rows: [{
                     result: 1

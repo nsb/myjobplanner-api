@@ -46,7 +46,8 @@ class JobRepository implements IJobRepository {
     ): Promise<ListResponse<s.jobs.JSONSelectable>> {
 
         const jobsSql = db.sql<s.jobs.SQL | s.clients.SQL | s.employees.SQL, Array<{ result: s.jobs.JSONSelectable }>>`
-      SELECT to_jsonb(p.*) as result FROM ${"employees"} e
+      SELECT to_jsonb(p.*) as result
+      FROM ${"employees"} e
       JOIN ${"clients"} c
       ON c.${"business_id"} = e.${"business_id"}
       JOIN

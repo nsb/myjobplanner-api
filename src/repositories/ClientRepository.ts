@@ -39,8 +39,9 @@ class ClientRepository implements IClientRepository {
     options?: RepositoryOptions<s.clients.Table>
   ): Promise<ListResponse<s.clients.JSONSelectable>> {
 
-    const clientsSql = db.sql<s.clients.SQL | s.employees.SQL, s.clients.JSONSelectable[]>`
-      SELECT c.* FROM ${'employees'} JOIN
+    const clientsSql = db.sql < s.clients.SQL | s.employees.SQL, Array<{ result: s.clients.JSONSelectable }>>`
+      SELECT to_jsonb(c.*) as result
+      FROM ${'employees'} JOIN
       (SELECT *
       FROM ${"clients"}
       WHERE ${{ ...client }}) AS c
@@ -66,7 +67,7 @@ class ClientRepository implements IClientRepository {
 
     const [totalCount, clients] = await Promise.all([countPromise, clientsPromise])
 
-    return { totalCount: totalCount[0].result, result: clients?.filter(client => client != null) }
+    return { totalCount: totalCount[0].result, result: clients?.map(client => client.result) }
   }
 
   async get(userId: string, id: number): Promise<s.clients.JSONSelectable | undefined> {

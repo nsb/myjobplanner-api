@@ -12,8 +12,8 @@ describe("ClientRepository", () => {
       (pool as any).query = jest.fn().mockReturnThis();
 
       (pool as any).query.mockResolvedValueOnce({
-        rows: [
-          {
+        rows: [{
+          result: {
             "id": 1,
             "business_id": 1,
             "first_name": "Ole",
@@ -33,7 +33,7 @@ describe("ClientRepository", () => {
             "imported_via": null,
             "created": "2021-11-11T22:55:57.405524",
           }
-        ]
+        }]
       }).mockResolvedValueOnce({
         rows: [{
           result: 1
