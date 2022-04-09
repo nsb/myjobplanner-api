@@ -49,7 +49,8 @@ describe("JobController", () => {
         const MockRepository = jest.fn<IJobRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedResult),
             get: jest.fn(),
-            create: jest.fn().mockResolvedValueOnce({})
+            create: jest.fn().mockResolvedValueOnce({}),
+            update: jest.fn()
         }))
 
         const container = createInjector()
@@ -92,7 +93,8 @@ describe("JobController", () => {
         const MockRepository = jest.fn<IJobRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedQueryResult),
             get: jest.fn(),
-            create: jest.fn().mockResolvedValue({})
+            create: jest.fn().mockResolvedValue({}),
+            update: jest.fn()
         }))
 
         const container = createInjector()
@@ -136,7 +138,8 @@ describe("JobController", () => {
         const MockRepository = jest.fn<IJobRepository, []>(() => ({
             find: jest.fn(),
             get: jest.fn(),
-            create: jest.fn().mockResolvedValue(mockedQueryResult)
+            create: jest.fn().mockResolvedValue(mockedQueryResult),
+            update: jest.fn()
         }))
 
         const container = createInjector()

@@ -5,7 +5,7 @@ import type { ApiEnvelope, QueryParams } from '../types'
 
 export abstract class BaseController<Insertable, Selectable, Whereable, Table extends s.Table, DTO, Params extends QueryParams<DTO>> {
   constructor(
-    public repository: IRepository<Insertable, Selectable, Whereable, Table>,
+    public repository: IRepository<Insertable, s.Updatable, Selectable, Whereable, Table>,
     public offset: number = 0,
     public limit: number = 20,
     public orderDirection: 'ASC' | 'DESC' = 'ASC'
@@ -22,17 +22,21 @@ export abstract class BaseController<Insertable, Selectable, Whereable, Table ex
     next: NextFunction
   ) {
     if (req.user) {
+      const deserialized = this.deserialize(req.body)
       try {
         const result = await this.repository.create(
           req.user.sub,
-          this.deserialize(req.body)
+          deserialized
         )
+        await this.afterCreate(result)
         res.status(200).json(this.serialize(result))
       } catch (err) {
         next(err)
       }
     }
   }
+
+  protected async afterCreate(result: Selectable) { }
 
   async getList(
     req: Request<unknown, unknown, unknown, Params>,

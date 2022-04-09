@@ -5,7 +5,13 @@ import logger from '../logger';
 import type { RepositoryOptions, ListResponse } from '../types'
 import type { IRepository } from '../repositories/BaseRepository'
 
-export type IClientRepository = IRepository<s.clients.Insertable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table>
+export type IClientRepository = IRepository<
+  s.clients.Insertable,
+  s.clients.Updatable,
+  s.clients.JSONSelectable,
+  s.clients.Whereable,
+  s.clients.Table
+>
 
 class ClientRepository implements IClientRepository {
   constructor(private pool: Pool) { }
@@ -30,6 +36,13 @@ class ClientRepository implements IClientRepository {
       const createdClientSql = db.insert('clients', client)
       logger.debug(createdClientSql.compile())
       return await createdClientSql.run(txnClient)
+    })
+  }
+
+  async update(userId: string, id: number, client: s.clients.Updatable): Promise<s.clients.JSONSelectable> {
+    return db.readCommitted(this.pool, async txnClient => {
+      const updatedBusiness = await db.update('clients', client, { id }).run(txnClient)
+      return updatedBusiness[0]
     })
   }
 

@@ -5,7 +5,13 @@ import logger from '../logger';
 import type { IRepository } from './BaseRepository';
 import type { RepositoryOptions, ListResponse } from '../types';
 
-export type IJobRepository = IRepository<s.jobs.Insertable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table>
+export type IJobRepository = IRepository<
+    s.jobs.Insertable,
+    s.jobs.Updatable,
+    s.jobs.JSONSelectable,
+    s.jobs.Whereable,
+    s.jobs.Table
+>
 
 class JobRepository implements IJobRepository {
     constructor(private pool: Pool) { }
@@ -36,6 +42,13 @@ class JobRepository implements IJobRepository {
             const createdJobSql = db.insert('jobs', job)
             logger.debug(createdJobSql.compile())
             return await createdJobSql.run(txnClient)
+        })
+    }
+
+    async update(userId: string, id: number, job: s.jobs.Updatable): Promise<s.jobs.JSONSelectable> {
+        return db.readCommitted(this.pool, async txnClient => {
+            const updatedBusiness = await db.update('jobs', job, { id }).run(txnClient)
+            return updatedBusiness[0]
         })
     }
 

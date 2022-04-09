@@ -44,7 +44,8 @@ describe("BusinessController", () => {
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedResult),
             get: jest.fn(),
-            create: jest.fn().mockResolvedValueOnce({})
+            create: jest.fn().mockResolvedValueOnce({}),
+            update: jest.fn()
         }))
 
         const container = createInjector()
@@ -99,7 +100,8 @@ describe("BusinessController", () => {
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedResult),
             get: jest.fn(),
-            create: jest.fn()
+            create: jest.fn(),
+            update: jest.fn()
         }))
 
         const container = createInjector()
@@ -138,7 +140,8 @@ describe("BusinessController", () => {
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn().mockResolvedValue(mockedQueryResult),
             get: jest.fn(),
-            create: jest.fn().mockResolvedValue({})
+            create: jest.fn().mockResolvedValue({}),
+            update: jest.fn()
         }))
 
         const container = createInjector()
@@ -176,7 +179,8 @@ describe("BusinessController", () => {
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn(),
             get: jest.fn().mockResolvedValue(mockedResult),
-            create: jest.fn().mockResolvedValueOnce({})
+            create: jest.fn().mockResolvedValueOnce({}),
+            update: jest.fn()
         }))
 
         const container = createInjector()
@@ -203,7 +207,8 @@ describe("BusinessController", () => {
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn(),
             get: jest.fn().mockResolvedValue(undefined),
-            create: jest.fn().mockResolvedValueOnce({})
+            create: jest.fn().mockResolvedValueOnce({}),
+            update: jest.fn()
         }))
 
         const container = createInjector()
@@ -235,7 +240,8 @@ describe("BusinessController", () => {
         const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
             find: jest.fn(),
             get: jest.fn(),
-            create: jest.fn().mockResolvedValue(mockedQueryResult)
+            create: jest.fn().mockResolvedValue(mockedQueryResult),
+            update: jest.fn()
         }))
 
         const container = createInjector()

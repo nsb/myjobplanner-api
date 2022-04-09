@@ -5,7 +5,13 @@ import logger from '../logger';
 import type { IRepository } from './BaseRepository';
 import type { RepositoryOptions, ListResponse } from '../types';
 
-export type IPropertyRepository = IRepository<s.properties.Insertable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table>
+export type IPropertyRepository = IRepository<
+  s.properties.Insertable,
+  s.properties.Updatable,
+  s.properties.JSONSelectable,
+  s.properties.Whereable,
+  s.properties.Table
+>
 
 class PropertyRepository implements IPropertyRepository {
   constructor(private pool: Pool) { }
@@ -36,6 +42,13 @@ class PropertyRepository implements IPropertyRepository {
       const createdPropertySql = db.insert('properties', property)
       logger.debug(createdPropertySql.compile())
       return await createdPropertySql.run(txnClient)
+    })
+  }
+
+  async update(userId: string, id: number, property: s.properties.Updatable): Promise<s.properties.JSONSelectable> {
+    return db.readCommitted(this.pool, async txnClient => {
+      const updatedBusiness = await db.update('properties', property, { id }).run(txnClient)
+      return updatedBusiness[0]
     })
   }
 

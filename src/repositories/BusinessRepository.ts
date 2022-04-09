@@ -5,7 +5,13 @@ import logger from '../logger';
 import type { RepositoryOptions, ListResponse } from '../types';
 import { IRepository } from './BaseRepository';
 
-export interface IBusinessRepository extends IRepository<s.businesses.Insertable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table> { }
+export interface IBusinessRepository extends IRepository<
+  s.businesses.Insertable,
+  s.businesses.Updatable,
+  s.businesses.JSONSelectable,
+  s.businesses.Whereable,
+  s.businesses.Table
+> { }
 
 class BusinessRepository implements IBusinessRepository {
   constructor(private pool: Pool) { }
@@ -27,6 +33,13 @@ class BusinessRepository implements IBusinessRepository {
           VALUES (${db.vals(employee)})`.run(txnClient)
 
       return createdBusiness
+    })
+  }
+
+  async update(userId: string, id: number, business: s.businesses.Updatable): Promise<s.businesses.JSONSelectable> {
+    return db.readCommitted(this.pool, async txnClient => {
+      const updatedBusiness = await db.update('businesses', business, { id }).run(txnClient)
+      return updatedBusiness[0]
     })
   }
 
