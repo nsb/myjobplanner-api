@@ -28,11 +28,18 @@ export class JobController extends BaseController<s.jobs.Insertable, s.jobs.JSON
 
   deserialize(dto: DTO) {
     return {
-      ...dto,
       client_id: dto.clientId,
       property_id: dto.propertyId,
+      recurrences: dto.recurrences,
+      begins: dto.begins,
+      ends: dto.ends,
       start_time: dto.startTime,
-      finish_time: dto.finishTime
+      finish_time: dto.finishTime,
+      anytime: dto.anytime,
+      title: dto.title,
+      description: dto.description,
+      closed: dto.closed,
+      invoice: dto.invoice
     }
   }
 

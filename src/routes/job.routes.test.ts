@@ -114,55 +114,70 @@ describe("JobController", () => {
         })
     })
 
-    // test('POST /v1/properties', async () => {
+    test('POST /v1/jobs', async () => {
 
-    //     const mockedQueryResult = {
-    //         "id": 1,
-    //         "client_id": 1,
-    //         "description": "my property",
-    //         "address1": "My address1",
-    //         "address2": null,
-    //         "city": "Copenhagen",
-    //         "postal_code": "2450",
-    //         "country": "Denmark",
-    //         "created": "2021-11-11T22:55:57.405524",
-    //     }
+        const mockedQueryResult = {
+            "id": 1,
+            "client_id": 1,
+            "property_id": 1,
+            "recurrences": null,
+            "begins": "2021-11-11T22:55:57.405524",
+            "ends": null,
+            "start_time": null,
+            "finish_time": null,
+            "anytime": true,
+            "title": null,
+            "description": null,
+            "closed": false,
+            "invoice": "never",
+            "created": "2021-11-11T22:55:57.405524",
+        }
 
-    //     const MockRepository = jest.fn<IPropertyRepository, []>(() => ({
-    //         find: jest.fn(),
-    //         get: jest.fn(),
-    //         create: jest.fn().mockResolvedValue(mockedQueryResult)
-    //     }))
+        const MockRepository = jest.fn<IJobRepository, []>(() => ({
+            find: jest.fn(),
+            get: jest.fn(),
+            create: jest.fn().mockResolvedValue(mockedQueryResult)
+        }))
 
-    //     const container = createInjector()
-    //         .provideClass('propertyRepository', MockRepository)
-    //         .provideClass('propertyController', PropertyController)
+        const container = createInjector()
+            .provideClass('jobRepository', MockRepository)
+            .provideClass('jobController', JobController)
 
-    //     const app = express()
-    //     app.use(express.json())
-    //     app.use('/v1/properties', container.injectFunction(PropertyRouter))
+        const app = express()
+        app.use(express.json())
+        app.use('/v1/jobs', container.injectFunction(JobRouter))
 
-    //     const res = await request(app)
-    //         .post('/v1/properties')
-    //         .send({
-    //             "clientId": 1,
-    //             "description": "my property",
-    //             "address1": "My address1",
-    //             "address2": null,
-    //             "city": "Copenhagen",
-    //             "postalCode": "2450",
-    //             "country": "Denmark",
-    //         })
-    //     expect(res.statusCode).toEqual(200)
-    //     expect(res.body).toEqual({
-    //         "id": 1,
-    //         "clientId": 1,
-    //         "description": "my property",
-    //         "address1": "My address1",
-    //         "address2": null,
-    //         "city": "Copenhagen",
-    //         "postalCode": "2450",
-    //         "country": "Denmark"
-    //     })
-    // })
+        const res = await request(app)
+            .post('/v1/jobs')
+            .send({
+                "clientId": 1,
+                "propertyId": 1,
+                "recurrences": null,
+                "begins": "2021-11-11T22:55:57.405524",
+                "ends": null,
+                "startTime": null,
+                "finishTime": null,
+                "anytime": true,
+                "title": null,
+                "description": null,
+                "closed": false,
+                "invoice": "never",
+            })
+        expect(res.statusCode).toEqual(200)
+        expect(res.body).toEqual({
+            "id": 1,
+            "clientId": 1,
+            "propertyId": 1,
+            "recurrences": null,
+            "begins": "2021-11-11T22:55:57.405524",
+            "ends": null,
+            "startTime": null,
+            "finishTime": null,
+            "anytime": true,
+            "title": null,
+            "description": null,
+            "closed": false,
+            "invoice": "never",
+        })
+    })
 })

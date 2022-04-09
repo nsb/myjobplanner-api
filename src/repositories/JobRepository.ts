@@ -45,8 +45,8 @@ class JobRepository implements IJobRepository {
         options?: RepositoryOptions<s.jobs.Table>
     ): Promise<ListResponse<s.jobs.JSONSelectable>> {
 
-        const jobsSql = db.sql<s.jobs.SQL | s.clients.SQL | s.employees.SQL, s.jobs.JSONSelectable[]>`
-      SELECT p.* FROM ${"employees"} e
+        const jobsSql = db.sql<s.jobs.SQL | s.clients.SQL | s.employees.SQL, Array<{ result: s.jobs.JSONSelectable }>>`
+      SELECT to_jsonb(p.*) as result FROM ${"employees"} e
       JOIN ${"clients"} c
       ON c.${"business_id"} = e.${"business_id"}
       JOIN
@@ -78,7 +78,7 @@ class JobRepository implements IJobRepository {
 
         const [totalCount, jobs] = await Promise.all([countPromise, jobsPromise])
 
-        return { totalCount: totalCount[0].result, result: jobs?.filter(job => job != null) }
+        return { totalCount: totalCount[0].result, result: jobs?.map(job => job.result) }
     }
 
     async get(userId: string, id: number): Promise<s.jobs.JSONSelectable | undefined> {
