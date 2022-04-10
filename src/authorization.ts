@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
@@ -16,16 +16,12 @@ function poolDecorator (pool: Pool) {
             user_id: req.user?.sub
           }
 
-      try {
-        const employee = await db.selectOne('employees', where).run(pool)
+      const employee = await db.selectOne('employees', where).run(pool)
 
-        if (employee && permittedRoles.includes(employee.role)) {
-          next()
-        } else {
-          response.status(403).json({ message: 'Forbidden' })
-        }
-      } catch (error) {
-        response.status(403).json({ messages: 'Forbidden' })
+      if (employee && permittedRoles.includes(employee.role)) {
+        next()
+      } else {
+        res.status(403).json({ message: 'Forbidden' })
       }
     }
   }
