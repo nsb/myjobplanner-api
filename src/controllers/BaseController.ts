@@ -24,7 +24,7 @@ export abstract class BaseController<
   abstract fromQuery(params: Params): Whereable
 
   async create (
-    req: Request<{}, {}, DTO>,
+    req: Request<{businessId?: string}, {}, DTO>,
     res: Response<DTO>,
     next: NextFunction
   ) {
@@ -33,9 +33,10 @@ export abstract class BaseController<
       try {
         const result = await this.repository.create(
           req.user.sub,
-          deserialized
+          deserialized,
+          req.params.businessId
         )
-        await this.afterCreate(result)
+        await this.afterCreate(req, result)
         res.status(200).json(this.serialize(result))
       } catch (err) {
         next(err)
@@ -43,10 +44,10 @@ export abstract class BaseController<
     }
   }
 
-  protected async afterCreate (result: Selectable) { }
+  protected async afterCreate (req: Request, result: Selectable) { }
 
   async update (
-    req: Request<{ Id: string }, {}, DTO>,
+    req: Request<{ Id: string, businessId?: string }, {}, DTO>,
     res: Response<DTO>,
     next: NextFunction
   ) {
@@ -56,7 +57,8 @@ export abstract class BaseController<
         const result = await this.repository.update(
           req.user.sub,
           parseInt(req.params.Id, 10),
-          deserialized
+          deserialized,
+          req.params.businessId
         )
         await this.afterUpdate(result)
         res.status(200).json(this.serialize(result))
@@ -79,12 +81,12 @@ export abstract class BaseController<
         const limit = parseInt(req.query.limit || 'Nan', 10) || this.limit
         const orderBy = req.query.orderBy ? this.getOrderBy(req.query.orderBy) : undefined
         const orderDirection = req.query.orderDirection || this.orderDirection
-        const businessId = parseInt(req.params.businessId || 'NaN', 10)
         const where = this.fromQuery(req.query)
         const { totalCount, result } = await this.repository.find(
           req.user.sub,
           where,
-          { limit, offset, orderBy, orderDirection, businessId }
+          { limit, offset, orderBy, orderDirection },
+          req.params.businessId
         )
 
         res.status(200).json({
@@ -100,7 +102,7 @@ export abstract class BaseController<
   }
 
   async getOne (
-    req: Request<{ Id: string }, unknown, unknown, unknown>,
+    req: Request<{ Id: string, businessId?: string }, unknown, unknown, unknown>,
     res: Response<DTO | string>,
     next: NextFunction
   ) {
@@ -108,7 +110,8 @@ export abstract class BaseController<
       try {
         const result = await this.repository.get(
           req.user.sub,
-          parseInt(req.params.Id, 10)
+          parseInt(req.params.Id, 10),
+          req.params.businessId
         )
 
         if (result) {

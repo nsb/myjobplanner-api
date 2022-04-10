@@ -37,13 +37,7 @@ class ClientRepository implements IClientRepository {
     client?: s.clients.Whereable,
     options?: RepositoryOptions<s.clients.Table>
   ): Promise<ListResponse<s.clients.JSONSelectable>> {
-    let where
-    if (options?.businessId) {
-      where = { ...client, business_id: options.businessId }
-    } else {
-      where = client
-    }
-    const clientsSql = db.select('clients', { ...where }, {
+    const clientsSql = db.select('clients', { ...client }, {
       limit: options?.limit || 20,
       offset: options?.offset || 0,
       order: {
@@ -53,7 +47,7 @@ class ClientRepository implements IClientRepository {
     })
 
     const clientsPromise = clientsSql.run(this.pool)
-    const countSql = db.count('clients', { ...where })
+    const countSql = db.count('clients', { ...client })
     const countPromise = countSql.run(this.pool)
     const [totalCount, clients] = await Promise.all([countPromise, clientsPromise])
     return { totalCount, result: clients.filter(client => client != null) }
