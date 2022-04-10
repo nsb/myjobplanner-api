@@ -134,7 +134,7 @@ describe('JobRepository', () => {
 
     const repository = container.injectClass(JobRepository)
 
-    const job = await repository.get('abc', 1)
+    const job = await repository.get('abc', 1, 1)
     const expected: s.jobs.Selectable = {
       id: 1,
       client_id: 1,
