@@ -25,6 +25,10 @@ function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwtMiddleware } })
 
 describe('BusinessController', () => {
+  const container = createInjector()
+    .provideValue('openApi', openApi)
+    .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
+
   test('GET /v1/businesses', async () => {
     const mockedResult = {
       totalCount: 1,
@@ -104,15 +108,12 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
-    const container = createInjector()
-      .provideClass('businessRepository', MockRepository)
-      .provideClass('businessController', BusinessController)
-      .provideValue('openApi', openApi)
-      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
-
     const app = express()
     app.use(express.json())
-    app.use('/v1', container.injectFunction(BusinessRouter))
+    app.use('/v1', container
+      .provideClass('businessRepository', MockRepository)
+      .provideClass('businessController', BusinessController)
+      .injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses').send({ orderBy: 'id', orderDirection: 'ASC' })
@@ -145,15 +146,12 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
-    const container = createInjector()
-      .provideClass('businessRepository', MockRepository)
-      .provideClass('businessController', BusinessController)
-      .provideValue('openApi', openApi)
-      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
-
     const app = express()
     app.use(express.json())
-    app.use('/v1', container.injectFunction(BusinessRouter))
+    app.use('/v1', container
+      .provideClass('businessRepository', MockRepository)
+      .provideClass('businessController', BusinessController)
+      .injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses').send()
@@ -185,15 +183,12 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
-    const container = createInjector()
-      .provideClass('businessRepository', MockRepository)
-      .provideClass('businessController', BusinessController)
-      .provideValue('openApi', openApi)
-      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
-
     const app = express()
     app.use(express.json())
-    app.use('/v1', container.injectFunction(BusinessRouter))
+    app.use('/v1', container
+      .provideClass('businessRepository', MockRepository)
+      .provideClass('businessController', BusinessController)
+      .injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses/1').send()
@@ -214,15 +209,12 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
-    const container = createInjector()
-      .provideClass('businessRepository', MockRepository)
-      .provideClass('businessController', BusinessController)
-      .provideValue('openApi', openApi)
-      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
-
     const app = express()
     app.use(express.json())
-    app.use('/v1', container.injectFunction(BusinessRouter))
+    app.use('/v1', container
+      .provideClass('businessRepository', MockRepository)
+      .provideClass('businessController', BusinessController)
+      .injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses/1').send()
@@ -248,15 +240,12 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
-    const container = createInjector()
-      .provideClass('businessRepository', MockRepository)
-      .provideClass('businessController', BusinessController)
-      .provideValue('openApi', openApi)
-      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
-
     const app = express()
     app.use(express.json())
-    app.use('/v1', container.injectFunction(BusinessRouter))
+    app.use('/v1', container
+      .provideClass('businessRepository', MockRepository)
+      .provideClass('businessController', BusinessController)
+      .injectFunction(BusinessRouter))
 
     const res = await request(app)
       .post('/v1/businesses')
