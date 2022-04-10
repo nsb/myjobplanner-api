@@ -22,23 +22,7 @@ class PropertyRepository implements IPropertyRepository {
     property: s.properties.Insertable
   ): Promise<s.properties.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
-      // Check if we are admin for business
-      const businessesSql = db.selectOne('employees', { user_id: userId, role: 'admin' }, {
-        lateral: db.selectExactlyOne(
-          'clients',
-          { business_id: db.parent('business_id'), id: property.client_id }
-        )
-      })
-
-      logger.debug(businessesSql.compile())
-      const business = await businessesSql.run(txnClient)
-
-      if (!business) {
-        throw Error('Invalid business Id!')
-      }
-
       const createdPropertySql = db.insert('properties', property)
-      logger.debug(createdPropertySql.compile())
       return await createdPropertySql.run(txnClient)
     })
   }
