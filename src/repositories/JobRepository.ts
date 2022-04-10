@@ -49,6 +49,13 @@ class JobRepository implements IJobRepository {
             id: job.client_id
           }).run(txnClient)
 
+        // validate property id
+        db.selectExactlyOne(
+          'properties', {
+            client_id: job.client_id,
+            id: job.property_id
+          }).run(txnClient)
+
         const updatedBusiness = await db.update('jobs', job, { id }).run(txnClient)
         return updatedBusiness[0]
       })
