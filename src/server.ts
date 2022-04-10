@@ -10,7 +10,7 @@ import HealthRouter from './routes/health.routes'
 import logger from './logger'
 
 app.use('/healthz', container.injectFunction(HealthRouter))
-app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+app.use('/v1', container.injectFunction(BusinessRouter))
 app.use('/v1', container.injectFunction(ClientRouter))
 app.use('/v1/properties', container.injectFunction(PropertyRouter))
 app.use('/v1', container.injectFunction(JobRouter))

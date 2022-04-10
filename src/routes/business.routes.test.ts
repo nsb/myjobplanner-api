@@ -52,7 +52,7 @@ describe('BusinessController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+    app.use('/v1', container.injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses').send()
@@ -107,7 +107,7 @@ describe('BusinessController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+    app.use('/v1', container.injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses').send({ orderBy: 'id', orderDirection: 'ASC' })
@@ -146,7 +146,7 @@ describe('BusinessController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+    app.use('/v1', container.injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses').send()
@@ -184,7 +184,7 @@ describe('BusinessController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+    app.use('/v1', container.injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses/1').send()
@@ -211,7 +211,7 @@ describe('BusinessController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+    app.use('/v1', container.injectFunction(BusinessRouter))
 
     const res = await request(app)
       .get('/v1/businesses/1').send()
@@ -243,7 +243,7 @@ describe('BusinessController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses', container.injectFunction(BusinessRouter))
+    app.use('/v1', container.injectFunction(BusinessRouter))
 
     const res = await request(app)
       .post('/v1/businesses')

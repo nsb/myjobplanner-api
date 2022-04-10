@@ -8,19 +8,19 @@ function BusinessRouter (businessController: BusinessController) {
   const router = Router()
 
   return router.post(
-    '/',
+    '/businesses',
     checkJwt,
     jwtAuthz(['create:business', 'read:business']),
     openApi,
     businessController.create.bind(businessController)
   ).get(
-    '/',
+    '/businesses',
     checkJwt,
     jwtAuthz(['read:business']),
     openApi,
     businessController.getList.bind(businessController)
   ).get(
-    '/:Id',
+    '/businesses/:Id',
     checkJwt,
     jwtAuthz(['read:business']),
     openApi,
