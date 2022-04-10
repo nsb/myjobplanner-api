@@ -22,23 +22,7 @@ class JobRepository implements IJobRepository {
       job: s.jobs.Insertable
     ): Promise<s.jobs.JSONSelectable> {
       return db.readCommitted(this.pool, async txnClient => {
-        // Check if we are admin for business
-        const businessesSql = db.selectOne('employees', { user_id: userId, role: 'admin' }, {
-          lateral: db.selectExactlyOne(
-            'clients',
-            { business_id: db.parent('business_id'), id: job.client_id }
-          )
-        })
-
-        logger.debug(businessesSql.compile())
-        const business = await businessesSql.run(txnClient)
-
-        if (!business) {
-          throw Error('Invalid business Id!')
-        }
-
         const createdJobSql = db.insert('jobs', job)
-        logger.debug(createdJobSql.compile())
         return await createdJobSql.run(txnClient)
       })
     }

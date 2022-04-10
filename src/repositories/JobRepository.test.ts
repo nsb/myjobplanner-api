@@ -164,17 +164,6 @@ describe('JobRepository', () => {
       (pool as any).query.mockResolvedValueOnce({
         rows: [{
           result: {}
-        }] // TX business
-      }).mockResolvedValueOnce({
-        rows: [{
-          result: {
-            id: 1,
-            name: 'Idealrent',
-            created: '2021-11-11T22:55:57.405524',
-            timezone: 'Europe/Copenhagen',
-            vat_number: null,
-            country_code: 'da'
-          }
         }] // TX job
       }).mockResolvedValueOnce({
         rows: [{

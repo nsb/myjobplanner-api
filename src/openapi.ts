@@ -361,11 +361,14 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
-    '/jobs': {
+    '/businesses/{businessId}/jobs': {
       get: {
         description: 'Returns all jobs',
         operationId: 'findJobs',
         parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
           {
             $ref: '#/components/parameters/offsetParam'
           }, {

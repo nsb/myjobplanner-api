@@ -23,7 +23,7 @@ jest.mock('express-jwt', () => { return (options: Options) => { return jwtMiddle
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwtMiddleware } })
 
 describe('JobController', () => {
-  test('GET /v1/jobs', async () => {
+  test('GET /v1/businesses/:businessId/jobs', async () => {
     const mockedResult = {
       totalCount: 1,
       result: [{
@@ -57,10 +57,10 @@ describe('JobController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/jobs', container.injectFunction(JobRouter))
+    app.use('/v1', container.injectFunction(JobRouter))
 
     const res = await request(app)
-      .get('/v1/jobs').send()
+      .get('/v1/businesses/1/jobs').send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
@@ -84,7 +84,7 @@ describe('JobController', () => {
     })
   })
 
-  test('GET /v1/jobs not found', async () => {
+  test('GET /v1/businesses/:businessId/jobs not found', async () => {
     const mockedQueryResult = { totalCount: 0, result: [] }
 
     const MockRepository = jest.fn<IJobRepository, []>(() => ({
@@ -100,10 +100,10 @@ describe('JobController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/jobs', container.injectFunction(JobRouter))
+    app.use('/v1', container.injectFunction(JobRouter))
 
     const res = await request(app)
-      .get('/v1/jobs').send()
+      .get('/v1/businesses/1/jobs').send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [],
@@ -113,7 +113,7 @@ describe('JobController', () => {
     })
   })
 
-  test('POST /v1/jobs', async () => {
+  test('POST /v1/businesses/:businessId/jobs', async () => {
     const mockedQueryResult = {
       id: 1,
       client_id: 1,
@@ -144,10 +144,10 @@ describe('JobController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/jobs', container.injectFunction(JobRouter))
+    app.use('/v1', container.injectFunction(JobRouter))
 
     const res = await request(app)
-      .post('/v1/jobs')
+      .post('/v1/businesses/1/jobs')
       .send({
         clientId: 1,
         propertyId: 1,

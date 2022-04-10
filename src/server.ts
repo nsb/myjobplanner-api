@@ -13,7 +13,7 @@ app.use('/healthz', container.injectFunction(HealthRouter))
 app.use('/v1/businesses', container.injectFunction(BusinessRouter))
 app.use('/v1', container.injectFunction(ClientRouter))
 app.use('/v1/properties', container.injectFunction(PropertyRouter))
-app.use('/v1/jobs', container.injectFunction(JobRouter))
+app.use('/v1', container.injectFunction(JobRouter))
 
 app.use(
   '/',
