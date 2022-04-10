@@ -51,15 +51,13 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
-    const container = createInjector()
-      .provideClass('businessRepository', MockRepository)
-      .provideClass('businessController', BusinessController)
-      .provideValue('openApi', openApi)
-      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
-
     const app = express()
     app.use(express.json())
-    app.use('/v1', container.injectFunction(BusinessRouter))
+    app.use('/v1', container
+      .provideClass('businessRepository', MockRepository)
+      .provideClass('businessController', BusinessController)
+      .injectFunction(BusinessRouter)
+    )
 
     const res = await request(app)
       .get('/v1/businesses').send()
