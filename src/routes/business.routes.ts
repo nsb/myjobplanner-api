@@ -2,7 +2,7 @@ import { Router } from 'express'
 import jwtAuthz from 'express-jwt-authz'
 import checkJwt from '../jwt'
 import BusinessController from '../controllers/business.controllers'
-import { OpenApiRequestHandler } from 'express-openapi-validator/dist/framework/types'
+import type { OpenApiRequestHandler } from 'express-openapi-validator/dist/framework/types'
 
 function BusinessRouter (
   openApi: OpenApiRequestHandler[],
