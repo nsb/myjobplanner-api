@@ -23,14 +23,14 @@ class JobRepository implements IJobRepository {
     ): Promise<s.jobs.JSONSelectable> {
       return db.readCommitted(this.pool, async txnClient => {
         // validate client id
-        db.selectExactlyOne(
+        await db.selectExactlyOne(
           'clients', {
             business_id: businessId,
             id: job.client_id
           }).run(txnClient)
 
         // validate property id
-        db.selectExactlyOne(
+        await db.selectExactlyOne(
           'properties', {
             client_id: job.client_id,
             id: job.property_id
@@ -47,14 +47,14 @@ class JobRepository implements IJobRepository {
       businessId: number
     ): Promise<s.jobs.JSONSelectable> {
       return db.readCommitted(this.pool, async txnClient => {
-        db.selectExactlyOne(
+        await db.selectExactlyOne(
           'clients', {
             business_id: businessId,
             id: job.client_id
           }).run(txnClient)
 
         // validate property id
-        db.selectExactlyOne(
+        await db.selectExactlyOne(
           'properties', {
             client_id: job.client_id,
             id: job.property_id

@@ -23,7 +23,7 @@ class PropertyRepository implements IPropertyRepository {
   ): Promise<s.properties.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
       // validate client id
-      db.selectExactlyOne(
+      await db.selectExactlyOne(
         'clients', {
           business_id: businessId,
           id: property.client_id
@@ -42,7 +42,7 @@ class PropertyRepository implements IPropertyRepository {
   ): Promise<s.properties.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
       // validate client id
-      db.selectExactlyOne(
+      await db.selectExactlyOne(
         'clients', {
           business_id: businessId,
           id: property.client_id
