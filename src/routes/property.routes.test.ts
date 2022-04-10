@@ -7,6 +7,12 @@ import { IPropertyRepository } from '../repositories/PropertyRepository'
 import PropertyController from '../controllers/property.controllers'
 import PropertyRouter from './property.routes'
 
+function authorizationMiddleware (...permittedRoles: string[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    next()
+  }
+}
+
 function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
   req.user = {
     iss: '',
@@ -49,6 +55,7 @@ describe('PropertyController', () => {
     const container = createInjector()
       .provideClass('propertyRepository', MockRepository)
       .provideClass('propertyController', PropertyController)
+      .provideValue('authorization', authorizationMiddleware)
 
     const app = express()
     app.use(express.json())
@@ -87,6 +94,7 @@ describe('PropertyController', () => {
     const container = createInjector()
       .provideClass('propertyRepository', MockRepository)
       .provideClass('propertyController', PropertyController)
+      .provideValue('authorization', authorizationMiddleware)
 
     const app = express()
     app.use(express.json())
@@ -126,6 +134,7 @@ describe('PropertyController', () => {
     const container = createInjector()
       .provideClass('propertyRepository', MockRepository)
       .provideClass('propertyController', PropertyController)
+      .provideValue('authorization', authorizationMiddleware)
 
     const app = express()
     app.use(express.json())
