@@ -52,22 +52,15 @@ class ClientRepository implements IClientRepository {
       }
     })
 
-    logger.debug(clientsSql.compile())
     const clientsPromise = clientsSql.run(this.pool)
-
     const countSql = db.count('clients', { ...where })
-    logger.debug(countSql.compile())
     const countPromise = countSql.run(this.pool)
-
     const [totalCount, clients] = await Promise.all([countPromise, clientsPromise])
-
     return { totalCount, result: clients.filter(client => client != null) }
   }
 
   async get (userId: string, id: number): Promise<s.clients.JSONSelectable | undefined> {
-    return await db.selectOne('employees', { user_id: userId }, {
-      lateral: db.selectExactlyOne('clients', { business_id: db.parent('business_id'), id })
-    }).run(this.pool)
+    return await db.selectOne('clients', { id }).run(this.pool)
   }
 }
 
