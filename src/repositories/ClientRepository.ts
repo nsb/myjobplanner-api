@@ -1,7 +1,6 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
-import logger from '../logger'
 import type { RepositoryOptions, ListResponse } from '../types'
 import type { IRepository } from '../repositories/BaseRepository'
 
@@ -17,15 +16,14 @@ class ClientRepository implements IClientRepository {
   constructor (private pool: Pool) { }
   public static inject = ['pool'] as const
 
-  async create (userId: string, client: s.clients.Insertable): Promise<s.clients.JSONSelectable> {
+  async create (_userId: string, client: s.clients.Insertable) {
     return db.readCommitted(this.pool, async txnClient => {
       const createdClientSql = db.insert('clients', client)
-      logger.debug(createdClientSql.compile())
-      return await createdClientSql.run(txnClient)
+      return createdClientSql.run(txnClient)
     })
   }
 
-  async update (userId: string, id: number, client: s.clients.Updatable): Promise<s.clients.JSONSelectable> {
+  async update (_userId: string, id: number, client: s.clients.Updatable) {
     return db.readCommitted(this.pool, async txnClient => {
       const updatedBusiness = await db.update('clients', client, { id }).run(txnClient)
       return updatedBusiness[0]
@@ -33,7 +31,7 @@ class ClientRepository implements IClientRepository {
   }
 
   async find (
-    userId: string,
+    _userId: string,
     client?: s.clients.Whereable,
     options?: RepositoryOptions<s.clients.Table>
   ): Promise<ListResponse<s.clients.JSONSelectable>> {
@@ -53,8 +51,8 @@ class ClientRepository implements IClientRepository {
     return { totalCount, result: clients.filter(client => client != null) }
   }
 
-  async get (userId: string, id: number): Promise<s.clients.JSONSelectable | undefined> {
-    return await db.selectOne('clients', { id }).run(this.pool)
+  async get (_userId: string, id: number, businessId: number) {
+    return db.selectOne('clients', { business_id: businessId, id }).run(this.pool)
   }
 }
 

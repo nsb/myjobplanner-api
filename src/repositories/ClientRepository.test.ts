@@ -147,7 +147,7 @@ describe('ClientRepository', () => {
 
     const repository = container.injectClass(ClientRepository)
 
-    const business = await repository.get('abc', 1)
+    const business = await repository.get('abc', 1, 1)
     expect(business).toEqual({
       id: 1,
       business_id: 1,
