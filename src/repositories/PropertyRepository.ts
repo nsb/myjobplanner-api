@@ -19,16 +19,35 @@ class PropertyRepository implements IPropertyRepository {
 
   async create (
     userId: string,
-    property: s.properties.Insertable
+    property: s.properties.Insertable,
+    businessId: number
   ): Promise<s.properties.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
+      // validate client id
+      db.selectExactlyOne(
+        'clients', {
+          business_id: businessId,
+          id: property.client_id
+        }).run(txnClient)
+
       const createdPropertySql = db.insert('properties', property)
       return await createdPropertySql.run(txnClient)
     })
   }
 
-  async update (userId: string, id: number, property: s.properties.Updatable): Promise<s.properties.JSONSelectable> {
+  async update (
+    userId: string,
+    id: number,
+    property: s.properties.Updatable,
+    businessId: number
+  ): Promise<s.properties.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
+      // validate client id
+      db.selectExactlyOne(
+        'clients', {
+          business_id: businessId,
+          id: property.client_id
+        }).run(txnClient)
       const updatedBusiness = await db.update('properties', property, { id }).run(txnClient)
       return updatedBusiness[0]
     })

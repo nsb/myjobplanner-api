@@ -140,6 +140,10 @@ describe('PropertyRepository', () => {
       (pool as any).query.mockResolvedValueOnce({
         rows: [{
           result: {}
+        }] // TX validate
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {}
         }] // TX property
       }).mockResolvedValueOnce({
         rows: [{
@@ -180,7 +184,7 @@ describe('PropertyRepository', () => {
       city: 'Copenhagen',
       postal_code: '2450',
       country: 'Denmark'
-    })
+    }, 1)
 
     expect(client).toEqual({
       id: 1,

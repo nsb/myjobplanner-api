@@ -168,6 +168,10 @@ describe('JobRepository', () => {
       }).mockResolvedValueOnce({
         rows: [{
           result: {}
+        }] // TX validate
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {}
         }] // TX job
       }).mockResolvedValueOnce({
         rows: [{
