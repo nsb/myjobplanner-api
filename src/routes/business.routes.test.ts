@@ -7,6 +7,13 @@ import type * as s from 'zapatos/schema'
 import { IBusinessRepository } from '../repositories/BusinessRepository'
 import BusinessController from '../controllers/business.controllers'
 import BusinessRouter from './business.routes'
+import openApi from '../openapi'
+
+function authorizationMiddleware (...permittedRoles: string[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    next()
+  }
+}
 
 function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
   req.user = {
@@ -49,6 +56,8 @@ describe('BusinessController', () => {
     const container = createInjector()
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -104,6 +113,8 @@ describe('BusinessController', () => {
     const container = createInjector()
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -143,6 +154,8 @@ describe('BusinessController', () => {
     const container = createInjector()
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -181,6 +194,8 @@ describe('BusinessController', () => {
     const container = createInjector()
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -208,6 +223,8 @@ describe('BusinessController', () => {
     const container = createInjector()
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -240,6 +257,8 @@ describe('BusinessController', () => {
     const container = createInjector()
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())

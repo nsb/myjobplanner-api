@@ -1,10 +1,13 @@
 import { Router } from 'express'
 import jwtAuthz from 'express-jwt-authz'
 import checkJwt from '../jwt'
-import openApi from '../openapi'
 import BusinessController from '../controllers/business.controllers'
+import { OpenApiRequestHandler } from 'express-openapi-validator/dist/framework/types'
 
-function BusinessRouter (businessController: BusinessController) {
+function BusinessRouter (
+  openApi: OpenApiRequestHandler[],
+  businessController: BusinessController
+) {
   const router = Router()
 
   return router.post(
@@ -27,6 +30,6 @@ function BusinessRouter (businessController: BusinessController) {
     businessController.getOne.bind(businessController)
   )
 }
-BusinessRouter.inject = ['businessController'] as const
+BusinessRouter.inject = ['openApi', 'businessController'] as const
 
 export default BusinessRouter
