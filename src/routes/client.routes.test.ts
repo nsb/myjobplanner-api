@@ -6,6 +6,7 @@ import type * as s from 'zapatos/schema'
 import { IClientRepository } from '../repositories/ClientRepository'
 import ClientController from '../controllers/client.controllers'
 import ClientRouter from './client.routes'
+import openApi from '../openapi'
 
 function authorizationMiddleware (...permittedRoles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -65,6 +66,7 @@ describe('ClientController', () => {
       .provideClass('clientRepository', MockRepository)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -100,6 +102,7 @@ describe('ClientController', () => {
       .provideClass('clientRepository', MockRepository)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -151,6 +154,7 @@ describe('ClientController', () => {
       .provideClass('clientRepository', MockRepository)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())

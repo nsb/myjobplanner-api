@@ -1,9 +1,13 @@
 import { Router } from 'express'
 import checkJwt from '../jwt'
-import openApi from '../openapi'
 import ClientController from '../controllers/client.controllers'
+import { OpenApiRequestHandler } from 'express-openapi-validator/dist/framework/types'
 
-function ClientRouter (authorize: Function, clientController: ClientController) {
+function ClientRouter (
+  authorize: Function,
+  openApi: OpenApiRequestHandler[],
+  clientController: ClientController
+) {
   const router = Router()
 
   return router.post(
@@ -22,6 +26,6 @@ function ClientRouter (authorize: Function, clientController: ClientController) 
     clientController.getList.bind(clientController)
   )
 }
-ClientRouter.inject = ['authorization', 'clientController'] as const
+ClientRouter.inject = ['authorization', 'openApi', 'clientController'] as const
 
 export default ClientRouter
