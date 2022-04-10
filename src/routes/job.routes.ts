@@ -1,9 +1,13 @@
 import { Router } from 'express'
 import checkJwt from '../jwt'
-import openApi from '../openapi'
 import JobController from '../controllers/job.controllers'
+import type { OpenApiRequestHandler } from 'express-openapi-validator/dist/framework/types'
 
-function JobRouter (authorize: Function, jobController: JobController) {
+function JobRouter (
+  authorize: Function,
+  openApi: OpenApiRequestHandler[],
+  jobController: JobController
+) {
   const router = Router()
 
   return router.post(
@@ -22,6 +26,6 @@ function JobRouter (authorize: Function, jobController: JobController) {
     jobController.getList.bind(jobController)
   )
 }
-JobRouter.inject = ['authorization', 'jobController'] as const
+JobRouter.inject = ['authorization', 'openApi', 'jobController'] as const
 
 export default JobRouter

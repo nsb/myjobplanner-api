@@ -6,6 +6,7 @@ import type { Options } from 'express-jwt'
 import { IJobRepository } from '../repositories/JobRepository'
 import JobController from '../controllers/job.controllers'
 import JobRouter from './job.routes'
+import openApi from '../openapi'
 
 function authorizationMiddleware (...permittedRoles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -61,6 +62,7 @@ describe('JobController', () => {
       .provideClass('jobRepository', MockRepository)
       .provideClass('jobController', JobController)
       .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -105,6 +107,7 @@ describe('JobController', () => {
       .provideClass('jobRepository', MockRepository)
       .provideClass('jobController', JobController)
       .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
@@ -150,6 +153,7 @@ describe('JobController', () => {
       .provideClass('jobRepository', MockRepository)
       .provideClass('jobController', JobController)
       .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
 
     const app = express()
     app.use(express.json())
