@@ -19,16 +19,28 @@ class JobRepository implements IJobRepository {
 
     async create (
       userId: string,
-      job: s.jobs.Insertable
+      job: s.jobs.Insertable,
+      businessId: number
     ): Promise<s.jobs.JSONSelectable> {
       return db.readCommitted(this.pool, async txnClient => {
-        const createdJobSql = db.insert('jobs', job)
-        return await createdJobSql.run(txnClient)
+        db.selectExactlyOne(
+          'clients', {
+            business_id: businessId,
+            id: job.client_id
+          }).run(txnClient)
+
+        return db.insert('jobs', job).run(txnClient)
       })
     }
 
-    async update (userId: string, id: number, job: s.jobs.Updatable): Promise<s.jobs.JSONSelectable> {
+    async update (userId: string, id: number, job: s.jobs.Updatable, businessId: number): Promise<s.jobs.JSONSelectable> {
       return db.readCommitted(this.pool, async txnClient => {
+        db.selectExactlyOne(
+          'clients', {
+            business_id: businessId,
+            id: job.client_id
+          }).run(txnClient)
+
         const updatedBusiness = await db.update('jobs', job, { id }).run(txnClient)
         return updatedBusiness[0]
       })

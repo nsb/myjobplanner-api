@@ -164,6 +164,10 @@ describe('JobRepository', () => {
       (pool as any).query.mockResolvedValueOnce({
         rows: [{
           result: {}
+        }] // TX validate
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {}
         }] // TX job
       }).mockResolvedValueOnce({
         rows: [{
@@ -214,7 +218,7 @@ describe('JobRepository', () => {
       description: 'my job description',
       closed: false,
       invoice: 'monthly'
-    })
+    }, 1)
 
     const expected: s.jobs.Selectable = {
       id: 1,

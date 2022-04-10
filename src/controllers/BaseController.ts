@@ -34,7 +34,7 @@ export abstract class BaseController<
         const result = await this.repository.create(
           req.user.sub,
           deserialized,
-          req.params.businessId
+          req.params.businessId ? parseInt(req.params.businessId) : undefined
         )
         await this.afterCreate(req, result)
         res.status(200).json(this.serialize(result))
@@ -58,7 +58,7 @@ export abstract class BaseController<
           req.user.sub,
           parseInt(req.params.Id, 10),
           deserialized,
-          req.params.businessId
+          req.params.businessId ? parseInt(req.params.businessId) : undefined
         )
         await this.afterUpdate(result)
         res.status(200).json(this.serialize(result))
@@ -86,7 +86,7 @@ export abstract class BaseController<
           req.user.sub,
           where,
           { limit, offset, orderBy, orderDirection },
-          req.params.businessId
+          req.params.businessId ? parseInt(req.params.businessId) : undefined
         )
 
         res.status(200).json({
@@ -111,7 +111,7 @@ export abstract class BaseController<
         const result = await this.repository.get(
           req.user.sub,
           parseInt(req.params.Id, 10),
-          req.params.businessId
+          req.params.businessId ? parseInt(req.params.businessId) : undefined
         )
 
         if (result) {
