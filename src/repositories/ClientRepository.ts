@@ -19,18 +19,6 @@ class ClientRepository implements IClientRepository {
 
   async create (userId: string, client: s.clients.Insertable): Promise<s.clients.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
-      // Check if we are admin for business
-      const businessesSql = db.selectOne('employees', { user_id: userId, business_id: client.business_id, role: 'admin' }, {
-        lateral: db.selectExactlyOne('businesses', { id: db.parent('business_id') }
-        )
-      })
-      logger.debug(businessesSql.compile())
-      const business = await businessesSql.run(txnClient)
-
-      if (!business) {
-        throw Error('Invalid business Id!')
-      }
-
       const createdClientSql = db.insert('clients', client)
       logger.debug(createdClientSql.compile())
       return await createdClientSql.run(txnClient)
