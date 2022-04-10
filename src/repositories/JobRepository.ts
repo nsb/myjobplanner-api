@@ -41,7 +41,12 @@ class JobRepository implements IJobRepository {
       })
     }
 
-    async update (userId: string, id: number, job: s.jobs.Updatable, businessId: number): Promise<s.jobs.JSONSelectable> {
+    async update (
+      userId: string,
+      id: number,
+      job: s.jobs.Updatable,
+      businessId: number
+    ): Promise<s.jobs.JSONSelectable> {
       return db.readCommitted(this.pool, async txnClient => {
         db.selectExactlyOne(
           'clients', {
