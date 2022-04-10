@@ -11,6 +11,7 @@ import JobController from './controllers/job.controllers'
 import HealthController from './controllers/health.controllers'
 import poolDecorator from './authorization'
 import openApi from './openapi'
+import checkJwt from './jwt'
 
 const container = createInjector()
   .provideValue('pool', pool)
@@ -25,5 +26,6 @@ const container = createInjector()
   .provideClass('healthController', HealthController)
   .provideFactory('authorization', poolDecorator)
   .provideValue('openApi', openApi)
+  .provideValue('checkJwt', checkJwt)
 
 export default container

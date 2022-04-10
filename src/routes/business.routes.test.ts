@@ -8,6 +8,7 @@ import { IBusinessRepository } from '../repositories/BusinessRepository'
 import BusinessController from '../controllers/business.controllers'
 import BusinessRouter from './business.routes'
 import openApi from '../openapi'
+import jwt from 'express-jwt'
 
 function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
   req.user = {
@@ -21,7 +22,6 @@ function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
   }
   next()
 }
-jest.mock('express-jwt', () => { return (options: Options) => { return jwtMiddleware } })
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwtMiddleware } })
 
 describe('BusinessController', () => {
@@ -51,6 +51,7 @@ describe('BusinessController', () => {
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
       .provideValue('openApi', openApi)
+      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
 
     const app = express()
     app.use(express.json())
@@ -107,6 +108,7 @@ describe('BusinessController', () => {
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
       .provideValue('openApi', openApi)
+      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
 
     const app = express()
     app.use(express.json())
@@ -147,6 +149,7 @@ describe('BusinessController', () => {
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
       .provideValue('openApi', openApi)
+      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
 
     const app = express()
     app.use(express.json())
@@ -186,6 +189,7 @@ describe('BusinessController', () => {
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
       .provideValue('openApi', openApi)
+      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
 
     const app = express()
     app.use(express.json())
@@ -214,6 +218,7 @@ describe('BusinessController', () => {
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
       .provideValue('openApi', openApi)
+      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
 
     const app = express()
     app.use(express.json())
@@ -247,6 +252,7 @@ describe('BusinessController', () => {
       .provideClass('businessRepository', MockRepository)
       .provideClass('businessController', BusinessController)
       .provideValue('openApi', openApi)
+      .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
 
     const app = express()
     app.use(express.json())
