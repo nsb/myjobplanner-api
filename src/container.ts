@@ -9,6 +9,7 @@ import PropertyRepository from './repositories/PropertyRepository'
 import JobRepository from './repositories/JobRepository'
 import JobController from './controllers/job.controllers'
 import HealthController from './controllers/health.controllers'
+import poolDecorator from './authorization'
 
 const container = createInjector()
   .provideValue('pool', pool)
@@ -21,5 +22,6 @@ const container = createInjector()
   .provideClass('jobRepository', JobRepository)
   .provideClass('jobController', JobController)
   .provideClass('healthController', HealthController)
+  .provideFactory('authorization', poolDecorator)
 
 export default container

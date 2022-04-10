@@ -1,12 +1,17 @@
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import { createInjector } from 'typed-inject'
 import request from 'supertest'
-import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import type * as s from 'zapatos/schema'
 import { IClientRepository } from '../repositories/ClientRepository'
 import ClientController from '../controllers/client.controllers'
 import ClientRouter from './client.routes'
+
+function authorizationMiddleware (...permittedRoles: string[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    next()
+  }
+}
 
 function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
   req.user = {
@@ -59,10 +64,11 @@ describe('ClientController', () => {
     const container = createInjector()
       .provideClass('clientRepository', MockRepository)
       .provideClass('clientController', ClientController)
+      .provideValue('authorization', authorizationMiddleware)
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses/1/clients', container.injectFunction(ClientRouter))
+    app.use('/v1', container.injectFunction(ClientRouter))
 
     const res = await request(app)
       .get('/v1/businesses/1/clients').send()
@@ -93,10 +99,11 @@ describe('ClientController', () => {
     const container = createInjector()
       .provideClass('clientRepository', MockRepository)
       .provideClass('clientController', ClientController)
+      .provideValue('authorization', authorizationMiddleware)
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses/1/clients', container.injectFunction(ClientRouter))
+    app.use('/v1', container.injectFunction(ClientRouter))
 
     const res = await request(app)
       .get('/v1/businesses/1/clients').send()
@@ -143,10 +150,11 @@ describe('ClientController', () => {
     const container = createInjector()
       .provideClass('clientRepository', MockRepository)
       .provideClass('clientController', ClientController)
+      .provideValue('authorization', authorizationMiddleware)
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/businesses/1/clients', container.injectFunction(ClientRouter))
+    app.use('/v1', container.injectFunction(ClientRouter))
 
     const res = await request(app)
       .post('/v1/businesses/1/clients')
