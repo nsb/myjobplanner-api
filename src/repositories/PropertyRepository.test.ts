@@ -116,7 +116,7 @@ describe('PropertyRepository', () => {
 
     const repository = container.injectClass(PropertyRepository)
 
-    const business = await repository.get('abc', 1)
+    const business = await repository.get('abc', 1, 1)
     expect(business).toEqual({
       id: 1,
       client_id: 1,

@@ -1,7 +1,6 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
-import logger from '../logger'
 import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
 
@@ -89,16 +88,12 @@ class PropertyRepository implements IPropertyRepository {
     return { totalCount: totalCount[0].result, result: properties?.map(property => property.result) }
   }
 
-  async get (userId: string, id: number): Promise<s.properties.JSONSelectable | undefined> {
-    const getSql = db.selectOne('employees', { user_id: userId }, {
-      lateral: db.selectExactlyOne(
-        'clients',
-        { business_id: db.parent('business_id') },
-        { lateral: db.selectExactlyOne('properties', { client_id: db.parent('id') }) })
-    })
-
-    logger.debug(getSql.compile())
-    return await getSql.run(this.pool)
+  async get (userId: string, id: number, businessId: number): Promise<s.properties.JSONSelectable | undefined> {
+    return db.selectExactlyOne(
+      'clients',
+      { business_id: businessId },
+      { lateral: db.selectExactlyOne('properties', { client_id: db.parent('id') }) }
+    ).run(this.pool)
   }
 }
 
