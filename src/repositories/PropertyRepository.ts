@@ -56,38 +56,32 @@ class PropertyRepository implements IPropertyRepository {
   async find (
     userId: string,
     property?: s.properties.Whereable,
-    options?: RepositoryOptions<s.properties.Table>
+    options?: RepositoryOptions<s.properties.Table>,
+    businessId?: number
   ): Promise<ListResponse<s.properties.JSONSelectable>> {
-    const propertiesSql = db.sql<s.properties.SQL | s.clients.SQL | s.employees.SQL, Array<{ result: s.properties.JSONSelectable }>>`
+    const propertiesSql = db.sql<s.properties.SQL | s.clients.SQL, Array<{ result: s.properties.JSONSelectable }>>`
       SELECT to_jsonb(p.*) as result
-      FROM ${'employees'} e
-      JOIN ${'clients'} c
-      ON c.${'business_id'} = e.${'business_id'}
+      FROM ${'clients'} c
       JOIN
       (SELECT *
       FROM ${'properties'}
       WHERE ${{ ...property }}) p
       ON p.${'client_id'} = c.${'id'}
-      WHERE e.${'user_id'} = ${db.param(userId)}
+      WHERE c.${'business_id'} = ${db.param(businessId)}
       ORDER BY ${db.param(options?.orderBy || 'created')} ${db.raw(options?.orderDirection || 'DESC')}
       LIMIT ${db.param(options?.limit || 20)}
       OFFSET ${db.param(options?.offset || 0)}`
-
-    logger.debug(propertiesSql.compile())
     const propertiesPromise = propertiesSql.run(this.pool)
 
     const countSql = db.sql<s.properties.SQL | s.clients.SQL | s.employees.SQL, Array<{ result: number }>>`
       SELECT COUNT(p.*)::int AS result
-      FROM ${'employees'} e
-      JOIN ${'clients'} c
-      ON c.${'business_id'} = e.${'business_id'}
+      FROM ${'clients'} c
       JOIN
       (SELECT *
       FROM ${'properties'}
       WHERE ${{ ...property }}) p
       ON p.${'client_id'} = c.${'id'}
-      WHERE e.${'user_id'} = ${db.param(userId)}`
-    logger.debug(countSql.compile())
+      WHERE c.${'business_id'} = ${db.param(businessId)}`
     const countPromise = countSql.run(this.pool)
 
     const [totalCount, properties] = await Promise.all([countPromise, propertiesPromise])
