@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import jwtAuthz from 'express-jwt-authz'
 import checkJwt from '../jwt'
 import openApi from '../openapi'
 import PropertyController from '../controllers/property.controllers'
