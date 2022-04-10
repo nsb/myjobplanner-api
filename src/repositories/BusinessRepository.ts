@@ -1,9 +1,8 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
-import logger from '../logger'
-import type { RepositoryOptions, ListResponse } from '../types'
-import { IRepository } from './BaseRepository'
+import type { RepositoryOptions } from '../types'
+import type { IRepository } from './BaseRepository'
 
 export interface IBusinessRepository extends IRepository<
   s.businesses.Insertable,
@@ -17,7 +16,7 @@ class BusinessRepository implements IBusinessRepository {
   constructor (private pool: Pool) { }
   public static inject = ['pool'] as const
 
-  async create (userId: string, business: s.businesses.Insertable): Promise<s.businesses.JSONSelectable> {
+  async create (userId: string, business: s.businesses.Insertable) {
     return db.readCommitted(this.pool, async txnClient => {
       const createdBusiness = await db.insert('businesses', business).run(txnClient)
 
@@ -35,7 +34,7 @@ class BusinessRepository implements IBusinessRepository {
     })
   }
 
-  async update (userId: string, id: number, business: s.businesses.Updatable): Promise<s.businesses.JSONSelectable> {
+  async update (_userId: string, id: number, business: s.businesses.Updatable) {
     return db.readCommitted(this.pool, async txnClient => {
       const updatedBusiness = await db.update('businesses', business, { id }).run(txnClient)
       return updatedBusiness[0]
@@ -46,7 +45,7 @@ class BusinessRepository implements IBusinessRepository {
     userId: string,
     business?: s.businesses.Whereable,
     options?: RepositoryOptions<s.businesses.Table>
-  ): Promise<ListResponse<s.businesses.JSONSelectable>> {
+  ) {
     const businessesSql = db.select('employees', { user_id: userId }, {
       limit: options?.limit || 20,
       offset: options?.offset || 0,
@@ -57,7 +56,6 @@ class BusinessRepository implements IBusinessRepository {
       lateral: db.selectExactlyOne('businesses', { ...business, id: db.parent('business_id') }
       )
     })
-    logger.debug(businessesSql.compile())
     const businessesPromise = businessesSql.run(this.pool)
 
     const countSql = db.sql<s.businesses.SQL | s.employees.SQL, Array<{ result: number }>>`
@@ -65,7 +63,6 @@ class BusinessRepository implements IBusinessRepository {
       FROM ${'businesses'} JOIN ${'employees'}
       ON ${'businesses'}.${'id'} = ${'employees'}.${'business_id'}
       WHERE ${{ ...business, user_id: userId }}`
-    logger.debug(countSql.compile())
     const countPromise = countSql.run(this.pool)
 
     const [totalCount, businesses] = await Promise.all([countPromise, businessesPromise])
@@ -73,8 +70,8 @@ class BusinessRepository implements IBusinessRepository {
     return { totalCount: totalCount[0].result, result: businesses?.filter(business => business != null) }
   }
 
-  async get (userId: string, id: number): Promise<s.businesses.JSONSelectable | undefined> {
-    return await db.selectOne('employees', { user_id: userId, business_id: id }, {
+  async get (userId: string, id: number) {
+    return db.selectOne('employees', { user_id: userId, business_id: id }, {
       lateral: db.selectExactlyOne('businesses', { id: db.parent('business_id') })
     }).run(this.pool)
   }
