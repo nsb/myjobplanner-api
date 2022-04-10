@@ -259,11 +259,14 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
-    '/properties': {
+    '/businesses/{businessId}/properties': {
       get: {
         description: 'Returns all properties',
         operationId: 'findProperties',
         parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
           {
             $ref: '#/components/parameters/offsetParam'
           }, {

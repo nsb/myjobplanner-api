@@ -23,7 +23,7 @@ jest.mock('express-jwt', () => { return (options: Options) => { return jwtMiddle
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwtMiddleware } })
 
 describe('PropertyController', () => {
-  test('GET /v1/properties', async () => {
+  test('GET /v1/businesses/:businessId/properties', async () => {
     const mockedResult = {
       totalCount: 1,
       result: [{
@@ -52,10 +52,10 @@ describe('PropertyController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/properties', container.injectFunction(PropertyRouter))
+    app.use('/v1', container.injectFunction(PropertyRouter))
 
     const res = await request(app)
-      .get('/v1/properties').send()
+      .get('/v1/businesses/1/properties').send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
@@ -74,7 +74,7 @@ describe('PropertyController', () => {
     })
   })
 
-  test('GET /v1/properties not found', async () => {
+  test('GET /v1/businesses/:businessId/properties not found', async () => {
     const mockedQueryResult = { totalCount: 0, result: [] }
 
     const MockRepository = jest.fn<IPropertyRepository, []>(() => ({
@@ -90,10 +90,10 @@ describe('PropertyController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/properties', container.injectFunction(PropertyRouter))
+    app.use('/v1', container.injectFunction(PropertyRouter))
 
     const res = await request(app)
-      .get('/v1/properties').send()
+      .get('/v1/businesses/1/properties').send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [],
@@ -103,7 +103,7 @@ describe('PropertyController', () => {
     })
   })
 
-  test('POST /v1/properties', async () => {
+  test('POST /v1/businesses/:businessId/properties', async () => {
     const mockedQueryResult = {
       id: 1,
       client_id: 1,
@@ -129,10 +129,10 @@ describe('PropertyController', () => {
 
     const app = express()
     app.use(express.json())
-    app.use('/v1/properties', container.injectFunction(PropertyRouter))
+    app.use('/v1', container.injectFunction(PropertyRouter))
 
     const res = await request(app)
-      .post('/v1/properties')
+      .post('/v1/businesses/1/properties')
       .send({
         clientId: 1,
         description: 'my property',

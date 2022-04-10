@@ -7,13 +7,13 @@ function PropertyRouter (propertyController: PropertyController) {
   const router = Router()
 
   return router.post(
-    '/',
+    '/businesses/:businessId/properties',
     checkJwt,
     // jwtAuthz(['create:property', 'read:property']),
     openApi,
     propertyController.create.bind(propertyController)
   ).get(
-    '/',
+    '/businesses/:businessId/properties',
     checkJwt,
     // jwtAuthz(['read:property']),
     openApi,
