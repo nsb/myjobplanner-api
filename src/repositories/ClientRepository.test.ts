@@ -170,18 +170,13 @@ describe('ClientRepository', () => {
     })
   })
 
-  test('create business', async () => {
+  test('create client', async () => {
     function poolDecorator (pool: Pool) {
       (pool as any).connect = jest.fn().mockReturnThis();
       (pool as any).release = jest.fn().mockReturnThis();
       (pool as any).query = jest.fn().mockReturnThis();
 
-      // TX Begin
       (pool as any).query.mockResolvedValueOnce({
-        rows: [{
-          result: {}
-        }] // TX client
-      }).mockResolvedValueOnce({
         rows: [{
           result: {
             id: 1,
@@ -203,10 +198,6 @@ describe('ClientRepository', () => {
             imported_via: null,
             created: '2021-11-11T22:55:57.405524'
           }
-        }] // TX Commit
-      }).mockResolvedValueOnce({
-        rows: [{
-          result: {}
         }]
       })
 

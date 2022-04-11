@@ -224,6 +224,11 @@ export const apiSpec: OpenAPIV3.Document = {
       post: {
         description: 'Create client',
         operationId: 'createClient',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          }
+        ],
         requestBody: {
           description: 'Create client',
           required: true,
@@ -329,6 +334,11 @@ export const apiSpec: OpenAPIV3.Document = {
       post: {
         description: 'Create property',
         operationId: 'createProperty',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          }
+        ],
         requestBody: {
           description: 'Create property',
           required: true,
@@ -434,6 +444,11 @@ export const apiSpec: OpenAPIV3.Document = {
       post: {
         description: 'Create job',
         operationId: 'createJob',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          }
+        ],
         requestBody: {
           description: 'Create job',
           required: true,

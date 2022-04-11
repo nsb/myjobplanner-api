@@ -130,12 +130,8 @@ describe('BusinessRepository', () => {
       (pool as any).release = jest.fn().mockReturnThis();
       (pool as any).query = jest.fn().mockReturnThis();
 
-      // TX Begin
+      // TX Business
       (pool as any).query.mockResolvedValueOnce({
-        rows: [{
-          result: {}
-        }] // TX business
-      }).mockResolvedValueOnce({
         rows: [{
           result: {
             id: 1,
@@ -145,14 +141,6 @@ describe('BusinessRepository', () => {
             vat_number: null,
             country_code: 'da'
           }
-        }] // TX employee
-      }).mockResolvedValueOnce({
-        rows: [{
-          result: [1]
-        }] // TX Commit
-      }).mockResolvedValueOnce({
-        rows: [{
-          result: {}
         }]
       })
 

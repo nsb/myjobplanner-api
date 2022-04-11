@@ -3,7 +3,8 @@ import { createInjector } from 'typed-inject'
 import request from 'supertest'
 import type { Options } from 'express-jwt'
 import type * as s from 'zapatos/schema'
-import { IClientRepository } from '../repositories/ClientRepository'
+import type { IClientRepository } from '../repositories/ClientRepository'
+import type { IClientService } from '../services/client.service'
 import ClientController from '../controllers/client.controllers'
 import ClientRouter from './client.routes'
 import openApi from '../openapi'
@@ -62,8 +63,16 @@ describe('ClientController', () => {
       update: jest.fn()
     }))
 
+    const MockService = jest.fn<IClientService, []>(() => ({
+      find: jest.fn().mockResolvedValue(mockedResult),
+      get: jest.fn(),
+      create: jest.fn().mockResolvedValueOnce({}),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideClass('clientRepository', MockRepository)
+      .provideClass('clientService', MockService)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)
       .provideValue('openApi', openApi)
@@ -98,8 +107,16 @@ describe('ClientController', () => {
       update: jest.fn()
     }))
 
+    const MockService = jest.fn<IClientService, []>(() => ({
+      find: jest.fn().mockResolvedValue(mockedQueryResult),
+      get: jest.fn(),
+      create: jest.fn().mockResolvedValue({}),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideClass('clientRepository', MockRepository)
+      .provideClass('clientService', MockService)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)
       .provideValue('openApi', openApi)
@@ -150,8 +167,16 @@ describe('ClientController', () => {
       update: jest.fn()
     }))
 
+    const MockService = jest.fn<IClientService, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn().mockResolvedValue(mockedQueryResult),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideClass('clientRepository', MockRepository)
+      .provideClass('clientService', MockService)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)
       .provideValue('openApi', openApi)

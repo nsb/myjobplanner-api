@@ -160,20 +160,8 @@ describe('JobRepository', () => {
       (pool as any).release = jest.fn().mockReturnThis();
       (pool as any).query = jest.fn().mockReturnThis();
 
-      // TX Begin
+      // TX Job
       (pool as any).query.mockResolvedValueOnce({
-        rows: [{
-          result: {}
-        }] // TX validate
-      }).mockResolvedValueOnce({
-        rows: [{
-          result: {}
-        }] // TX validate
-      }).mockResolvedValueOnce({
-        rows: [{
-          result: {}
-        }] // TX job
-      }).mockResolvedValueOnce({
         rows: [{
           result: {
             id: 1,
@@ -191,10 +179,6 @@ describe('JobRepository', () => {
             invoice: 'monthly',
             created: new Date('2021-11-11T22:55:57.405524')
           }
-        }] // TX Commit
-      }).mockResolvedValueOnce({
-        rows: [{
-          result: {}
         }]
       })
 

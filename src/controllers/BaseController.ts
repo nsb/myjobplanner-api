@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema'
-import { IRepository } from '../repositories/BaseRepository'
+import type { IRepository } from '../repositories/BaseRepository'
+import type { IService } from '../services/base.service'
 import type { ApiEnvelope, QueryParams } from '../types'
 
 export abstract class BaseController<
   Insertable,
+  Updatable,
   Selectable,
   Whereable,
   Table extends s.Table,
@@ -12,13 +14,15 @@ export abstract class BaseController<
   Params extends QueryParams<DTO>
 > {
   constructor (
-    public repository: IRepository<Insertable, s.Updatable, Selectable, Whereable, Table>,
+    public repository: IRepository<Insertable, Updatable, Selectable, Whereable, Table>,
+    private service: IService<Insertable, Updatable, Selectable>,
     public offset: number = 0,
     public limit: number = 20,
     public orderDirection: 'ASC' | 'DESC' = 'ASC'
   ) { }
 
-  abstract deserialize(dto: DTO): Insertable
+  abstract deserializeInsert(dto: DTO): Insertable
+  abstract deserializeUpdate(dto: DTO): Updatable
   abstract serialize(model: Selectable): DTO
   abstract getOrderBy(key: keyof DTO): s.SQLForTable<Table>
   abstract fromQuery(params: Params): Whereable
@@ -29,9 +33,9 @@ export abstract class BaseController<
     next: NextFunction
   ) {
     if (req.user) {
-      const deserialized = this.deserialize(req.body)
+      const deserialized = this.deserializeInsert(req.body)
       try {
-        const result = await this.repository.create(
+        const result = await this.service.create(
           req.user.sub,
           deserialized,
           req.params.businessId ? parseInt(req.params.businessId) : undefined
@@ -52,9 +56,9 @@ export abstract class BaseController<
     next: NextFunction
   ) {
     if (req.user) {
-      const deserialized = this.deserialize(req.body)
+      const deserialized = this.deserializeUpdate(req.body)
       try {
-        const result = await this.repository.update(
+        const result = await this.service.update(
           req.user.sub,
           parseInt(req.params.Id, 10),
           deserialized,

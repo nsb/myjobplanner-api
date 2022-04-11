@@ -24,10 +24,27 @@ type JobQueryParams = QueryParams<DTO> & {
   clientId?: number
 }
 
-export class JobController extends BaseController<s.jobs.Insertable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table, DTO, JobQueryParams> {
-  public static inject = ['jobRepository'] as const;
+export class JobController extends BaseController<s.jobs.Insertable, s.jobs.Updatable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table, DTO, JobQueryParams> {
+  public static inject = ['jobRepository', 'jobService'] as const;
 
-  deserialize (dto: DTO) {
+  deserializeInsert (dto: DTO) {
+    return {
+      client_id: dto.clientId,
+      property_id: dto.propertyId,
+      recurrences: dto.recurrences,
+      begins: dto.begins,
+      ends: dto.ends,
+      start_time: dto.startTime,
+      finish_time: dto.finishTime,
+      anytime: dto.anytime,
+      title: dto.title,
+      description: dto.description,
+      closed: dto.closed,
+      invoice: dto.invoice
+    }
+  }
+
+  deserializeUpdate (dto: DTO) {
     return {
       client_id: dto.clientId,
       property_id: dto.propertyId,

@@ -3,7 +3,8 @@ import { createInjector } from 'typed-inject'
 import request from 'supertest'
 import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
-import { IPropertyRepository } from '../repositories/PropertyRepository'
+import type { IPropertyRepository } from '../repositories/PropertyRepository'
+import type { IPropertyService } from '../services/property.service'
 import PropertyController from '../controllers/property.controllers'
 import PropertyRouter from './property.routes'
 
@@ -52,8 +53,16 @@ describe('PropertyController', () => {
       update: jest.fn()
     }))
 
+    const MockService = jest.fn<IPropertyService, []>(() => ({
+      find: jest.fn().mockResolvedValue(mockedResult),
+      get: jest.fn(),
+      create: jest.fn().mockResolvedValueOnce({}),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideClass('propertyRepository', MockRepository)
+      .provideClass('propertyService', MockService)
       .provideClass('propertyController', PropertyController)
       .provideValue('authorization', authorizationMiddleware)
 
@@ -91,8 +100,16 @@ describe('PropertyController', () => {
       update: jest.fn()
     }))
 
+    const MockService = jest.fn<IPropertyService, []>(() => ({
+      find: jest.fn().mockResolvedValue(mockedQueryResult),
+      get: jest.fn(),
+      create: jest.fn().mockResolvedValue({}),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideClass('propertyRepository', MockRepository)
+      .provideClass('propertyService', MockService)
       .provideClass('propertyController', PropertyController)
       .provideValue('authorization', authorizationMiddleware)
 
@@ -131,8 +148,16 @@ describe('PropertyController', () => {
       update: jest.fn()
     }))
 
+    const MockService = jest.fn<IPropertyService, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn().mockResolvedValue(mockedQueryResult),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideClass('propertyRepository', MockRepository)
+      .provideClass('propertyService', MockService)
       .provideClass('propertyController', PropertyController)
       .provideValue('authorization', authorizationMiddleware)
 

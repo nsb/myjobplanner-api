@@ -3,6 +3,7 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { RepositoryOptions, ListResponse } from '../types'
 import type { IRepository } from '../repositories/BaseRepository'
+import { TxnClientForReadCommitted } from 'zapatos/db'
 
 export type IClientRepository = IRepository<
   s.clients.Insertable,
@@ -16,18 +17,14 @@ class ClientRepository implements IClientRepository {
   constructor (private pool: Pool) { }
   public static inject = ['pool'] as const
 
-  async create (_userId: string, client: s.clients.Insertable) {
-    return db.readCommitted(this.pool, async txnClient => {
-      const createdClientSql = db.insert('clients', client)
-      return createdClientSql.run(txnClient)
-    })
+  async create (_userId: string, client: s.clients.Insertable, _businessId?: number, txnClient?: TxnClientForReadCommitted) {
+    const createdClientSql = db.insert('clients', client)
+    return createdClientSql.run(txnClient || this.pool)
   }
 
-  async update (_userId: string, id: number, client: s.clients.Updatable) {
-    return db.readCommitted(this.pool, async txnClient => {
-      const updatedBusiness = await db.update('clients', client, { id }).run(txnClient)
-      return updatedBusiness[0]
-    })
+  async update (_userId: string, id: number, client: s.clients.Updatable, businessId?: number, txnClient?: TxnClientForReadCommitted) {
+    const clients = await db.update('clients', client, { id }).run(txnClient || this.pool)
+    return clients[0]
   }
 
   async find (

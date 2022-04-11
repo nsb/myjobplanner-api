@@ -11,15 +11,24 @@ interface DTO {
 
 class BusinessController extends BaseController<
   s.businesses.Insertable,
+  s.businesses.Updatable,
   s.businesses.JSONSelectable,
   s.businesses.Whereable,
   s.businesses.Table,
   DTO,
   QueryParams<DTO>
 > {
-  public static inject = ['businessRepository'] as const;
+  public static inject = ['businessRepository', 'businessService'] as const;
 
-  deserialize (dto: DTO) {
+  deserializeInsert (dto: DTO) {
+    return {
+      name: dto.name,
+      timezone: dto.timezone,
+      country_code: dto.countryCode
+    }
+  }
+
+  deserializeUpdate (dto: DTO) {
     return {
       name: dto.name,
       timezone: dto.timezone,

@@ -16,29 +16,24 @@ class BusinessRepository implements IBusinessRepository {
   constructor (private pool: Pool) { }
   public static inject = ['pool'] as const
 
-  async create (userId: string, business: s.businesses.Insertable) {
-    return db.readCommitted(this.pool, async txnClient => {
-      const createdBusiness = await db.insert('businesses', business).run(txnClient)
-
-      const employee: s.employees.Insertable = {
-        user_id: userId,
-        business_id: createdBusiness.id,
-        role: 'admin'
-      }
-
-      await db.sql<s.employees.SQL, s.employees.Selectable>`
-          INSERT INTO ${'employees'} (${db.cols(employee)})
-          VALUES (${db.vals(employee)})`.run(txnClient)
-
-      return createdBusiness
-    })
+  async create (
+    _userId: string,
+    business: s.businesses.Insertable,
+    _businessId?: number,
+    txnClient?: db.TxnClientForReadCommitted
+  ) {
+    return db.insert('businesses', business).run(txnClient || this.pool)
   }
 
-  async update (_userId: string, id: number, business: s.businesses.Updatable) {
-    return db.readCommitted(this.pool, async txnClient => {
-      const updatedBusiness = await db.update('businesses', business, { id }).run(txnClient)
-      return updatedBusiness[0]
-    })
+  async update (
+    _userId: string,
+    id: number,
+    business: s.businesses.Updatable,
+    _businessId?: number,
+    txnClient?: db.TxnClientForReadCommitted
+  ) {
+    const updatedBusiness = await db.update('businesses', business, { id }).run(txnClient || this.pool)
+    return updatedBusiness[0]
   }
 
   async find (

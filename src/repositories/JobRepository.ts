@@ -3,6 +3,7 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
+import { TxnClientForReadCommitted } from 'zapatos/db'
 
 export type IJobRepository = IRepository<
     s.jobs.Insertable,
@@ -17,52 +18,50 @@ class JobRepository implements IJobRepository {
     public static inject = ['pool'] as const
 
     async create (
-      userId: string,
+      _userId: string,
       job: s.jobs.Insertable,
-      businessId: number
+      _businessId: number,
+      txnClient?: TxnClientForReadCommitted
     ): Promise<s.jobs.JSONSelectable> {
-      return db.readCommitted(this.pool, async txnClient => {
-        // validate client id
-        await db.selectExactlyOne(
-          'clients', {
-            business_id: businessId,
-            id: job.client_id
-          }).run(txnClient)
+      // // validate client id
+      // await db.selectExactlyOne(
+      //   'clients', {
+      //     business_id: businessId,
+      //     id: job.client_id
+      //   }).run(txnClient || this.pool)
 
-        // validate property id
-        await db.selectExactlyOne(
-          'properties', {
-            client_id: job.client_id,
-            id: job.property_id
-          }).run(txnClient)
+      // // validate property id
+      // await db.selectExactlyOne(
+      //   'properties', {
+      //     client_id: job.client_id,
+      //     id: job.property_id
+      //   }).run(txnClient || this.pool)
 
-        return db.insert('jobs', job).run(txnClient)
-      })
+      return db.insert('jobs', job).run(txnClient || this.pool)
     }
 
     async update (
-      userId: string,
+      _userId: string,
       id: number,
       job: s.jobs.Updatable,
-      businessId: number
+      _businessId: number,
+      txnClient?: TxnClientForReadCommitted
     ): Promise<s.jobs.JSONSelectable> {
-      return db.readCommitted(this.pool, async txnClient => {
-        await db.selectExactlyOne(
-          'clients', {
-            business_id: businessId,
-            id: job.client_id
-          }).run(txnClient)
+      // await db.selectExactlyOne(
+      //   'clients', {
+      //     business_id: businessId,
+      //     id: job.client_id
+      //   }).run(txnClient || this.pool)
 
-        // validate property id
-        await db.selectExactlyOne(
-          'properties', {
-            client_id: job.client_id,
-            id: job.property_id
-          }).run(txnClient)
+      // // validate property id
+      // await db.selectExactlyOne(
+      //   'properties', {
+      //     client_id: job.client_id,
+      //     id: job.property_id
+      //   }).run(txnClient || this.pool)
 
-        const updatedBusiness = await db.update('jobs', job, { id }).run(txnClient)
-        return updatedBusiness[0]
-      })
+      const updatedBusiness = await db.update('jobs', job, { id }).run(txnClient || this.pool)
+      return updatedBusiness[0]
     }
 
     async find (
