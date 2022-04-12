@@ -647,6 +647,38 @@ export const apiSpec: OpenAPIV3.Document = {
               'never',
               'visit'
             ]
+          },
+          lineItems: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/LineItem'
+            }
+          }
+        }
+      },
+      LineItem: {
+        additionalProperties: false,
+        type: 'object',
+        required: [
+          'id'
+        ],
+        properties: {
+          id: {
+            readOnly: true,
+            type: 'number'
+          },
+          serviceId: {
+            type: 'number',
+            nullable: true
+          },
+          name: {
+            type: 'string'
+          },
+          quantity: {
+            type: 'number'
+          },
+          unitCost: {
+            type: 'number'
           }
         }
       },

@@ -33,22 +33,24 @@ describe('JobController', () => {
   test('GET /v1/businesses/:businessId/jobs', async () => {
     const mockedResult = [
       1,
-      [{
-        id: 1,
-        client_id: 1,
-        property_id: 1,
-        recurrences: null,
-        begins: '2021-11-11T22:55:57.405524',
-        ends: null,
-        start_time: null,
-        finish_time: null,
-        anytime: true,
-        title: null,
-        description: null,
-        closed: false,
-        invoice: 'never',
-        created: '2021-11-11T22:55:57.405524'
-      }]
+      [
+        [{
+          id: 1,
+          client_id: 1,
+          property_id: 1,
+          recurrences: null,
+          begins: '2021-11-11T22:55:57.405524',
+          ends: null,
+          start_time: null,
+          finish_time: null,
+          anytime: true,
+          title: null,
+          description: null,
+          closed: false,
+          invoice: 'never',
+          created: '2021-11-11T22:55:57.405524'
+        }, []]
+      ]
     ]
 
     const MockService = jest.fn<IJobService, []>(() => ({
@@ -85,7 +87,8 @@ describe('JobController', () => {
         title: null,
         description: null,
         closed: false,
-        invoice: 'never'
+        invoice: 'never',
+        lineItems: []
       }],
       meta: {
         totalCount: 1
@@ -125,7 +128,7 @@ describe('JobController', () => {
   })
 
   test('POST /v1/businesses/:businessId/jobs', async () => {
-    const mockedQueryResult = {
+    const mockedQueryResult = [{
       id: 1,
       client_id: 1,
       property_id: 1,
@@ -140,7 +143,7 @@ describe('JobController', () => {
       closed: false,
       invoice: 'never',
       created: '2021-11-11T22:55:57.405524'
-    }
+    }, []]
 
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn(),
@@ -173,7 +176,8 @@ describe('JobController', () => {
         title: null,
         description: null,
         closed: false,
-        invoice: 'never'
+        invoice: 'never',
+        lineItems: []
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
@@ -189,7 +193,8 @@ describe('JobController', () => {
       title: null,
       description: null,
       closed: false,
-      invoice: 'never'
+      invoice: 'never',
+      lineItems: []
     })
   })
 })

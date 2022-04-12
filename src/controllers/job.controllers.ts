@@ -18,17 +18,32 @@ interface DTO {
   closed: boolean
   // eslint-disable-next-line camelcase
   invoice: s.invoice_job_choices
+  lineItems: Array<{
+    id?: number
+    serviceId?: number
+    name: string
+    quantity: number
+    unitCost: number
+  }>
 }
 
 type JobQueryParams = QueryParams<DTO> & {
   clientId?: number
 }
 
-export class JobController extends BaseController<s.jobs.Insertable, s.jobs.Updatable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table, DTO, JobQueryParams> {
+export class JobController extends BaseController<
+  [s.jobs.Insertable, s.lineitems.Insertable[]],
+  [s.jobs.Updatable, s.lineitems.Updatable[]],
+  [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]],
+  s.jobs.Whereable,
+  s.jobs.Table,
+  DTO,
+  JobQueryParams
+> {
   public static inject = ['jobService'] as const;
 
-  deserializeInsert (dto: DTO) {
-    return {
+  deserializeInsert (dto: DTO): [s.jobs.Insertable, s.lineitems.Insertable[]] {
+    return [{
       client_id: dto.clientId,
       property_id: dto.propertyId,
       recurrences: dto.recurrences,
@@ -41,11 +56,11 @@ export class JobController extends BaseController<s.jobs.Insertable, s.jobs.Upda
       description: dto.description,
       closed: dto.closed,
       invoice: dto.invoice
-    }
+    }, []]
   }
 
-  deserializeUpdate (dto: DTO) {
-    return {
+  deserializeUpdate (dto: DTO): [s.jobs.Updatable, s.lineitems.Updatable[]] {
+    return [{
       client_id: dto.clientId,
       property_id: dto.propertyId,
       recurrences: dto.recurrences,
@@ -58,16 +73,17 @@ export class JobController extends BaseController<s.jobs.Insertable, s.jobs.Upda
       description: dto.description,
       closed: dto.closed,
       invoice: dto.invoice
-    }
+    }, []]
   }
 
-  serialize (model: s.jobs.JSONSelectable) {
+  serialize ([model, _lineitems]: [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]]) {
     return {
       ...model,
       clientId: model.client_id,
       propertyId: model.property_id,
       startTime: model.start_time,
-      finishTime: model.finish_time
+      finishTime: model.finish_time,
+      lineItems: []
     }
   }
 
@@ -82,7 +98,7 @@ export class JobController extends BaseController<s.jobs.Insertable, s.jobs.Upda
       case 'finishTime':
         return 'finish_time'
       default:
-        return key
+        return 'created'
     }
   }
 

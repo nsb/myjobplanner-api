@@ -5,7 +5,11 @@ import type { IService } from './base.service'
 import type { IJobRepository } from '../repositories/JobRepository'
 import { RepositoryOptions } from '../types'
 
-export interface IJobService extends IService<s.jobs.Insertable, s.jobs.Updatable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table> {}
+type JobInsertable = [s.jobs.Insertable, s.lineitems.Insertable[]]
+type JobUpdatable = [s.jobs.Updatable, s.lineitems.Updatable[]]
+type JobSelectable = [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]]
+
+export interface IJobService extends IService<JobInsertable, JobUpdatable, JobSelectable, s.jobs.Whereable, s.jobs.Table> {}
 
 class JobService implements IJobService {
     public static inject = ['pool', 'jobRepository'] as const;
@@ -14,21 +18,23 @@ class JobService implements IJobService {
         private jobRepository: IJobRepository
     ) {}
 
-    async create (userId: string, job: s.jobs.Insertable) {
+    async create (userId: string, [job, _lineItems]: JobInsertable) {
       return db.readCommitted(this.pool, async txnClient => {
-        return this.jobRepository.create(userId, job, undefined, txnClient)
+        const createdJob: s.jobs.JSONSelectable = await this.jobRepository.create(userId, job, undefined, txnClient)
+        return [createdJob, []] as JobSelectable
       })
     }
 
-    async update (userId: string, id: number, job: s.jobs.Updatable, businessId?: number) {
+    async update (userId: string, id: number, [job, _lineItems]: JobUpdatable, businessId?: number) {
       return db.readCommitted(this.pool, async txnClient => {
-        return this.jobRepository.update(
+        const updatedJob = await this.jobRepository.update(
           userId,
           id,
           job,
           businessId,
           txnClient
         )
+        return [updatedJob, []] as JobSelectable
       })
     }
 
@@ -38,11 +44,13 @@ class JobService implements IJobService {
       { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.jobs.Table>,
       businessId?: number
     ) {
-      return this.jobRepository.find(userId, where, { limit, offset, orderBy, orderDirection }, businessId)
+      const [totalCount, jobs] = await this.jobRepository.find(userId, where, { limit, offset, orderBy, orderDirection }, businessId)
+      return [totalCount, jobs.map(job => [job, []])] as [number, JobSelectable[]]
     }
 
     async get (userId: string, id: number) {
-      return this.jobRepository.get(userId, id)
+      const job = await this.jobRepository.get(userId, id)
+      return [job, []] as JobSelectable
     }
 }
 
