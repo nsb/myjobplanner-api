@@ -3,15 +3,8 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
-import type { TxnClientForReadCommitted } from 'zapatos/db'
 
-export type ILineItemRepository = IRepository<
-    s.lineitems.Insertable,
-    s.lineitems.Updatable,
-    s.lineitems.JSONSelectable,
-    s.lineitems.Whereable,
-    s.lineitems.Table
->
+export type ILineItemRepository = IRepository<s.lineitems.Insertable, s.lineitems.Updatable, s.lineitems.JSONSelectable, s.lineitems.Whereable, s.lineitems.Table>
 
 class LineItemRepository implements ILineItemRepository {
   constructor (private pool: Pool) { }
@@ -21,22 +14,8 @@ class LineItemRepository implements ILineItemRepository {
       _userId: string,
       lineItem: s.lineitems.Insertable,
       _businessId: number,
-      txnClient?: TxnClientForReadCommitted
-    ): Promise<s.lineitems.JSONSelectable> {
-      // // validate client id
-      // await db.selectExactlyOne(
-      //   'clients', {
-      //     business_id: businessId,
-      //     id: job.client_id
-      //   }).run(txnClient || this.pool)
-
-      // // validate property id
-      // await db.selectExactlyOne(
-      //   'properties', {
-      //     client_id: job.client_id,
-      //     id: job.property_id
-      //   }).run(txnClient || this.pool)
-
+      txnClient?: db.TxnClientForReadCommitted
+    ) {
       return db.insert('lineitems', lineItem).run(txnClient || this.pool)
     }
 
@@ -45,27 +24,14 @@ class LineItemRepository implements ILineItemRepository {
       id: number,
       lineItem: s.lineitems.Updatable,
       _businessId: number,
-      txnClient?: TxnClientForReadCommitted
-    ): Promise<s.lineitems.JSONSelectable> {
-      // await db.selectExactlyOne(
-      //   'clients', {
-      //     business_id: businessId,
-      //     id: job.client_id
-      //   }).run(txnClient || this.pool)
-
-      // // validate property id
-      // await db.selectExactlyOne(
-      //   'properties', {
-      //     client_id: job.client_id,
-      //     id: job.property_id
-      //   }).run(txnClient || this.pool)
-
-      const updatedLineItems = await db.update(
+      txnClient?: db.TxnClientForReadCommitted
+    ) {
+      const updatedLineItem = await db.update(
         'lineitems',
         lineItem,
         { id }
       ).run(txnClient || this.pool)
-      return updatedLineItems[0]
+      return updatedLineItem[0]
     }
 
     async find (

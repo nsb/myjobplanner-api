@@ -17,6 +17,7 @@ import HealthController from './controllers/health.controllers'
 import poolDecorator from './authorization'
 import openApi from './openapi'
 import checkJwt from './jwt'
+import LineItemRepository from './repositories/LineItemRepository'
 
 const container = createInjector()
   .provideValue('pool', pool)
@@ -31,6 +32,7 @@ const container = createInjector()
   .provideClass('propertyService', PropertyService)
   .provideClass('propertyController', PropertyController)
   .provideClass('jobRepository', JobRepository)
+  .provideClass('lineItemRepository', LineItemRepository)
   .provideClass('jobService', JobService)
   .provideClass('jobController', JobController)
   .provideClass('healthController', HealthController)

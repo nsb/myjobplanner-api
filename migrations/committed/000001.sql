@@ -1,5 +1,5 @@
 --! Previous: -
---! Hash: sha1:37511836f1f6e6245ac8ca1e1fd5c692eb0f6ed0
+--! Hash: sha1:5ca221873efa05a08b46385fc991daf6f0f920ca
 
 -- Enter migration here
 
@@ -182,7 +182,7 @@ DROP TABLE IF EXISTS lineitems CASCADE;
 
 CREATE TABLE lineitems (
   id SERIAL PRIMARY KEY,
-  job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
+  job_id INTEGER REFERENCES jobs(id) ON DELETE CASCADE,
   service_id INTEGER REFERENCES services(id) ON DELETE SET NULL,
   name VARCHAR (512) NOT NULL,
   quantity INTEGER NOT NULL default 1,

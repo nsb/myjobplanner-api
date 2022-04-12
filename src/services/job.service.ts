@@ -3,7 +3,8 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { IService } from './base.service'
 import type { IJobRepository } from '../repositories/JobRepository'
-import { RepositoryOptions } from '../types'
+import type { RepositoryOptions } from '../types'
+import type { ILineItemRepository } from '../repositories/LineItemRepository'
 
 type JobInsertable = [s.jobs.Insertable, s.lineitems.Insertable[]]
 type JobUpdatable = [s.jobs.Updatable, s.lineitems.Updatable[]]
@@ -18,10 +19,11 @@ export interface IJobService extends IService<
 > {}
 
 class JobService implements IJobService {
-    public static inject = ['pool', 'jobRepository'] as const;
+    public static inject = ['pool', 'jobRepository', 'lineItemRepository'] as const;
     constructor (
         private pool: Pool,
-        private jobRepository: IJobRepository
+        private jobRepository: IJobRepository,
+        private lineItemRepository: ILineItemRepository
     ) {}
 
     async create (userId: string, [job, _lineItems]: JobInsertable, businessId?: number) {
