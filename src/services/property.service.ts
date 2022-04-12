@@ -39,6 +39,10 @@ class PropertyService implements IPropertyService {
     ) {
       return this.propertyRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
     }
+
+    async get (userId: string, id: number) {
+      return this.propertyRepository.get(userId, id)
+    }
 }
 
 export default PropertyService

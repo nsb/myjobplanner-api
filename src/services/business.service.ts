@@ -50,6 +50,10 @@ class BusinessService implements IBusinessService {
     ) {
       return this.businessRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
     }
+
+    async get (userId: string, id: number) {
+      return this.businessRepository.get(userId, id)
+    }
 }
 
 export default BusinessService

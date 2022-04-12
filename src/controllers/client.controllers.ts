@@ -12,7 +12,7 @@ interface DTO {
 type ClientQueryParams = QueryParams<DTO>
 
 export class ClientController extends BaseController<s.clients.Insertable, s.clients.Updatable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, DTO, ClientQueryParams> {
-  public static inject = ['clientRepository', 'clientService'] as const;
+  public static inject = ['clientService'] as const;
 
   deserializeInsert (dto: DTO) {
     return {

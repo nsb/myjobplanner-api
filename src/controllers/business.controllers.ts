@@ -18,7 +18,7 @@ class BusinessController extends BaseController<
   DTO,
   QueryParams<DTO>
 > {
-  public static inject = ['businessRepository', 'businessService'] as const;
+  public static inject = ['businessService'] as const;
 
   deserializeInsert (dto: DTO) {
     return {

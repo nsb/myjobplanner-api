@@ -39,6 +39,10 @@ class ClientService implements IClientService {
     ) {
       return this.clientRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
     }
+
+    async get (userId: string, id: number) {
+      return this.clientRepository.get(userId, id)
+    }
 }
 
 export default ClientService

@@ -18,7 +18,7 @@ type PropertyQueryParams = QueryParams<DTO> & {
 }
 
 export class PropertyController extends BaseController<s.properties.Insertable, s.properties.Updatable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, DTO, PropertyQueryParams> {
-  public static inject = ['propertyRepository', 'propertyService'] as const;
+  public static inject = ['propertyService'] as const;
 
   deserializeInsert (dto: DTO) {
     return {

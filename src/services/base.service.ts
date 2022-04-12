@@ -5,4 +5,5 @@ export interface IService<Insertable, Updatable, Selectable, Whereable, Table ex
     create (userId: string, insertable: Insertable, businessId?: number): Promise<Selectable>
     update (userId: string, id: number, business: Updatable, businessId?: number): Promise<Selectable>
     find (userId: string, where: Whereable, options: RepositoryOptions<Table>, businessId?: number): Promise<ListResponse<Selectable>>
+    get(userId: string, id: number, businessId?: number): Promise<Selectable | undefined>
 }

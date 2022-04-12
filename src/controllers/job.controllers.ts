@@ -25,7 +25,7 @@ type JobQueryParams = QueryParams<DTO> & {
 }
 
 export class JobController extends BaseController<s.jobs.Insertable, s.jobs.Updatable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table, DTO, JobQueryParams> {
-  public static inject = ['jobRepository', 'jobService'] as const;
+  public static inject = ['jobService'] as const;
 
   deserializeInsert (dto: DTO) {
     return {

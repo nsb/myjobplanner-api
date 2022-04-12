@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import * as s from 'zapatos/schema'
-import type { IRepository } from '../repositories/BaseRepository'
 import type { IService } from '../services/base.service'
 import type { ApiEnvelope, QueryParams } from '../types'
 
@@ -14,7 +13,6 @@ export abstract class BaseController<
   Params extends QueryParams<DTO>
 > {
   constructor (
-    public repository: IRepository<Insertable, Updatable, Selectable, Whereable, Table>,
     private service: IService<Insertable, Updatable, Selectable, Whereable, Table>,
     public offset: number = 0,
     public limit: number = 20,
@@ -112,7 +110,7 @@ export abstract class BaseController<
   ) {
     if (req.user) {
       try {
-        const result = await this.repository.get(
+        const result = await this.service.get(
           req.user.sub,
           parseInt(req.params.Id, 10),
           req.params.businessId ? parseInt(req.params.businessId) : undefined

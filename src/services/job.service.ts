@@ -39,6 +39,10 @@ class JobService implements IJobService {
     ) {
       return this.jobRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
     }
+
+    async get (userId: string, id: number) {
+      return this.jobRepository.get(userId, id)
+    }
 }
 
 export default JobService
