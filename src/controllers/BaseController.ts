@@ -15,7 +15,7 @@ export abstract class BaseController<
 > {
   constructor (
     public repository: IRepository<Insertable, Updatable, Selectable, Whereable, Table>,
-    private service: IService<Insertable, Updatable, Selectable>,
+    private service: IService<Insertable, Updatable, Selectable, Whereable, Table>,
     public offset: number = 0,
     public limit: number = 20,
     public orderDirection: 'ASC' | 'DESC' = 'ASC'

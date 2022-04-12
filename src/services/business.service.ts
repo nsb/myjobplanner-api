@@ -4,8 +4,9 @@ import * as s from 'zapatos/schema'
 import type { IService } from './base.service'
 import type { IBusinessRepository } from '../repositories/BusinessRepository'
 import type { IEmployeeRepository } from '../repositories/EmployeRepository'
+import type { RepositoryOptions } from '../types'
 
-export interface IBusinessService extends IService<s.businesses.Insertable, s.businesses.Updatable, s.businesses.JSONSelectable> { }
+export interface IBusinessService extends IService<s.businesses.Insertable, s.businesses.Updatable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table> { }
 
 class BusinessService implements IBusinessService {
     public static inject = ['pool', 'businessRepository', 'employeeRepository'] as const;
@@ -40,6 +41,14 @@ class BusinessService implements IBusinessService {
           txnClient
         )
       })
+    }
+
+    async find (
+      userId: string,
+      where: s.businesses.Whereable,
+      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.businesses.Table>
+    ) {
+      return this.businessRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
     }
 }
 

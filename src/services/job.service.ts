@@ -3,8 +3,9 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { IService } from './base.service'
 import type { IJobRepository } from '../repositories/JobRepository'
+import { RepositoryOptions } from '../types'
 
-export interface IJobService extends IService<s.jobs.Insertable, s.jobs.Updatable, s.jobs.JSONSelectable> {}
+export interface IJobService extends IService<s.jobs.Insertable, s.jobs.Updatable, s.jobs.JSONSelectable, s.jobs.Whereable, s.jobs.Table> {}
 
 class JobService implements IJobService {
     public static inject = ['pool', 'jobRepository'] as const;
@@ -29,6 +30,14 @@ class JobService implements IJobService {
           txnClient
         )
       })
+    }
+
+    async find (
+      userId: string,
+      where: s.jobs.Whereable,
+      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.jobs.Table>
+    ) {
+      return this.jobRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
     }
 }
 

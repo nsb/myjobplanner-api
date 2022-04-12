@@ -3,8 +3,9 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { IService } from './base.service'
 import type { IClientRepository } from '../repositories/ClientRepository'
+import { RepositoryOptions } from '../types'
 
-export interface IClientService extends IService<s.clients.Insertable, s.clients.Updatable, s.clients.JSONSelectable> {}
+export interface IClientService extends IService<s.clients.Insertable, s.clients.Updatable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table> {}
 
 class ClientService implements IClientService {
     public static inject = ['pool', 'clientRepository'] as const;
@@ -29,6 +30,14 @@ class ClientService implements IClientService {
           txnClient
         )
       })
+    }
+
+    async find (
+      userId: string,
+      where: s.clients.Whereable,
+      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.clients.Table>
+    ) {
+      return this.clientRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
     }
 }
 
