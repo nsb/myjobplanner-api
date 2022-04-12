@@ -26,7 +26,7 @@ class JobService implements IJobService {
 
     async create (userId: string, [job, _lineItems]: JobInsertable, businessId?: number) {
       return db.readCommitted(this.pool, async txnClient => {
-        const createdJob: s.jobs.JSONSelectable = await this.jobRepository.create(
+        const createdJob = await this.jobRepository.create(
           userId,
           job,
           businessId,
