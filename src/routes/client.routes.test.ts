@@ -3,7 +3,6 @@ import { createInjector } from 'typed-inject'
 import request from 'supertest'
 import type { Options } from 'express-jwt'
 import type * as s from 'zapatos/schema'
-import type { IClientRepository } from '../repositories/ClientRepository'
 import type { IClientService } from '../services/client.service'
 import ClientController from '../controllers/client.controllers'
 import ClientRouter from './client.routes'
@@ -56,13 +55,6 @@ describe('ClientController', () => {
       }]
     ]
 
-    const MockRepository = jest.fn<IClientRepository, []>(() => ({
-      find: jest.fn().mockResolvedValue(mockedResult),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValueOnce({}),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IClientService, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
       get: jest.fn(),
@@ -71,7 +63,6 @@ describe('ClientController', () => {
     }))
 
     const container = createInjector()
-      .provideClass('clientRepository', MockRepository)
       .provideClass('clientService', MockService)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)
@@ -100,13 +91,6 @@ describe('ClientController', () => {
   test('GET /v1/businesses/1/clients not found', async () => {
     const mockedQueryResult = [0, []]
 
-    const MockRepository = jest.fn<IClientRepository, []>(() => ({
-      find: jest.fn().mockResolvedValue(mockedQueryResult),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValue({}),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IClientService, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedQueryResult),
       get: jest.fn(),
@@ -115,7 +99,6 @@ describe('ClientController', () => {
     }))
 
     const container = createInjector()
-      .provideClass('clientRepository', MockRepository)
       .provideClass('clientService', MockService)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)
@@ -160,13 +143,6 @@ describe('ClientController', () => {
       created: '2021-11-11T22:55:57.405524Z'
     }
 
-    const MockRepository = jest.fn<IClientRepository, []>(() => ({
-      find: jest.fn(),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValue(mockedQueryResult),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IClientService, []>(() => ({
       find: jest.fn(),
       get: jest.fn(),
@@ -175,7 +151,6 @@ describe('ClientController', () => {
     }))
 
     const container = createInjector()
-      .provideClass('clientRepository', MockRepository)
       .provideClass('clientService', MockService)
       .provideClass('clientController', ClientController)
       .provideValue('authorization', authorizationMiddleware)

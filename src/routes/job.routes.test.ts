@@ -3,7 +3,6 @@ import { createInjector } from 'typed-inject'
 import request from 'supertest'
 import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
-import type { IJobRepository } from '../repositories/JobRepository'
 import type { IJobService } from '../services/job.service'
 import JobController from '../controllers/job.controllers'
 import JobRouter from './job.routes'
@@ -52,13 +51,6 @@ describe('JobController', () => {
       }]
     ]
 
-    const MockRepository = jest.fn<IJobRepository, []>(() => ({
-      find: jest.fn().mockResolvedValue(mockedResult),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValueOnce({}),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
       get: jest.fn(),
@@ -67,7 +59,6 @@ describe('JobController', () => {
     }))
 
     const container = createInjector()
-      .provideClass('jobRepository', MockRepository)
       .provideClass('jobService', MockService)
       .provideClass('jobController', JobController)
       .provideValue('authorization', authorizationMiddleware)
@@ -105,13 +96,6 @@ describe('JobController', () => {
   test('GET /v1/businesses/:businessId/jobs not found', async () => {
     const mockedQueryResult = [0, []]
 
-    const MockRepository = jest.fn<IJobRepository, []>(() => ({
-      find: jest.fn().mockResolvedValue(mockedQueryResult),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValue({}),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedQueryResult),
       get: jest.fn(),
@@ -120,7 +104,6 @@ describe('JobController', () => {
     }))
 
     const container = createInjector()
-      .provideClass('jobRepository', MockRepository)
       .provideClass('jobService', MockService)
       .provideClass('jobController', JobController)
       .provideValue('authorization', authorizationMiddleware)
@@ -159,13 +142,6 @@ describe('JobController', () => {
       created: '2021-11-11T22:55:57.405524'
     }
 
-    const MockRepository = jest.fn<IJobRepository, []>(() => ({
-      find: jest.fn(),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValue(mockedQueryResult),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn(),
       get: jest.fn(),
@@ -174,7 +150,6 @@ describe('JobController', () => {
     }))
 
     const container = createInjector()
-      .provideClass('jobRepository', MockRepository)
       .provideClass('jobService', MockService)
       .provideClass('jobController', JobController)
       .provideValue('authorization', authorizationMiddleware)

@@ -4,7 +4,6 @@ import request from 'supertest'
 import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import type * as s from 'zapatos/schema'
-import type { IBusinessRepository } from '../repositories/BusinessRepository'
 import type { IBusinessService } from '../services/business.service'
 import BusinessController from '../controllers/business.controllers'
 import BusinessRouter from './business.routes'
@@ -45,13 +44,6 @@ describe('BusinessController', () => {
       }]
     ]
 
-    const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
-      find: jest.fn().mockResolvedValue(mockedResult),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValueOnce({}),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IBusinessService, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
       get: jest.fn(),
@@ -62,7 +54,6 @@ describe('BusinessController', () => {
     const app = express()
     app.use(express.json())
     app.use('/v1', container
-      .provideClass('businessRepository', MockRepository)
       .provideClass('businessService', MockService)
       .provideClass('businessController', BusinessController)
       .injectFunction(BusinessRouter)
@@ -108,13 +99,6 @@ describe('BusinessController', () => {
       }]
     ]
 
-    const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
-      find: jest.fn().mockResolvedValue(mockedResult),
-      get: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IBusinessService, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
       get: jest.fn(),
@@ -125,7 +109,6 @@ describe('BusinessController', () => {
     const app = express()
     app.use(express.json())
     app.use('/v1', container
-      .provideClass('businessRepository', MockRepository)
       .provideClass('businessService', MockService)
       .provideClass('businessController', BusinessController)
       .injectFunction(BusinessRouter))
@@ -154,13 +137,6 @@ describe('BusinessController', () => {
   test('GET /v1/businesses not found', async () => {
     const mockedQueryResult = [0, []]
 
-    const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
-      find: jest.fn().mockResolvedValue(mockedQueryResult),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValue({}),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IBusinessService, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedQueryResult),
       get: jest.fn(),
@@ -171,7 +147,6 @@ describe('BusinessController', () => {
     const app = express()
     app.use(express.json())
     app.use('/v1', container
-      .provideClass('businessRepository', MockRepository)
       .provideClass('businessService', MockService)
       .provideClass('businessController', BusinessController)
       .injectFunction(BusinessRouter))
@@ -199,13 +174,6 @@ describe('BusinessController', () => {
       created: '2021-11-11T22:55:57.405524Z'
     }
 
-    const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
-      find: jest.fn(),
-      get: jest.fn().mockResolvedValue(mockedResult),
-      create: jest.fn().mockResolvedValueOnce({}),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IBusinessService, []>(() => ({
       find: jest.fn(),
       get: jest.fn().mockResolvedValue(mockedResult),
@@ -216,7 +184,6 @@ describe('BusinessController', () => {
     const app = express()
     app.use(express.json())
     app.use('/v1', container
-      .provideClass('businessRepository', MockRepository)
       .provideClass('businessService', MockService)
       .provideClass('businessController', BusinessController)
       .injectFunction(BusinessRouter))
@@ -233,13 +200,6 @@ describe('BusinessController', () => {
   })
 
   test('GET /v1/businesses/1 not found', async () => {
-    const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
-      find: jest.fn(),
-      get: jest.fn().mockResolvedValue(undefined),
-      create: jest.fn().mockResolvedValueOnce({}),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IBusinessService, []>(() => ({
       find: jest.fn(),
       get: jest.fn().mockResolvedValue(undefined),
@@ -250,7 +210,6 @@ describe('BusinessController', () => {
     const app = express()
     app.use(express.json())
     app.use('/v1', container
-      .provideClass('businessRepository', MockRepository)
       .provideClass('businessService', MockService)
       .provideClass('businessController', BusinessController)
       .injectFunction(BusinessRouter))
@@ -272,13 +231,6 @@ describe('BusinessController', () => {
       created: '2021-11-11T22:55:57.405524Z'
     }
 
-    const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
-      find: jest.fn(),
-      get: jest.fn(),
-      create: jest.fn().mockResolvedValue(mockedQueryResult),
-      update: jest.fn()
-    }))
-
     const MockService = jest.fn<IBusinessService, []>(() => ({
       find: jest.fn(),
       get: jest.fn(),
@@ -289,7 +241,6 @@ describe('BusinessController', () => {
     const app = express()
     app.use(express.json())
     app.use('/v1', container
-      .provideClass('businessRepository', MockRepository)
       .provideClass('businessService', MockService)
       .provideClass('businessController', BusinessController)
       .injectFunction(BusinessRouter))
