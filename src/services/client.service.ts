@@ -35,9 +35,10 @@ class ClientService implements IClientService {
     async find (
       userId: string,
       where: s.clients.Whereable,
-      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.clients.Table>
+      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.clients.Table>,
+      businessId?: number
     ) {
-      return this.clientRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
+      return this.clientRepository.find(userId, where, { limit, offset, orderBy, orderDirection }, businessId)
     }
 
     async get (userId: string, id: number) {

@@ -35,9 +35,10 @@ class JobService implements IJobService {
     async find (
       userId: string,
       where: s.jobs.Whereable,
-      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.jobs.Table>
+      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.jobs.Table>,
+      businessId?: number
     ) {
-      return this.jobRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
+      return this.jobRepository.find(userId, where, { limit, offset, orderBy, orderDirection }, businessId)
     }
 
     async get (userId: string, id: number) {

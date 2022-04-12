@@ -46,9 +46,10 @@ class BusinessService implements IBusinessService {
     async find (
       userId: string,
       where: s.businesses.Whereable,
-      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.businesses.Table>
+      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.businesses.Table>,
+      businessId?: number
     ) {
-      return this.businessRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
+      return this.businessRepository.find(userId, where, { limit, offset, orderBy, orderDirection }, businessId)
     }
 
     async get (userId: string, id: number) {

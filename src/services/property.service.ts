@@ -35,9 +35,14 @@ class PropertyService implements IPropertyService {
     async find (
       userId: string,
       where: s.properties.Whereable,
-      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.properties.Table>
+      { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.properties.Table>,
+      businessId?: number
     ) {
-      return this.propertyRepository.find(userId, where, { limit, offset, orderBy, orderDirection })
+      return this.propertyRepository.find(
+        userId,
+        where,
+        { limit, offset, orderBy, orderDirection },
+        businessId)
     }
 
     async get (userId: string, id: number) {
