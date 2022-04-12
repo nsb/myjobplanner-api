@@ -24,9 +24,14 @@ class JobService implements IJobService {
         private jobRepository: IJobRepository
     ) {}
 
-    async create (userId: string, [job, _lineItems]: JobInsertable) {
+    async create (userId: string, [job, _lineItems]: JobInsertable, businessId?: number) {
       return db.readCommitted(this.pool, async txnClient => {
-        const createdJob: s.jobs.JSONSelectable = await this.jobRepository.create(userId, job, undefined, txnClient)
+        const createdJob: s.jobs.JSONSelectable = await this.jobRepository.create(
+          userId,
+          job,
+          businessId,
+          txnClient
+        )
         return [createdJob, []] as JobSelectable
       })
     }
