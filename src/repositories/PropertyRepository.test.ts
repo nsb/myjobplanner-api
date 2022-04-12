@@ -130,7 +130,7 @@ describe('PropertyRepository', () => {
     })
   })
 
-  test('create business', async () => {
+  test('create property', async () => {
     function poolDecorator (pool: Pool) {
       (pool as any).connect = jest.fn().mockReturnThis();
       (pool as any).release = jest.fn().mockReturnThis();
@@ -138,10 +138,6 @@ describe('PropertyRepository', () => {
 
       // TX Begin
       (pool as any).query.mockResolvedValueOnce({
-        rows: [{
-          result: {}
-        }] // TX validate
-      }).mockResolvedValueOnce({
         rows: [{
           result: {}
         }] // TX property

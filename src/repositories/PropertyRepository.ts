@@ -17,17 +17,17 @@ class PropertyRepository implements IPropertyRepository {
   public static inject = ['pool'] as const
 
   async create (
-    userId: string,
+    _userId: string,
     property: s.properties.Insertable,
-    businessId: number
+    _businessId: number
   ): Promise<s.properties.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
       // validate client id
-      await db.selectExactlyOne(
-        'clients', {
-          business_id: businessId,
-          id: property.client_id
-        }).run(txnClient)
+      // await db.selectExactlyOne(
+      //   'clients', {
+      //     business_id: businessId,
+      //     id: property.client_id
+      //   }).run(txnClient)
 
       const createdPropertySql = db.insert('properties', property)
       return await createdPropertySql.run(txnClient)
@@ -35,25 +35,25 @@ class PropertyRepository implements IPropertyRepository {
   }
 
   async update (
-    userId: string,
+    _userId: string,
     id: number,
     property: s.properties.Updatable,
-    businessId: number
+    _businessId: number
   ): Promise<s.properties.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
-      // validate client id
-      await db.selectExactlyOne(
-        'clients', {
-          business_id: businessId,
-          id: property.client_id
-        }).run(txnClient)
+      // // validate client id
+      // await db.selectExactlyOne(
+      //   'clients', {
+      //     business_id: businessId,
+      //     id: property.client_id
+      //   }).run(txnClient)
       const updatedBusiness = await db.update('properties', property, { id }).run(txnClient)
       return updatedBusiness[0]
     })
   }
 
   async find (
-    userId: string,
+    _userId: string,
     property?: s.properties.Whereable,
     options?: RepositoryOptions<s.properties.Table>,
     businessId?: number
@@ -88,11 +88,11 @@ class PropertyRepository implements IPropertyRepository {
     return [totalCount[0].result, properties?.map(property => property.result)]
   }
 
-  async get (userId: string, id: number, businessId: number): Promise<s.properties.JSONSelectable | undefined> {
+  async get (_userId: string, id: number, businessId: number): Promise<s.properties.JSONSelectable | undefined> {
     return db.selectExactlyOne(
       'clients',
       { business_id: businessId },
-      { lateral: db.selectExactlyOne('properties', { client_id: db.parent('id') }) }
+      { lateral: db.selectExactlyOne('properties', { client_id: db.parent('id'), id }) }
     ).run(this.pool)
   }
 }
