@@ -85,7 +85,7 @@ class PropertyRepository implements IPropertyRepository {
 
     const [totalCount, properties] = await Promise.all([countPromise, propertiesPromise])
 
-    return { totalCount: totalCount[0].result, result: properties?.map(property => property.result) }
+    return [totalCount[0].result, properties?.map(property => property.result)]
   }
 
   async get (userId: string, id: number, businessId: number): Promise<s.properties.JSONSelectable | undefined> {

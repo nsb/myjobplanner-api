@@ -31,9 +31,9 @@ jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwt
 
 describe('PropertyController', () => {
   test('GET /v1/businesses/:businessId/properties', async () => {
-    const mockedResult = {
-      totalCount: 1,
-      result: [{
+    const mockedResult = [
+      1,
+      [{
         id: 1,
         client_id: 1,
         description: 'my property',
@@ -44,7 +44,7 @@ describe('PropertyController', () => {
         country: 'Denmark',
         created: '2021-11-11T22:55:57.405524'
       }]
-    }
+    ]
 
     const MockRepository = jest.fn<IPropertyRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
@@ -91,7 +91,7 @@ describe('PropertyController', () => {
   })
 
   test('GET /v1/businesses/:businessId/properties not found', async () => {
-    const mockedQueryResult = { totalCount: 0, result: [] }
+    const mockedQueryResult = [0, []]
 
     const MockRepository = jest.fn<IPropertyRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedQueryResult),

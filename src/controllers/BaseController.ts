@@ -86,7 +86,7 @@ export abstract class BaseController<
         const orderBy = req.query.orderBy ? this.getOrderBy(req.query.orderBy) : undefined
         const orderDirection = req.query.orderDirection || this.orderDirection
         const where = this.fromQuery(req.query)
-        const { totalCount, result } = await this.repository.find(
+        const [totalCount, result] = await this.service.find(
           req.user.sub,
           where,
           { limit, offset, orderBy, orderDirection },

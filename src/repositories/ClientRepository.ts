@@ -45,7 +45,7 @@ class ClientRepository implements IClientRepository {
     const countSql = db.count('clients', { ...client })
     const countPromise = countSql.run(this.pool)
     const [totalCount, clients] = await Promise.all([countPromise, clientsPromise])
-    return { totalCount, result: clients.filter(client => client != null) }
+    return [totalCount, clients.filter(client => client != null)]
   }
 
   async get (_userId: string, id: number, businessId: number) {

@@ -98,7 +98,7 @@ class JobRepository implements IJobRepository {
 
       const [totalCount, jobs] = await Promise.all([countPromise, jobsPromise])
 
-      return { totalCount: totalCount[0].result, result: jobs?.map(job => job.result) }
+      return [totalCount[0].result, jobs?.map(job => job.result)]
     }
 
     async get (userId: string, id: number, businessId: number) {

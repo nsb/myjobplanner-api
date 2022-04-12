@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
-import type { RepositoryOptions } from '../types'
+import type { ListResponse, RepositoryOptions } from '../types'
 import type { IRepository } from './BaseRepository'
 
 export interface IBusinessRepository extends IRepository<
@@ -62,7 +62,10 @@ class BusinessRepository implements IBusinessRepository {
 
     const [totalCount, businesses] = await Promise.all([countPromise, businessesPromise])
 
-    return { totalCount: totalCount[0].result, result: businesses?.filter(business => business != null) }
+    return [
+      totalCount[0].result,
+      businesses.filter(business => business != null)
+    ] as ListResponse<s.businesses.JSONSelectable>
   }
 
   async get (userId: string, id: number) {

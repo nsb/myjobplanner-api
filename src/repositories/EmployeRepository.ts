@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
-import type { RepositoryOptions } from '../types'
+import type { ListResponse, RepositoryOptions } from '../types'
 import type { IRepository } from './BaseRepository'
 
 export interface IEmployeeRepository extends IRepository<
@@ -53,7 +53,10 @@ class EmployeeRepository implements IEmployeeRepository {
 
     const [totalCount, employees] = await Promise.all([countPromise, employeesPromise])
 
-    return { totalCount: totalCount[0].result, result: employees?.filter(employee => employee != null) }
+    return [
+      totalCount[0].result,
+      employees?.filter(employee => employee != null
+      )] as ListResponse<s.employees.JSONSelectable>
   }
 
   async get (userId: string, id: number) {

@@ -32,9 +32,9 @@ jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwt
 
 describe('JobController', () => {
   test('GET /v1/businesses/:businessId/jobs', async () => {
-    const mockedResult = {
-      totalCount: 1,
-      result: [{
+    const mockedResult = [
+      1,
+      [{
         id: 1,
         client_id: 1,
         property_id: 1,
@@ -50,7 +50,7 @@ describe('JobController', () => {
         invoice: 'never',
         created: '2021-11-11T22:55:57.405524'
       }]
-    }
+    ]
 
     const MockRepository = jest.fn<IJobRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
@@ -103,7 +103,7 @@ describe('JobController', () => {
   })
 
   test('GET /v1/businesses/:businessId/jobs not found', async () => {
-    const mockedQueryResult = { totalCount: 0, result: [] }
+    const mockedQueryResult = [0, []]
 
     const MockRepository = jest.fn<IJobRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedQueryResult),

@@ -46,7 +46,7 @@ describe('JobRepository', () => {
 
     const repository = container.injectClass(JobRepository)
 
-    const { totalCount, result } = await repository.find('abc', {})
+    const [totalCount, result] = await repository.find('abc', {})
     expect(totalCount).toEqual(1)
     expect(result).toEqual([{
       id: 1,
@@ -90,7 +90,7 @@ describe('JobRepository', () => {
 
     const repository = container.injectClass(JobRepository)
 
-    const { totalCount, result } = await repository.find('abc')
+    const [totalCount, result] = await repository.find('abc')
     expect(totalCount).toEqual(0)
     expect(result).toEqual([])
   })

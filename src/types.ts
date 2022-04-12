@@ -14,7 +14,7 @@ export type RepositoryOptions<T extends s.Table> = {
     orderDirection?: 'ASC' | 'DESC'
 }
 
-export type ListResponse<T> = { totalCount: number, result: T[] }
+export type ListResponse<T> = [ number, T[] ]
 
 export type ApiEnvelope<T> = {
     data: T[]

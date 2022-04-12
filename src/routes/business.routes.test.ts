@@ -31,9 +31,9 @@ describe('BusinessController', () => {
     .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
 
   test('GET /v1/businesses', async () => {
-    const mockedResult = {
-      totalCount: 1,
-      result: [{
+    const mockedResult = [
+      1,
+      [{
         id: 1,
         name: 'Idealrent',
         timezone: 'Europe/Copenhagen',
@@ -43,7 +43,7 @@ describe('BusinessController', () => {
         visit_reminders: false,
         created: '2021-11-11T22:55:57.405524Z'
       }]
-    }
+    ]
 
     const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
@@ -85,9 +85,9 @@ describe('BusinessController', () => {
   })
 
   test('GET /v1/businesses?orderBy=id&orderDirection=ASC', async () => {
-    const mockedResult = {
-      totalCount: 2,
-      result: [{
+    const mockedResult = [
+      2,
+      [{
         id: 1,
         name: 'Idealrent',
         timezone: 'Europe/Copenhagen',
@@ -106,7 +106,7 @@ describe('BusinessController', () => {
         visit_reminders: false,
         created: '2021-11-11T22:55:57.405524Z'
       }]
-    }
+    ]
 
     const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
@@ -152,7 +152,7 @@ describe('BusinessController', () => {
   })
 
   test('GET /v1/businesses not found', async () => {
-    const mockedQueryResult = { totalCount: 0, result: [] }
+    const mockedQueryResult = [0, []]
 
     const MockRepository = jest.fn<IBusinessRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedQueryResult),

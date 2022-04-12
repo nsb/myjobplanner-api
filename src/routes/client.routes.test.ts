@@ -32,9 +32,9 @@ jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwt
 
 describe('ClientController', () => {
   test('GET /v1/businesses/1/clients', async () => {
-    const mockedResult = {
-      totalCount: 1,
-      result: [{
+    const mockedResult = [
+      1,
+      [{
         id: 1,
         business_id: 1,
         first_name: 'Ole',
@@ -54,7 +54,7 @@ describe('ClientController', () => {
         imported_via: null,
         created: '2021-11-11T22:55:57.405524'
       }]
-    }
+    ]
 
     const MockRepository = jest.fn<IClientRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
@@ -98,7 +98,7 @@ describe('ClientController', () => {
   })
 
   test('GET /v1/businesses/1/clients not found', async () => {
-    const mockedQueryResult = { totalCount: 0, result: [] }
+    const mockedQueryResult = [0, []]
 
     const MockRepository = jest.fn<IClientRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedQueryResult),
