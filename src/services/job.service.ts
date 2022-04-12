@@ -9,7 +9,13 @@ type JobInsertable = [s.jobs.Insertable, s.lineitems.Insertable[]]
 type JobUpdatable = [s.jobs.Updatable, s.lineitems.Updatable[]]
 type JobSelectable = [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]]
 
-export interface IJobService extends IService<JobInsertable, JobUpdatable, JobSelectable, s.jobs.Whereable, s.jobs.Table> {}
+export interface IJobService extends IService<
+  JobInsertable,
+  JobUpdatable,
+  JobSelectable,
+  s.jobs.Whereable,
+  s.jobs.Table
+> {}
 
 class JobService implements IJobService {
     public static inject = ['pool', 'jobRepository'] as const;
