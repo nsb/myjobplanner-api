@@ -26,7 +26,7 @@ class JobService implements IJobService {
         private lineItemRepository: ILineItemRepository
     ) {}
 
-    async create (userId: string, [job, _lineItems]: JobInsertable, businessId?: number) {
+    async create (userId: string, [job, lineItems]: JobInsertable, businessId?: number) {
       return db.readCommitted(this.pool, async txnClient => {
         const createdJob = await this.jobRepository.create(
           userId,
@@ -34,7 +34,12 @@ class JobService implements IJobService {
           businessId,
           txnClient
         )
-        return [createdJob, []] as JobSelectable
+        const createdLineItems = await Promise.all(lineItems.map((lineItem) => {
+          return this.lineItemRepository.create(
+            userId, { ...lineItem, job_id: createdJob.id }, businessId, txnClient
+          )
+        }))
+        return [createdJob, createdLineItems] as JobSelectable
       })
     }
 
@@ -58,7 +63,8 @@ class JobService implements IJobService {
       businessId?: number
     ) {
       const [totalCount, jobs] = await this.jobRepository.find(userId, where, { limit, offset, orderBy, orderDirection }, businessId)
-      return [totalCount, jobs.map(job => [job, []])] as [number, JobSelectable[]]
+      console.log(jobs)
+      return [totalCount, jobs.map(job => [job, job.lineitems])] as [number, JobSelectable[]]
     }
 
     async get (userId: string, id: number) {

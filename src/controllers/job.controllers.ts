@@ -20,7 +20,7 @@ interface DTO {
   invoice: s.invoice_job_choices
   lineItems: Array<{
     id?: number
-    serviceId?: number
+    serviceId: number | null
     name: string
     quantity: number
     unitCost: number
@@ -56,7 +56,14 @@ export class JobController extends BaseController<
       description: dto.description,
       closed: dto.closed,
       invoice: dto.invoice
-    }, []]
+    }, dto.lineItems.map((lineItem) => {
+      return {
+        service_id: lineItem.serviceId,
+        name: lineItem.name,
+        quantity: lineItem.quantity,
+        unit_cost: lineItem.unitCost
+      }
+    })]
   }
 
   deserializeUpdate (dto: DTO): [s.jobs.Updatable, s.lineitems.Updatable[]] {
@@ -73,17 +80,34 @@ export class JobController extends BaseController<
       description: dto.description,
       closed: dto.closed,
       invoice: dto.invoice
-    }, []]
+    }, dto.lineItems.map((lineItem) => {
+      return {
+        id: dto.id,
+        job_id: dto.id,
+        service_id: lineItem.serviceId,
+        name: lineItem.name,
+        quantity: lineItem.quantity,
+        unit_cost: lineItem.unitCost
+      }
+    })]
   }
 
-  serialize ([model, _lineitems]: [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]]) {
+  serialize ([model, lineitems]: [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]]) {
     return {
       ...model,
       clientId: model.client_id,
       propertyId: model.property_id,
       startTime: model.start_time,
       finishTime: model.finish_time,
-      lineItems: []
+      lineItems: lineitems?.map((lineItem) => {
+        return {
+          id: lineItem.id,
+          serviceId: lineItem.service_id,
+          name: lineItem.name,
+          quantity: lineItem.quantity,
+          unitCost: lineItem.unit_cost
+        }
+      }) || []
     }
   }
 
