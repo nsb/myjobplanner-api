@@ -5,15 +5,20 @@ import BusinessRouter from './routes/business.routes'
 import ClientRouter from './routes/client.routes'
 import PropertyRouter from './routes/property.routes'
 import JobRouter from './routes/job.routes'
-import container from './container'
 import HealthRouter from './routes/health.routes'
+import container, {
+  businessRoutesContainer,
+  clientRoutesContainer,
+  jobRoutesContainer,
+  propertyRoutesContainer
+} from './container'
 import logger from './logger'
 
 app.use('/healthz', container.injectFunction(HealthRouter))
-app.use('/v1', container.injectFunction(BusinessRouter))
-app.use('/v1', container.injectFunction(ClientRouter))
-app.use('/v1', container.injectFunction(PropertyRouter))
-app.use('/v1', container.injectFunction(JobRouter))
+app.use('/v1', businessRoutesContainer.injectFunction(BusinessRouter))
+app.use('/v1', clientRoutesContainer.injectFunction(ClientRouter))
+app.use('/v1', propertyRoutesContainer.injectFunction(PropertyRouter))
+app.use('/v1', jobRoutesContainer.injectFunction(JobRouter))
 
 app.use(
   '/',

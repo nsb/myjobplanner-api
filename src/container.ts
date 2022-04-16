@@ -19,25 +19,35 @@ import openApi from './openapi'
 import checkJwt from './jwt'
 import LineItemRepository from './repositories/LineItemRepository'
 
-const container = createInjector()
+const baseContainer = createInjector()
   .provideValue('pool', pool)
+  .provideFactory('authorization', poolDecorator)
+  .provideValue('openApi', openApi)
+  .provideValue('checkJwt', checkJwt)
+
+const container = baseContainer
+  .provideClass('healthController', HealthController)
+
+export const businessRoutesContainer = baseContainer
   .provideClass('employeeRepository', EmployeeRepository)
   .provideClass('businessRepository', BusinessRepository)
   .provideClass('businessService', BusinessService)
   .provideClass('businessController', BusinessController)
+
+export const clientRoutesContainer = baseContainer
   .provideClass('clientRepository', ClientRepository)
   .provideClass('clientService', ClientService)
   .provideClass('clientController', ClientController)
+
+export const propertyRoutesContainer = baseContainer
   .provideClass('propertyRepository', PropertyRepository)
   .provideClass('propertyService', PropertyService)
   .provideClass('propertyController', PropertyController)
+
+export const jobRoutesContainer = baseContainer
   .provideClass('jobRepository', JobRepository)
   .provideClass('lineItemRepository', LineItemRepository)
   .provideClass('jobService', JobService)
   .provideClass('jobController', JobController)
-  .provideClass('healthController', HealthController)
-  .provideFactory('authorization', poolDecorator)
-  .provideValue('openApi', openApi)
-  .provideValue('checkJwt', checkJwt)
 
 export default container
