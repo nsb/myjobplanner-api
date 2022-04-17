@@ -31,12 +31,16 @@ export abstract class BaseController<
     next: NextFunction
   ) {
     if (req.user) {
+      const businessId = req.params.businessId ? parseInt(req.params.businessId) : undefined
       const deserialized = this.deserializeInsert(req.body)
       try {
+        if (!this.validate(req.user.sub, deserialized, businessId)) {
+          throw new Error('Bad request')
+        }
         const result = await this.service.create(
           req.user.sub,
           deserialized,
-          req.params.businessId ? parseInt(req.params.businessId) : undefined
+          businessId
         )
         await this.afterCreate(req, result)
         res.status(200).json(this.serialize(result))
@@ -46,7 +50,8 @@ export abstract class BaseController<
     }
   }
 
-  protected async afterCreate (req: Request, result: Selectable) { }
+  protected async afterCreate (_req: Request, _result: Selectable) { }
+  protected validate (_userId: string, _deserialized: Insertable | Updatable, _businessId?: number) { return true }
 
   async update (
     req: Request<{ Id: string, businessId?: string }, {}, DTO>,
@@ -54,13 +59,17 @@ export abstract class BaseController<
     next: NextFunction
   ) {
     if (req.user) {
+      const businessId = req.params.businessId ? parseInt(req.params.businessId) : undefined
       const deserialized = this.deserializeUpdate(req.body)
       try {
+        if (!this.validate(req.user.sub, deserialized, businessId)) {
+          throw new Error('Bad request')
+        }
         const result = await this.service.update(
           req.user.sub,
           parseInt(req.params.Id, 10),
           deserialized,
-          req.params.businessId ? parseInt(req.params.businessId) : undefined
+          businessId
         )
         await this.afterUpdate(result)
         res.status(200).json(this.serialize(result))

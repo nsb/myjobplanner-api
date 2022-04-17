@@ -39,6 +39,14 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
     }
   }
 
+  validate (
+    _userId: string,
+    model: s.clients.Insertable | s.clients.Updatable,
+    businessId: number
+  ) {
+    return model.business_id === businessId
+  }
+
   getOrderBy (key: keyof DTO) {
     switch (key) {
       case 'businessId':
