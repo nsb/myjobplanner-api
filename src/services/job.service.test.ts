@@ -261,7 +261,6 @@ describe('JobService', () => {
       closed: false,
       invoice: 'monthly'
     }, []], 1)
-    console.log(job)
 
     const expected = [{
       id: 1,
