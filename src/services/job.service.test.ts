@@ -86,34 +86,47 @@ describe('JobService', () => {
       ])
   })
 
-  //   test('find not found', async () => {
-  //     function poolDecorator (pool: Pool) {
-  //       (pool as any).connect = jest.fn().mockReturnThis();
-  //       (pool as any).release = jest.fn().mockReturnThis();
-  //       (pool as any).query = jest.fn().mockReturnThis();
+  test('find not found', async () => {
+    function poolDecorator (pool: Pool) {
+      (pool as any).connect = jest.fn().mockReturnThis();
+      (pool as any).release = jest.fn().mockReturnThis();
+      (pool as any).query = jest.fn().mockReturnThis()
+      return pool
+    }
+    poolDecorator.inject = ['pool'] as const
 
-  //       (pool as any).query.mockResolvedValueOnce({
-  //         rows: [{ result: [] }]
-  //       }).mockResolvedValueOnce({
-  //         rows: [{
-  //           result: 0
-  //         }]
-  //       })
+    const mockedResult = [0, []]
 
-  //       return pool
-  //     }
-  //     poolDecorator.inject = ['pool'] as const
+    const MockJobRepository = jest.fn<IJobRepository, []>(() => ({
+      find: jest.fn().mockResolvedValue(mockedResult),
+      get: jest.fn(),
+      create: jest.fn().mockResolvedValueOnce({}),
+      update: jest.fn()
+    }))
 
-  //     const container = createInjector()
-  //       .provideValue('pool', pool)
-  //       .provideFactory('pool', poolDecorator)
+    const MockLineItemRepository = jest.fn<ILineItemRepository, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn()
+    }))
 
-  //     const repository = container.injectClass(JobRepository)
+    const container = createInjector()
+      .provideValue('pool', pool)
+      .provideClass('jobRepository', MockJobRepository)
+      .provideClass('lineItemRepository', MockLineItemRepository)
 
-  //     const [totalCount, result] = await repository.find('abc')
-  //     expect(totalCount).toEqual(0)
-  //     expect(result).toEqual([])
-  //   })
+    const service = container.injectClass(JobService)
+
+    const [totalCount, result] = await service.find(
+      'abc',
+      {},
+      { limit: 20, offset: 0, orderBy: 'created', orderDirection: 'ASC' },
+      1
+    )
+    expect(totalCount).toEqual(0)
+    expect(result).toEqual([])
+  })
 
   //   test('get', async () => {
   //     function poolDecorator (pool: Pool) {
