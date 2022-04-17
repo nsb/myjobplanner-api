@@ -685,14 +685,9 @@ export const apiSpec: OpenAPIV3.Document = {
       Error: {
         type: 'object',
         required: [
-          'code',
           'message'
         ],
         properties: {
-          code: {
-            type: 'integer',
-            format: 'int32'
-          },
           message: {
             type: 'string'
           }
