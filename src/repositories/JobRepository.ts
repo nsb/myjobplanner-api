@@ -46,7 +46,7 @@ class JobRepository implements IJobRepository {
       businessId?: number
     ): Promise<ListResponse<JobRepositorySelectable>> {
       const jobsSql = db.sql<s.jobs.SQL | s.clients.SQL | s.lineitems.SQL, Array<{ result: Array<JobRepositorySelectable>}>>`
-        SELECT json_agg(b) AS result FROM (
+        SELECT coalesce(json_agg(b), '[]') AS result FROM (
         SELECT j.* FROM ${'clients'} c
         JOIN
         (SELECT * FROM jobs j,
