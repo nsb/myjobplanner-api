@@ -187,77 +187,99 @@ describe('JobService', () => {
   //     expect(job).toEqual(expected)
   //   })
 
-  //   test('create job', async () => {
-  //     function poolDecorator (pool: Pool) {
-  //       (pool as any).connect = jest.fn().mockReturnThis();
-  //       (pool as any).release = jest.fn().mockReturnThis();
-  //       (pool as any).query = jest.fn().mockReturnThis();
+  test('create job', async () => {
+    function poolDecorator (pool: Pool) {
+      (pool as any).connect = jest.fn().mockReturnThis();
+      (pool as any).release = jest.fn().mockReturnThis();
+      (pool as any).query = jest.fn().mockReturnThis();
 
-  //       // TX Job
-  //       (pool as any).query.mockResolvedValueOnce({
-  //         rows: [{
-  //           result: {
-  //             id: 1,
-  //             client_id: 1,
-  //             property_id: 1,
-  //             recurrences: null,
-  //             begins: new Date('2021-11-11T22:55:57.405524'),
-  //             ends: null,
-  //             start_time: null,
-  //             finish_time: null,
-  //             anytime: true,
-  //             title: 'my job title',
-  //             description: 'my job description',
-  //             closed: false,
-  //             invoice: 'monthly',
-  //             created: new Date('2021-11-11T22:55:57.405524')
-  //           }
-  //         }]
-  //       })
+      // TX Begin
+      (pool as any).query.mockResolvedValueOnce({
+        rows: [{
+          result: {}
+        }] // TX Commit
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {}
+        }]
+      })
 
-  //       return pool
-  //     }
-  //     poolDecorator.inject = ['pool'] as const
+      return pool
+    }
+    poolDecorator.inject = ['pool'] as const
 
-  //     const container = createInjector()
-  //       .provideValue('pool', pool)
-  //       .provideFactory('pool', poolDecorator)
+    const mockedResult = {
+      id: 1,
+      client_id: 1,
+      property_id: 1,
+      recurrences: null,
+      begins: '2021-11-11T22:55:57.405524',
+      ends: null,
+      start_time: null,
+      finish_time: null,
+      anytime: true,
+      title: 'my job title',
+      description: 'my job description',
+      closed: false,
+      invoice: 'monthly',
+      created: '2021-11-11T22:55:57.405524'
+    }
 
-  //     const repository = container.injectClass(JobRepository)
+    const MockJobRepository = jest.fn<IJobRepository, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn().mockResolvedValueOnce(mockedResult),
+      update: jest.fn()
+    }))
 
-  //     const job = await repository.create('abc', {
-  //       id: 1,
-  //       client_id: 1,
-  //       property_id: 1,
-  //       recurrences: null,
-  //       begins: new Date('2021-11-11T22:55:57.405524'),
-  //       ends: null,
-  //       start_time: null,
-  //       finish_time: null,
-  //       anytime: true,
-  //       title: 'my job title',
-  //       description: 'my job description',
-  //       closed: false,
-  //       invoice: 'monthly'
-  //     }, 1)
+    const MockLineItemRepository = jest.fn<ILineItemRepository, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn()
+    }))
 
-  //     const expected: s.jobs.Selectable = {
-  //       id: 1,
-  //       client_id: 1,
-  //       property_id: 1,
-  //       recurrences: null,
-  //       begins: new Date('2021-11-11T22:55:57.405524'),
-  //       ends: null,
-  //       start_time: null,
-  //       finish_time: null,
-  //       anytime: true,
-  //       title: 'my job title',
-  //       description: 'my job description',
-  //       closed: false,
-  //       invoice: 'monthly',
-  //       created: new Date('2021-11-11T22:55:57.405524')
-  //     }
+    const container = createInjector()
+      .provideValue('pool', pool)
+      .provideFactory('pool', poolDecorator)
+      .provideClass('jobRepository', MockJobRepository)
+      .provideClass('lineItemRepository', MockLineItemRepository)
 
-//     expect(job).toEqual(expected)
-//   })
+    const service = container.injectClass(JobService)
+
+    const job = await service.create('abc', [{
+      client_id: 1,
+      property_id: 1,
+      recurrences: null,
+      begins: new Date('2021-11-11T22:55:57.405524'),
+      ends: null,
+      start_time: null,
+      finish_time: null,
+      anytime: true,
+      title: 'my job title',
+      description: 'my job description',
+      closed: false,
+      invoice: 'monthly'
+    }, []], 1)
+    console.log(job)
+
+    const expected = [{
+      id: 1,
+      client_id: 1,
+      property_id: 1,
+      recurrences: null,
+      begins: '2021-11-11T22:55:57.405524',
+      ends: null,
+      start_time: null,
+      finish_time: null,
+      anytime: true,
+      title: 'my job title',
+      description: 'my job description',
+      closed: false,
+      invoice: 'monthly',
+      created: '2021-11-11T22:55:57.405524'
+    }, []]
+
+    expect(job).toEqual(expected)
+  })
 })
