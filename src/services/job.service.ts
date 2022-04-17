@@ -68,7 +68,7 @@ class JobService implements IJobService {
 
     async get (userId: string, id: number) {
       const job = await this.jobRepository.get(userId, id)
-      return [job, []] as JobSelectable
+      return [job, job?.lineitems] as JobSelectable
     }
 }
 
