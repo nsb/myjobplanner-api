@@ -7,7 +7,7 @@ import type { RepositoryOptions } from '../types'
 import type { ILineItemRepository } from '../repositories/LineItemRepository'
 
 type JobInsertable = [s.jobs.Insertable, s.lineitems.Insertable[]]
-type JobUpdatable = [s.jobs.Updatable, s.lineitems.Updatable[]]
+type JobUpdatable = [s.jobs.Updatable, (s.lineitems.Updatable | s.lineitems.Insertable)[]]
 type JobSelectable = [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]]
 
 export interface IJobService extends IService<
@@ -43,7 +43,7 @@ class JobService implements IJobService {
       })
     }
 
-    async update (userId: string, id: number, [job, _lineItems]: JobUpdatable, businessId?: number) {
+    async update (userId: string, id: number, [job, lineItems]: JobUpdatable, businessId?: number) {
       return db.readCommitted(this.pool, async txnClient => {
         const updatedJob = await this.jobRepository.update(
           userId,
@@ -52,7 +52,16 @@ class JobService implements IJobService {
           businessId,
           txnClient
         )
-        return [updatedJob, []] as JobSelectable
+        const updatedLineItems = await Promise.all(lineItems.map((lineItem) => {
+          return lineItem.id
+            ? this.lineItemRepository.update(
+              userId, lineItem.id as number, { ...lineItem, job_id: updatedJob.id }, businessId, txnClient)
+            : this.lineItemRepository.create(
+              userId, { ...lineItem as s.lineitems.Insertable, job_id: updatedJob.id }, businessId, txnClient
+            )
+        }))
+
+        return [updatedJob, updatedLineItems] as JobSelectable
       })
     }
 
