@@ -62,7 +62,12 @@ class JobService implements IJobService {
       { limit, offset, orderBy, orderDirection }: RepositoryOptions<s.jobs.Table>,
       businessId?: number
     ) {
-      const [totalCount, jobs] = await this.jobRepository.find(userId, where, { limit, offset, orderBy, orderDirection }, businessId)
+      const [totalCount, jobs] = await this.jobRepository.find(
+        userId,
+        where,
+        { limit, offset, orderBy, orderDirection },
+        businessId
+      )
       return [totalCount, jobs.map(job => [job, job.lineitems])] as [number, JobSelectable[]]
     }
 
