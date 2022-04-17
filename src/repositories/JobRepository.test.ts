@@ -13,7 +13,7 @@ describe('JobRepository', () => {
 
       (pool as any).query.mockResolvedValueOnce({
         rows: [{
-          result: {
+          result: [{
             id: 1,
             client_id: 1,
             property_id: 1,
@@ -27,8 +27,9 @@ describe('JobRepository', () => {
             description: 'my job description',
             closed: false,
             invoice: 'monthly',
-            created: '2021-11-11T22:55:57.405524'
-          }
+            created: '2021-11-11T22:55:57.405524',
+            lineitems: []
+          }]
         }]
       }).mockResolvedValueOnce({
         rows: [{
@@ -62,7 +63,8 @@ describe('JobRepository', () => {
       description: 'my job description',
       closed: false,
       invoice: 'monthly',
-      created: '2021-11-11T22:55:57.405524'
+      created: '2021-11-11T22:55:57.405524',
+      lineitems: []
     }])
   })
 
@@ -73,7 +75,7 @@ describe('JobRepository', () => {
       (pool as any).query = jest.fn().mockReturnThis();
 
       (pool as any).query.mockResolvedValueOnce({
-        rows: []
+        rows: [{ result: [] }]
       }).mockResolvedValueOnce({
         rows: [{
           result: 0
