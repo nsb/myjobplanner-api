@@ -163,7 +163,47 @@ export const apiSpec: OpenAPIV3.Document = {
             }
           }
         }
+      },
+      put: {
+        description: 'Updates a single business',
+        operationId: 'updateBusiness',
+        parameters: [{
+          $ref: '#/components/parameters/idParam'
+        }],
+        responses: {
+          200: {
+            description: 'update business response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Business'
+                }
+              }
+            }
+          },
+          404: {
+            description: 'update business not found',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
       }
+
     },
     '/businesses/{businessId}/clients': {
       get: {

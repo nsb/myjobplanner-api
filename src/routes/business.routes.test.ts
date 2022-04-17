@@ -260,4 +260,46 @@ describe('BusinessController', () => {
       countryCode: 'da'
     })
   })
+
+  test('PUT /v1/businesses/1', async () => {
+    const mockedQueryResult: s.businesses.JSONSelectable = {
+      id: 1,
+      name: 'Idealrent',
+      timezone: 'Europe/Copenhagen',
+      country_code: 'da',
+      vat_number: null,
+      vat: 25,
+      visit_reminders: false,
+      created: '2021-11-11T22:55:57.405524Z'
+    }
+
+    const MockService = jest.fn<IBusinessService, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn().mockResolvedValue(mockedQueryResult)
+    }))
+
+    const app = express()
+    app.use(express.json())
+    app.use('/v1', container
+      .provideClass('businessService', MockService)
+      .provideClass('businessController', BusinessController)
+      .injectFunction(BusinessRouter))
+
+    const res = await request(app)
+      .put('/v1/businesses/1')
+      .send({
+        name: 'Idealrent',
+        timezone: 'Europe/Copenhagen',
+        countryCode: 'da'
+      })
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual({
+      id: 1,
+      name: 'Idealrent',
+      timezone: 'Europe/Copenhagen',
+      countryCode: 'da'
+    })
+  })
 })

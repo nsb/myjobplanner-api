@@ -29,6 +29,12 @@ function BusinessRouter (
     jwtAuthz(['read:business']),
     openApi,
     businessController.getOne.bind(businessController)
+  ).put(
+    '/businesses/:Id',
+    checkJwt,
+    jwtAuthz(['create:business', 'read:business']),
+    openApi,
+    businessController.update.bind(businessController)
   )
 }
 BusinessRouter.inject = ['checkJwt', 'openApi', 'businessController'] as const
