@@ -79,7 +79,7 @@ class JobRepository implements IJobRepository {
       return [totalCount[0].result, jobs[0].result]
     }
 
-    async get (userId: string, id: number, businessId: number) {
+    async get (_userId: string, id: number, _businessId: number) {
       return db.selectOne('jobs', { id }, {
         lateral: {
           lineitems: db.select('lineitems', { job_id: db.parent('id') })

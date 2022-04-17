@@ -66,8 +66,8 @@ class JobService implements IJobService {
       return [totalCount, jobs.map(job => [job, job.lineitems])] as [number, JobSelectable[]]
     }
 
-    async get (userId: string, id: number) {
-      const job = await this.jobRepository.get(userId, id)
+    async get (userId: string, id: number, businessId: number) {
+      const job = await this.jobRepository.get(userId, id, businessId)
       return [job, job?.lineitems] as JobSelectable
     }
 }

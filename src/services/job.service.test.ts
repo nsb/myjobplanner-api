@@ -176,7 +176,7 @@ describe('JobService', () => {
 
     const service = container.injectClass(JobService)
 
-    const result = await service.get('abc', 1)
+    const result = await service.get('abc', 1, 1)
     expect(result).toEqual(
       [
         {
