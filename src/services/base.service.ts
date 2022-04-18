@@ -19,8 +19,8 @@ export abstract class BaseService<
   Table extends s.Table
 > implements IService<Insertable, Updatable, Selectable, Whereable, Table> {
   constructor (
-        private pool: Pool,
-        private repository: IRepository<Insertable, Updatable, Selectable, Whereable, Table>
+        protected pool: Pool,
+        protected repository: IRepository<Insertable, Updatable, Selectable, Whereable, Table>
   ) {}
 
   async create (userId: string, model: Insertable, businessId?: number) {
