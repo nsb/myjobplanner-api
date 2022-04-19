@@ -8,7 +8,7 @@ export type IVisitRepository = IRepository<
   s.visits.Insertable,
   s.visits.Updatable,
   s.visits.JSONSelectable,
-  s.visits.Whereable,
+  [s.visits.Whereable, s.clients.Whereable],
   s.visits.Table
 >
 
@@ -41,13 +41,14 @@ class VisitRepository implements IVisitRepository {
 
   async find (
     _userId: string,
-    visit?: s.visits.Whereable,
+    [visit, client]: [s.visits.Whereable, s.clients.Whereable],
     options?: RepositoryOptions<s.visits.Table>,
     businessId?: number
   ): Promise<ListResponse<s.visits.JSONSelectable>> {
     const visitsSql = db.sql<s.visits.SQL | s.jobs.SQL | s.clients.SQL, Array<{ result: Array<s.visits.JSONSelectable>}>>`
     SELECT coalesce(json_agg(result), '[]') AS result FROM (
     SELECT v.* FROM ${'clients'} c
+    WHERE ${{ ...client }}
     JOIN ${'jobs'} j
     ON j.${'client_id'} = c.${'id'}
     JOIN 

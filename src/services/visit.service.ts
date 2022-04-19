@@ -5,7 +5,7 @@ class VisitService extends BaseService<
   s.visits.Insertable,
   s.visits.Updatable,
   s.visits.JSONSelectable,
-  s.visits.Whereable,
+  [s.visits.Whereable, s.clients.Whereable],
   s.visits.Table
 > {
     public static inject = ['pool', 'visitRepository'] as const;
