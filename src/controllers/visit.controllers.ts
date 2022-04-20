@@ -18,7 +18,14 @@ type VisitQueryParams = QueryParams<DTO> & {
   jobId?: number
 }
 
-export class VisitController extends BaseController<s.visits.Insertable, s.visits.Updatable, s.visits.JSONSelectable, [s.visits.Whereable, s.clients.Whereable], s.visits.Table, DTO, VisitQueryParams> {
+export class VisitController extends BaseController<
+  s.visits.Insertable,
+  s.visits.Updatable,
+  s.visits.JSONSelectable,
+  [s.visits.Whereable, s.clients.Whereable],
+  s.visits.Table, DTO,
+  VisitQueryParams
+> {
   public static inject = ['visitService'] as const;
 
   deserializeInsert (dto: DTO) {
