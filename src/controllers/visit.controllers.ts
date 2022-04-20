@@ -15,11 +15,11 @@ interface DTO {
 
 type VisitQueryParams = QueryParams<DTO> & {
   clientId?: number,
-  jobId: number
+  jobId?: number
 }
 
 export class VisitController extends BaseController<s.visits.Insertable, s.visits.Updatable, s.visits.JSONSelectable, [s.visits.Whereable, s.clients.Whereable], s.visits.Table, DTO, VisitQueryParams> {
-  public static inject = ['propertyService'] as const;
+  public static inject = ['visitService'] as const;
 
   deserializeInsert (dto: DTO) {
     return {

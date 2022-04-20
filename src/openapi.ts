@@ -523,6 +523,116 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         }
       }
+    },
+    '/businesses/{businessId}/visits': {
+      get: {
+        description: 'Returns all visits',
+        operationId: 'findVisits',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/offsetParam'
+          }, {
+            $ref: '#/components/parameters/limitParam'
+          }, {
+            $ref: '#/components/parameters/orderDirectionParam'
+          },
+          {
+            name: 'clientId',
+            in: 'query',
+            description: 'filter by client',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 1
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: 'visit response',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    data: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/Visit'
+                      }
+                    },
+                    meta: {
+                      type: 'object',
+                      properties: {
+                        totalCount: {
+                          readOnly: true,
+                          type: 'number'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        description: 'Create visit',
+        operationId: 'createVisit',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          }
+        ],
+        requestBody: {
+          description: 'Create visit',
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Visit'
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'visit response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Visit'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   security: [{
@@ -719,6 +829,40 @@ export const apiSpec: OpenAPIV3.Document = {
           },
           unitCost: {
             type: 'number'
+          }
+        }
+      },
+      Visit: {
+        additionalProperties: false,
+        type: 'object',
+        required: [
+          'id'
+        ],
+        properties: {
+          id: {
+            readOnly: true,
+            type: 'number'
+          },
+          jobId: {
+            type: 'number'
+          },
+          invoiceId: {
+            type: 'number',
+            nullable: true
+          },
+          completed: {
+            type: 'boolean'
+          },
+          begins: {
+            type: 'string',
+            nullable: true
+          },
+          ends: {
+            type: 'string',
+            nullable: true
+          },
+          anytime: {
+            type: 'boolean'
           }
         }
       },

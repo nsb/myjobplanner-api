@@ -13,6 +13,9 @@ import JobRepository from './repositories/JobRepository'
 import JobService from './services/job.service'
 import JobController from './controllers/job.controllers'
 import EmployeeRepository from './repositories/EmployeRepository'
+import VisitRepository from './repositories/VisitRepository'
+import VisitService from './services/visit.service'
+import VisitController from './controllers/visit.controllers'
 import HealthController from './controllers/health.controllers'
 import poolDecorator from './authorization'
 import openApi from './openapi'
@@ -49,5 +52,10 @@ export const jobRoutesContainer = baseContainer
   .provideClass('lineItemRepository', LineItemRepository)
   .provideClass('jobService', JobService)
   .provideClass('jobController', JobController)
+
+export const visitRoutesContainer = baseContainer
+  .provideClass('visitRepository', VisitRepository)
+  .provideClass('visitService', VisitService)
+  .provideClass('visitController', VisitController)
 
 export default container
