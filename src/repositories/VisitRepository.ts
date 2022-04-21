@@ -47,15 +47,16 @@ class VisitRepository implements IVisitRepository {
   ): Promise<ListResponse<s.visits.JSONSelectable>> {
     const visitsSql = db.sql<s.visits.SQL | s.jobs.SQL | s.clients.SQL, Array<{ result: Array<s.visits.JSONSelectable>}>>`
     SELECT coalesce(json_agg(result), '[]') AS result FROM (
-    SELECT v.* FROM ${'clients'} c
-    WHERE ${{ ...client }}
-    JOIN ${'jobs'} j
-    ON j.${'client_id'} = c.${'id'}
-    JOIN 
-    (SELECT * FROM visits
-      WHERE ${{ ...visit }}) v
-    ON v.${'job_id'} = j.${'id'}
-    WHERE c.${'business_id'} = ${db.param(businessId)}
+      SELECT v.* FROM
+        (SELECT * FROM ${'clients'}
+         WHERE ${{ ...client }}) c
+        JOIN ${'jobs'} j
+        ON j.${'client_id'} = c.${'id'}
+      JOIN 
+        (SELECT * FROM visits v
+         WHERE ${{ ...visit }}) v
+      ON v.${'job_id'} = j.${'id'}
+      WHERE c.${'business_id'} = ${db.param(businessId)}
     ORDER BY ${db.param(options?.orderBy || 'created')} ${db.raw(options?.orderDirection || 'DESC')}
     LIMIT ${db.param(options?.limit || 20)}
     OFFSET ${db.param(options?.offset || 0)}
@@ -64,15 +65,17 @@ class VisitRepository implements IVisitRepository {
     const visitsPromise = visitsSql.run(this.pool)
 
     const countSql = db.sql<s.visits.SQL | s.jobs.SQL | s.clients.SQL, Array<{ result: number }>>`
-      SELECT COUNT(p.*)::int AS result
-      FROM ${'clients'} c
+      SELECT COUNT(*)::int AS result
+      FROM
+      (SELECT * FROM ${'clients'}
+       WHERE ${{ ...client }}) c
       JOIN
       ${'jobs'} j
       ON j.${'client_id'} = c.${'id'}
       JOIN
-      (SELECT *
-      FROM ${'visits'}
-      WHERE ${{ ...visit }}) v
+        (SELECT *
+        FROM ${'visits'}
+        WHERE ${{ ...visit }}) v
       ON v.${'job_id'} = j.${'id'}
       WHERE c.${'business_id'} = ${db.param(businessId)}`
     const countPromise = countSql.run(this.pool)
