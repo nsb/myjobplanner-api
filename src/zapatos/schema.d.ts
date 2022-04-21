@@ -3087,9 +3087,9 @@ declare module 'zapatos/schema' {
       /**
       * **visits.invoice_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      invoice_id: number;
+      invoice_id: number | null;
       /**
       * **visits.completed**
       * - `bool` in database
@@ -3137,9 +3137,9 @@ declare module 'zapatos/schema' {
       /**
       * **visits.invoice_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      invoice_id: number;
+      invoice_id: number | null;
       /**
       * **visits.completed**
       * - `bool` in database
@@ -3187,7 +3187,7 @@ declare module 'zapatos/schema' {
       /**
       * **visits.invoice_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
       invoice_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
@@ -3237,9 +3237,9 @@ declare module 'zapatos/schema' {
       /**
       * **visits.invoice_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      invoice_id: number | db.Parameter<number> | db.SQLFragment;
+      invoice_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
       /**
       * **visits.completed**
       * - `bool` in database
@@ -3287,9 +3287,9 @@ declare module 'zapatos/schema' {
       /**
       * **visits.invoice_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      invoice_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      invoice_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **visits.completed**
       * - `bool` in database

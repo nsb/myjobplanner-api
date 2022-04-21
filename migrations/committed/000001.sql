@@ -1,4 +1,8 @@
 --! Previous: -
+--! Hash: sha1:47a60a4c75f2580e08fd52d5e7be540c75f4e4a9
+
+-- Enter migration here
+--! Previous: -
 --! Hash: sha1:5ca221873efa05a08b46385fc991daf6f0f920ca
 
 -- Enter migration here
@@ -152,7 +156,7 @@ DROP TABLE IF EXISTS visits CASCADE;
 CREATE TABLE visits (
   id SERIAL PRIMARY KEY,
   job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
-  invoice_id INTEGER NOT NULL REFERENCES invoices (id) ON DELETE SET NULL,
+  invoice_id INTEGER REFERENCES invoices (id) ON DELETE SET NULL,
   completed BOOLEAN NOT NULL DEFAULT false,
   begins TIMESTAMP WITH TIME ZONE,
   ends TIMESTAMP WITH TIME ZONE,
