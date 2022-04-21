@@ -6,7 +6,7 @@ import BaseController from './BaseController'
 interface DTO {
   id?: number
   jobId: number
-  invoiceId: number
+  invoiceId: number | null
   completed: boolean
   begins: TimestampTzString | null
   ends: TimestampTzString | null
