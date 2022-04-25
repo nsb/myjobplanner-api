@@ -848,7 +848,8 @@ export const apiSpec: OpenAPIV3.Document = {
           },
           invoiceId: {
             type: 'number',
-            nullable: true
+            nullable: true,
+            readOnly: true
           },
           completed: {
             type: 'boolean'
