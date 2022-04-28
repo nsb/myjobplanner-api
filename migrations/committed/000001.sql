@@ -1,9 +1,5 @@
 --! Previous: -
---! Hash: sha1:47a60a4c75f2580e08fd52d5e7be540c75f4e4a9
-
--- Enter migration here
---! Previous: -
---! Hash: sha1:5ca221873efa05a08b46385fc991daf6f0f920ca
+--! Hash: sha1:bf53c3c19774fc8c9190d6b5401220ce0fe59524
 
 -- Enter migration here
 
@@ -189,6 +185,7 @@ CREATE TABLE lineitems (
   job_id INTEGER REFERENCES jobs(id) ON DELETE CASCADE,
   service_id INTEGER REFERENCES services(id) ON DELETE SET NULL,
   name VARCHAR (512) NOT NULL,
+  description TEXT,
   quantity INTEGER NOT NULL default 1,
   unit_cost NUMERIC (8, 2) NOT NULL DEFAULT 0,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
@@ -198,8 +195,8 @@ DROP TABLE IF EXISTS lineitem_overrides CASCADE;
 
 CREATE TABLE lineitem_overrides (
   id SERIAL PRIMARY KEY,
-  lineitem_id INTEGER NOT NULL REFERENCES lineitems (id) ON DELETE CASCADE,
-  visit_id INTEGER NOT NULL REFERENCES visits (id) ON DELETE CASCADE,
+  lineitem_id INTEGER REFERENCES lineitems (id) ON DELETE CASCADE,
+  visit_id INTEGER REFERENCES visits (id) ON DELETE CASCADE,
   quantity INTEGER NOT NULL DEFAULT 1,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );

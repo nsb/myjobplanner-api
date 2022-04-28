@@ -2036,15 +2036,15 @@ declare module 'zapatos/schema' {
       /**
       * **lineitem_overrides.lineitem_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      lineitem_id: number;
+      lineitem_id: number | null;
       /**
       * **lineitem_overrides.visit_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      visit_id: number;
+      visit_id: number | null;
       /**
       * **lineitem_overrides.quantity**
       * - `int4` in database
@@ -2068,15 +2068,15 @@ declare module 'zapatos/schema' {
       /**
       * **lineitem_overrides.lineitem_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      lineitem_id: number;
+      lineitem_id: number | null;
       /**
       * **lineitem_overrides.visit_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      visit_id: number;
+      visit_id: number | null;
       /**
       * **lineitem_overrides.quantity**
       * - `int4` in database
@@ -2100,13 +2100,13 @@ declare module 'zapatos/schema' {
       /**
       * **lineitem_overrides.lineitem_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
       lineitem_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **lineitem_overrides.visit_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
       visit_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
@@ -2132,15 +2132,15 @@ declare module 'zapatos/schema' {
       /**
       * **lineitem_overrides.lineitem_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      lineitem_id: number | db.Parameter<number> | db.SQLFragment;
+      lineitem_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
       /**
       * **lineitem_overrides.visit_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      visit_id: number | db.Parameter<number> | db.SQLFragment;
+      visit_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
       /**
       * **lineitem_overrides.quantity**
       * - `int4` in database
@@ -2164,15 +2164,15 @@ declare module 'zapatos/schema' {
       /**
       * **lineitem_overrides.lineitem_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      lineitem_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      lineitem_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **lineitem_overrides.visit_id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      visit_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      visit_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **lineitem_overrides.quantity**
       * - `int4` in database
@@ -2225,6 +2225,12 @@ declare module 'zapatos/schema' {
       */
       name: string;
       /**
+      * **lineitems.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
+      /**
       * **lineitems.quantity**
       * - `int4` in database
       * - `NOT NULL`, default: `1`
@@ -2268,6 +2274,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       name: string;
+      /**
+      * **lineitems.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description: string | null;
       /**
       * **lineitems.quantity**
       * - `int4` in database
@@ -2313,6 +2325,12 @@ declare module 'zapatos/schema' {
       */
       name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
+      * **lineitems.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **lineitems.quantity**
       * - `int4` in database
       * - `NOT NULL`, default: `1`
@@ -2357,6 +2375,12 @@ declare module 'zapatos/schema' {
       */
       name: string | db.Parameter<string> | db.SQLFragment;
       /**
+      * **lineitems.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
       * **lineitems.quantity**
       * - `int4` in database
       * - `NOT NULL`, default: `1`
@@ -2400,6 +2424,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **lineitems.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **lineitems.quantity**
       * - `int4` in database

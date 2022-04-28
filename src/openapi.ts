@@ -810,7 +810,10 @@ export const apiSpec: OpenAPIV3.Document = {
         additionalProperties: false,
         type: 'object',
         required: [
-          'id'
+          'id',
+          'name',
+          'quantity',
+          'unitCost'
         ],
         properties: {
           id: {
@@ -824,6 +827,37 @@ export const apiSpec: OpenAPIV3.Document = {
           name: {
             type: 'string'
           },
+          description: {
+            type: 'string',
+            nullable: true
+          },
+          quantity: {
+            type: 'number'
+          },
+          unitCost: {
+            type: 'number'
+          }
+        }
+      },
+      LineItemOverride: {
+        additionalProperties: false,
+        type: 'object',
+        required: [
+          'name',
+          'quantity',
+          'unitCost'
+        ],
+        properties: {
+          lineItemId: {
+            type: 'number'
+          },
+          name: {
+            type: 'string'
+          },
+          description: {
+            type: 'string',
+            nullable: true
+          },
           quantity: {
             type: 'number'
           },
@@ -836,7 +870,12 @@ export const apiSpec: OpenAPIV3.Document = {
         additionalProperties: false,
         type: 'object',
         required: [
-          'id'
+          'id',
+          'jobId',
+          'completed',
+          'begins',
+          'anytime',
+          'lineItems'
         ],
         properties: {
           id: {
@@ -855,8 +894,7 @@ export const apiSpec: OpenAPIV3.Document = {
             type: 'boolean'
           },
           begins: {
-            type: 'string',
-            nullable: true
+            type: 'string'
           },
           ends: {
             type: 'string',
@@ -864,6 +902,12 @@ export const apiSpec: OpenAPIV3.Document = {
           },
           anytime: {
             type: 'boolean'
+          },
+          lineItems: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/LineItemOverride'
+            }
           }
         }
       },
