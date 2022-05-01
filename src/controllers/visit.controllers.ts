@@ -46,7 +46,6 @@ export class VisitController extends BaseController<
       anytime: dto.anytime
     }, dto.lineItems.map(override => {
       return {
-        // lineitem_id: override.lineItemId,
         name: override.name,
         description: override.description,
         unitCost: override.unitCost,
