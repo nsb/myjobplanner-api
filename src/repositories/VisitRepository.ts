@@ -4,10 +4,13 @@ import * as s from 'zapatos/schema'
 import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
 
+// eslint-disable-next-line camelcase
+type VisitRepositorySelectable = s.visits.JSONSelectable & { lineitems?: Array<s.lineitem_overrides.JSONSelectable & s.lineitems.JSONSelectable>}
+
 export type IVisitRepository = IRepository<
   s.visits.Insertable,
   s.visits.Updatable,
-  s.visits.JSONSelectable,
+  VisitRepositorySelectable,
   [s.visits.Whereable, s.clients.Whereable],
   s.visits.Table
 >
@@ -44,8 +47,9 @@ class VisitRepository implements IVisitRepository {
     [visit, client]: [s.visits.Whereable, s.clients.Whereable],
     options?: RepositoryOptions<s.visits.Table>,
     businessId?: number
-  ): Promise<ListResponse<s.visits.JSONSelectable>> {
-    const visitsSql = db.sql<s.visits.SQL | s.jobs.SQL | s.clients.SQL, Array<{ result: Array<s.visits.JSONSelectable>}>>`
+  ): Promise<ListResponse<VisitRepositorySelectable>> {
+    // eslint-disable-next-line camelcase
+    const visitsSql = db.sql<s.visits.SQL | s.jobs.SQL | s.clients.SQL | s.lineitems.SQL | s.lineitem_overrides.SQL, Array<{ result: Array<VisitRepositorySelectable>}>>`
     SELECT coalesce(json_agg(result), '[]') AS result FROM (
       SELECT v.* FROM
         (SELECT * FROM ${'clients'}
@@ -53,7 +57,15 @@ class VisitRepository implements IVisitRepository {
         JOIN ${'jobs'} j
         ON j.${'client_id'} = c.${'id'}
       JOIN 
-        (SELECT * FROM visits v
+        (SELECT * FROM visits v,
+          LATERAL (
+            SELECT coalesce(json_agg(l), '[]') as lineitems FROM (
+              lineitem_overrides lo
+                JOIN lineitems li
+                ON lo.${'lineitem_id'} = li.${'id'}
+              ) l
+              WHERE l.${'visit_id'} = v.${'id'}
+          ) l
          WHERE ${{ ...visit }}) v
       ON v.${'job_id'} = j.${'id'}
       WHERE c.${'business_id'} = ${db.param(businessId)}

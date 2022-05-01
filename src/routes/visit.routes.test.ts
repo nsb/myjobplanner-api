@@ -43,7 +43,13 @@ describe('VisitController', () => {
           ends: null,
           anytime: true,
           created: '2021-11-11T22:55:57.405524'
-        }, []]
+        }, [{
+          id: 1,
+          description: null,
+          name: 'Cleaning',
+          unit_cost: 100,
+          quantity: 1
+        }]]
       ]
     ]
 
@@ -76,7 +82,13 @@ describe('VisitController', () => {
         begins: '2021-11-11T22:55:57.405524',
         ends: null,
         anytime: true,
-        lineItems: []
+        lineItems: [{
+          lineItemId: 1,
+          name: 'Cleaning',
+          description: null,
+          unitCost: 100,
+          quantity: 1
+        }]
       }],
       meta: {
         totalCount: 1
