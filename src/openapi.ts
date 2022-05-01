@@ -839,33 +839,6 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         }
       },
-      LineItemOverride: {
-        additionalProperties: false,
-        type: 'object',
-        required: [
-          'name',
-          'quantity',
-          'unitCost'
-        ],
-        properties: {
-          lineItemId: {
-            type: 'number'
-          },
-          name: {
-            type: 'string'
-          },
-          description: {
-            type: 'string',
-            nullable: true
-          },
-          quantity: {
-            type: 'number'
-          },
-          unitCost: {
-            type: 'number'
-          }
-        }
-      },
       Visit: {
         additionalProperties: false,
         type: 'object',
