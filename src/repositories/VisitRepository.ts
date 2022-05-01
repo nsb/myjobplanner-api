@@ -97,7 +97,7 @@ class VisitRepository implements IVisitRepository {
     return [totalCount[0].result, visits[0].result]
   }
 
-  async get (_userId: string, id: number, businessId: number): Promise<s.visits.JSONSelectable | undefined> {
+  async get (_userId: string, id: number, businessId: number): Promise<VisitRepositorySelectable | undefined> {
     return db.selectOne('visits', { id }).run(this.pool)
   }
 }

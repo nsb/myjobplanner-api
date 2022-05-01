@@ -45,6 +45,8 @@ describe('VisitController', () => {
           created: '2021-11-11T22:55:57.405524'
         }, [{
           id: 1,
+          lineitem_id: 1,
+          visit_id: 1,
           description: null,
           name: 'Cleaning',
           unit_cost: 100,
@@ -83,7 +85,7 @@ describe('VisitController', () => {
         ends: null,
         anytime: true,
         lineItems: [{
-          lineItemId: 1,
+          id: 1,
           name: 'Cleaning',
           description: null,
           unitCost: 100,

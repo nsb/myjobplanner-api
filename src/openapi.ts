@@ -906,7 +906,7 @@ export const apiSpec: OpenAPIV3.Document = {
           lineItems: {
             type: 'array',
             items: {
-              $ref: '#/components/schemas/LineItemOverride'
+              $ref: '#/components/schemas/LineItem'
             }
           }
         }

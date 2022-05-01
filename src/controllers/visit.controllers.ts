@@ -14,7 +14,6 @@ interface DTO {
   anytime: boolean,
   lineItems: Array<{
     id?: number
-    lineItemId?: number
     name: string
     description: string | null
     unitCost: number
@@ -47,7 +46,7 @@ export class VisitController extends BaseController<
       anytime: dto.anytime
     }, dto.lineItems.map(override => {
       return {
-        lineitem_id: override.lineItemId,
+        // lineitem_id: override.lineItemId,
         name: override.name,
         description: override.description,
         unitCost: override.unitCost,
@@ -68,7 +67,7 @@ export class VisitController extends BaseController<
     },
     dto.lineItems.map(override => {
       return {
-        lineitem_id: override.lineItemId,
+        lineitem_id: override.id,
         visit_id: dto.id,
         name: override.name,
         description: override.description,
@@ -86,7 +85,7 @@ export class VisitController extends BaseController<
       invoiceId: model.invoice_id,
       lineItems: lineItems.map(lineItem => {
         return {
-          lineItemId: lineItem.id,
+          id: lineItem.id,
           description: lineItem.description,
           name: lineItem.name,
           unitCost: lineItem.unit_cost,
