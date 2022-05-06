@@ -21,6 +21,7 @@ import poolDecorator from './authorization'
 import openApi from './openapi'
 import checkJwt from './jwt'
 import LineItemRepository from './repositories/LineItemRepository'
+import LineItemOverrideRepository from './repositories/LineItemOverrideRepository'
 
 const baseContainer = createInjector()
   .provideValue('pool', pool)
@@ -54,6 +55,8 @@ export const jobRoutesContainer = baseContainer
   .provideClass('jobController', JobController)
 
 export const visitRoutesContainer = baseContainer
+  .provideClass('lineItemRepository', LineItemRepository)
+  .provideClass('lineItemOverrideRepository', LineItemOverrideRepository)
   .provideClass('visitRepository', VisitRepository)
   .provideClass('visitService', VisitService)
   .provideClass('visitController', VisitController)

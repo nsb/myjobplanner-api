@@ -810,10 +810,7 @@ export const apiSpec: OpenAPIV3.Document = {
         additionalProperties: false,
         type: 'object',
         required: [
-          'id',
-          'name',
-          'quantity',
-          'unitCost'
+          'quantity'
         ],
         properties: {
           id: {

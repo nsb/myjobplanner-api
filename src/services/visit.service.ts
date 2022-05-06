@@ -1,6 +1,8 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
+import { ILineItemOverrideRepository } from '../repositories/LineItemOverrideRepository'
+import { ILineItemRepository } from '../repositories/LineItemRepository'
 import { IVisitRepository } from '../repositories/VisitRepository'
 import { RepositoryOptions } from '../types'
 import { IService } from './base.service'
@@ -20,26 +22,54 @@ export interface IVisitService extends IService<
 > {}
 
 class VisitService implements IVisitService {
-    public static inject = ['pool', 'visitRepository'] as const;
+    public static inject = [
+      'pool',
+      'visitRepository',
+      'lineItemRepository',
+      'lineItemOverrideRepository'
+    ] as const;
+
     constructor (
       private pool: Pool,
-      private repository: IVisitRepository
+      private repository: IVisitRepository,
+      private lineItemRepository: ILineItemRepository,
+      private lineItemOverrideRepository: ILineItemOverrideRepository
     ) {}
 
-    async create (userId: string, [visit, lineItems]: VisitInsertable, businessId?: number) {
+    async create (userId: string, [visit, overrides]: VisitInsertable, businessId?: number) {
       return db.readCommitted(this.pool, async txnClient => {
-        const createdJob = await this.repository.create(
+        const createdVisit = await this.repository.create(
           userId,
           visit,
           businessId,
           txnClient
         )
-        // const createdLineItems = await Promise.all(lineItems.map((lineItem) => {
-        //   return this.lineItemRepository.create(
-        //     userId, { ...lineItem, job_id: createdJob.id }, businessId, txnClient
-        //   )
-        // }))
-        return [createdJob, []] as VisitSelectable
+        const createdOverrides = await Promise.all(overrides.map(async (override) => {
+          let lineItem
+          if (override.id) {
+            lineItem = await this.lineItemRepository.get(userId, override.id as number, businessId)
+          }
+
+          if (!lineItem) {
+            lineItem = await this.lineItemRepository.create(userId, { ...override, quantity: 0 }, businessId, txnClient)
+          }
+
+          if (lineItem.quantity !== override.quantity) {
+            await this.lineItemOverrideRepository.create(
+              userId, { lineitem_id: lineItem.id, visit_id: visit.id, quantity: override.quantity }, businessId, txnClient
+            )
+          }
+
+          return {
+            id: lineItem.id,
+            visit_id: visit.id,
+            quantity: override.quantity,
+            name: lineItem.name,
+            description: lineItem.description,
+            unit_cost: lineItem.unit_cost
+          }
+        }))
+        return [createdVisit, createdOverrides] as VisitSelectable
       })
     }
 

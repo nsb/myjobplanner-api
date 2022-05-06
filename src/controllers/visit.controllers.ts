@@ -48,7 +48,7 @@ export class VisitController extends BaseController<
       return {
         name: override.name,
         description: override.description,
-        unitCost: override.unitCost,
+        unit_cost: override.unitCost,
         quantity: override.quantity
       }
     })]

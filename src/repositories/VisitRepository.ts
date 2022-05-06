@@ -60,11 +60,13 @@ class VisitRepository implements IVisitRepository {
         (SELECT * FROM visits v,
           LATERAL (
             SELECT coalesce(json_agg(l), '[]') as lineitems FROM (
-              lineitem_overrides lo
-                JOIN lineitems li
+              SELECT li.${'id'}, li.${'unit_cost'}, li.${'name'}, li.${'description'}, lo.${'visit_id'}, COALESCE(lo.${'quantity'}, li.${'quantity'}) as quantity
+              FROM lineitems li
+                LEFT JOIN lineitem_overrides lo
                 ON lo.${'lineitem_id'} = li.${'id'}
+                AND lo.${'visit_id'} = v.${'id'}
+                WHERE li.${'job_id'} = v.${'job_id'}
               ) l
-              WHERE l.${'visit_id'} = v.${'id'}
           ) l
          WHERE ${{ ...visit }}) v
       ON v.${'job_id'} = j.${'id'}
@@ -93,6 +95,7 @@ class VisitRepository implements IVisitRepository {
     const countPromise = countSql.run(this.pool)
 
     const [totalCount, visits] = await Promise.all([countPromise, visitsPromise])
+    console.log(totalCount, JSON.stringify(visits))
 
     return [totalCount[0].result, visits[0].result]
   }
