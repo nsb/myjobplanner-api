@@ -4,8 +4,6 @@ metadata:
   name: myjobplanner-api
 spec:
   template:
-    metadata:
-      name: myjobplanner-api-service
     spec:
       containers:
         - image: myjobplanner-api-image
