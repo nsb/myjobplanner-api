@@ -51,12 +51,12 @@ class VisitService implements IVisitService {
         }
 
         if (!lineItem) {
-          lineItem = await this.lineItemRepository.create(userId, { ...override, quantity: 0 }, businessId, txnClient)
+          lineItem = await this.lineItemRepository.create(userId, { ...override, job_id: createdVisit.job_id, quantity: 0 }, businessId, txnClient)
         }
 
         if (lineItem.quantity !== override.quantity) {
           await this.lineItemOverrideRepository.create(
-            userId, { lineitem_id: lineItem.id, visit_id: visit.id, quantity: override.quantity }, businessId, txnClient
+            userId, { lineitem_id: lineItem.id, visit_id: createdVisit.id, quantity: override.quantity }, businessId, txnClient
           )
         }
 

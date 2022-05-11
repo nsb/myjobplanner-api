@@ -67,6 +67,7 @@ class VisitRepository implements IVisitRepository {
                 AND lo.${'visit_id'} = v.${'id'}
                 WHERE li.${'job_id'} = v.${'job_id'}
               ) l
+              WHERE quantity > 0
           ) l
          WHERE ${{ ...visit }}) v
       ON v.${'job_id'} = j.${'id'}
