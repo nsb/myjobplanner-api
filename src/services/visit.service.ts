@@ -91,12 +91,12 @@ class VisitService implements IVisitService {
     })
   }
 
-  async update (userId: string, id: number, [job, overrides]: VisitUpdatable, businessId?: number) {
+  async update (userId: string, id: number, [visit, overrides]: VisitUpdatable, businessId?: number) {
     return db.readCommitted(this.pool, async txnClient => {
       const updatedVisit = await this.repository.update(
         userId,
         id,
-        job,
+        visit,
         businessId,
         txnClient
       )
