@@ -43,7 +43,7 @@ export abstract class BaseController<
           businessId
         )
         await this.afterCreate(req, result)
-        res.status(200).json(this.serialize(result))
+        res.status(201).json(this.serialize(result))
       } catch (err) {
         next(err)
       }

@@ -179,7 +179,7 @@ describe('JobController', () => {
         invoice: 'never',
         lineItems: []
       })
-    expect(res.statusCode).toEqual(200)
+    expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
       id: 1,
       clientId: 1,

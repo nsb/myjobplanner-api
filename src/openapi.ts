@@ -101,7 +101,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          200: {
+          201: {
             description: 'business response',
             content: {
               'application/json': {
@@ -281,7 +281,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          200: {
+          201: {
             description: 'client response',
             content: {
               'application/json': {
@@ -391,7 +391,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          200: {
+          201: {
             description: 'property response',
             content: {
               'application/json': {
@@ -501,7 +501,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          200: {
+          201: {
             description: 'job response',
             content: {
               'application/json': {
@@ -611,7 +611,7 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         },
         responses: {
-          200: {
+          201: {
             description: 'visit response',
             content: {
               'application/json': {
