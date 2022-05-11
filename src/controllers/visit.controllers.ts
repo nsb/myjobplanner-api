@@ -34,7 +34,7 @@ export class VisitController extends BaseController<
   s.visits.Table, DTO,
   VisitQueryParams
 > {
-  public static inject = ['visitService'] as const;
+  public static inject = ['visitService'] as const
 
   deserializeInsert (dto: DTO): [s.visits.Insertable, s.lineitems.Insertable[]] {
     return [{
