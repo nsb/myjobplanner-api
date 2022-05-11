@@ -20,6 +20,14 @@ describe('VisitRepository', () => {
             begins: '2021-11-11T22:55:57.405524',
             ends: null,
             anytime: true,
+            lineitems: [{
+              id: 1,
+              visit_id: 1,
+              name: 'my lineitem',
+              description: null,
+              unit_cost: 100,
+              quantity: 1
+            }],
             created: '2021-11-11T22:55:57.405524'
           }]
         }]
@@ -49,6 +57,14 @@ describe('VisitRepository', () => {
       begins: '2021-11-11T22:55:57.405524',
       ends: null,
       anytime: true,
+      lineitems: [{
+        id: 1,
+        visit_id: 1,
+        name: 'my lineitem',
+        description: null,
+        unit_cost: 100,
+        quantity: 1
+      }],
       created: '2021-11-11T22:55:57.405524'
     }])
   })

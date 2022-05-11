@@ -95,8 +95,6 @@ class VisitRepository implements IVisitRepository {
     const countPromise = countSql.run(this.pool)
 
     const [totalCount, visits] = await Promise.all([countPromise, visitsPromise])
-    console.log(totalCount, JSON.stringify(visits))
-
     return [totalCount[0].result, visits[0].result]
   }
 
