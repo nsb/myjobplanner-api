@@ -96,7 +96,7 @@ class VisitService implements IVisitService {
       const updatedVisit = await this.repository.update(
         userId,
         id,
-        visit,
+        { ...visit, id },
         businessId,
         txnClient
       )
