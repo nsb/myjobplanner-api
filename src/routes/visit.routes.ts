@@ -24,6 +24,13 @@ function VisitRouter (
     authorize('admin', 'worker'),
     openApi,
     visitController.getList.bind(visitController)
+  ).put(
+    '/businesses/:businessId/visits',
+    checkJwt,
+    // jwtAuthz(['read:visit']),
+    authorize('admin', 'worker'),
+    openApi,
+    visitController.update.bind(visitController)
   )
 }
 VisitRouter.inject = ['authorization', 'openApi', 'visitController'] as const

@@ -632,6 +632,48 @@ export const apiSpec: OpenAPIV3.Document = {
             }
           }
         }
+      },
+      put: {
+        description: 'Update visit',
+        operationId: 'updateVisit',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          }
+        ],
+        requestBody: {
+          description: 'Update visit',
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Visit'
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'visit response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Visit'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
       }
     }
   },

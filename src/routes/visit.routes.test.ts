@@ -200,4 +200,76 @@ describe('VisitController', () => {
       }]
     })
   })
+
+  test('PUT /v1/businesses/:businessId/visits', async () => {
+    const mockedQueryResult = [{
+      id: 1,
+      job_id: 1,
+      invoice_id: null,
+      completed: false,
+      begins: '2021-11-11T22:55:57.405524',
+      ends: null,
+      anytime: true,
+      created: '2021-11-11T22:55:57.405524'
+    }, [{
+      id: 1,
+      visit_id: 1,
+      name: 'my lineitem',
+      description: null,
+      quantity: 1,
+      unit_cost: 100
+    }]]
+
+    const MockService = jest.fn<IVisitService, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn().mockResolvedValue(mockedQueryResult)
+    }))
+
+    const container = createInjector()
+      .provideClass('visitService', MockService)
+      .provideClass('visitController', VisitController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
+
+    const app = express()
+    app.use(express.json())
+    app.use('/v1', container.injectFunction(VisitRouter))
+
+    const res = await request(app)
+      .put('/v1/businesses/1/visits')
+      .send({
+        jobId: 1,
+        invoiceId: null,
+        completed: false,
+        begins: '2021-11-11T22:55:57.405524',
+        ends: null,
+        anytime: true,
+        lineItems: [{
+          id: 1,
+          name: 'my lineitem',
+          description: null,
+          quantity: 1,
+          unitCost: 100
+        }]
+      })
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual({
+      id: 1,
+      jobId: 1,
+      invoiceId: null,
+      completed: false,
+      begins: '2021-11-11T22:55:57.405524',
+      ends: null,
+      anytime: true,
+      lineItems: [{
+        id: 1,
+        name: 'my lineitem',
+        description: null,
+        quantity: 1,
+        unitCost: 100
+      }]
+    })
+  })
 })
