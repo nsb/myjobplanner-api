@@ -100,6 +100,9 @@ class VisitService implements IVisitService {
         businessId,
         txnClient
       )
+
+      // TODO: Delete existing overrides
+
       const updatedOverrides = await Promise.all(overrides.map(async (override) => {
         let lineItem
         // The lineitem has an Id, so we get can get it and create an override
