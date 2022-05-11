@@ -201,7 +201,7 @@ describe('VisitController', () => {
     })
   })
 
-  test('PUT /v1/businesses/:businessId/visits', async () => {
+  test('PUT /v1/businesses/:businessId/visits/:Id', async () => {
     const mockedQueryResult = [{
       id: 1,
       job_id: 1,
@@ -238,8 +238,9 @@ describe('VisitController', () => {
     app.use('/v1', container.injectFunction(VisitRouter))
 
     const res = await request(app)
-      .put('/v1/businesses/1/visits')
+      .put('/v1/businesses/1/visits/1')
       .send({
+        id: 1,
         jobId: 1,
         invoiceId: null,
         completed: false,

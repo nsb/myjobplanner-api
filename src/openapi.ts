@@ -632,13 +632,18 @@ export const apiSpec: OpenAPIV3.Document = {
             }
           }
         }
-      },
+      }
+    },
+    '/businesses/{businessId}/visits/{Id}': {
       put: {
         description: 'Update visit',
         operationId: 'updateVisit',
         parameters: [
           {
             $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
           }
         ],
         requestBody: {
@@ -881,7 +886,6 @@ export const apiSpec: OpenAPIV3.Document = {
         additionalProperties: false,
         type: 'object',
         required: [
-          'id',
           'jobId',
           'completed',
           'begins',
@@ -890,7 +894,6 @@ export const apiSpec: OpenAPIV3.Document = {
         ],
         properties: {
           id: {
-            readOnly: true,
             type: 'number'
           },
           jobId: {
