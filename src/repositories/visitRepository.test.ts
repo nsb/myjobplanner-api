@@ -144,7 +144,7 @@ describe('VisitRepository', () => {
     })
   })
 
-  test('create property', async () => {
+  test('create visit', async () => {
     function poolDecorator (pool: Pool) {
       (pool as any).connect = jest.fn().mockReturnThis();
       (pool as any).release = jest.fn().mockReturnThis();
@@ -154,7 +154,7 @@ describe('VisitRepository', () => {
       (pool as any).query.mockResolvedValueOnce({
         rows: [{
           result: {}
-        }] // TX property
+        }] // TX visit
       }).mockResolvedValueOnce({
         rows: [{
           result: {
@@ -185,6 +185,66 @@ describe('VisitRepository', () => {
     const repository = container.injectClass(VisitRepository)
 
     const client = await repository.create('abc', {
+      job_id: 1,
+      invoice_id: null,
+      begins: '2021-11-11T22:55:57.000Z',
+      ends: null,
+      anytime: true
+    }, 1)
+
+    expect(client).toEqual({
+      id: 1,
+      job_id: 1,
+      invoice_id: null,
+      completed: false,
+      begins: '2021-11-11T22:55:57.405524',
+      ends: null,
+      anytime: true,
+      created: '2021-11-11T22:55:57.405524'
+    })
+  })
+
+  test('update visit', async () => {
+    function poolDecorator (pool: Pool) {
+      (pool as any).connect = jest.fn().mockReturnThis();
+      (pool as any).release = jest.fn().mockReturnThis();
+      (pool as any).query = jest.fn().mockReturnThis();
+
+      // TX Begin
+      (pool as any).query.mockResolvedValueOnce({
+        rows: [{
+          result: {}
+        }] // TX visit
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {
+            id: 1,
+            job_id: 1,
+            invoice_id: null,
+            completed: false,
+            begins: '2021-11-11T22:55:57.405524',
+            ends: null,
+            anytime: true,
+            created: '2021-11-11T22:55:57.405524'
+          }
+        }] // TX Commit
+      }).mockResolvedValueOnce({
+        rows: [{
+          result: {}
+        }]
+      })
+
+      return pool
+    }
+    poolDecorator.inject = ['pool'] as const
+
+    const container = createInjector()
+      .provideValue('pool', pool)
+      .provideFactory('pool', poolDecorator)
+
+    const repository = container.injectClass(VisitRepository)
+
+    const client = await repository.update('abc', 1, {
       job_id: 1,
       invoice_id: null,
       begins: '2021-11-11T22:55:57.000Z',
