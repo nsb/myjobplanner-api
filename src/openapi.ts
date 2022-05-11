@@ -814,7 +814,6 @@ export const apiSpec: OpenAPIV3.Document = {
         ],
         properties: {
           id: {
-            readOnly: true,
             type: 'number'
           },
           serviceId: {
@@ -973,7 +972,7 @@ export const apiSpec: OpenAPIV3.Document = {
 }
 
 const openApi = OpenApiValidator.middleware({
-  apiSpec: apiSpec,
+  apiSpec,
   validateRequests: {
     removeAdditional: true
   },

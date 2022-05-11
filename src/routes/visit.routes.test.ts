@@ -139,7 +139,14 @@ describe('VisitController', () => {
       ends: null,
       anytime: true,
       created: '2021-11-11T22:55:57.405524'
-    }, []]
+    }, [{
+      id: 1,
+      visit_id: 1,
+      name: 'my lineitem',
+      description: null,
+      quantity: 1,
+      unit_cost: 100
+    }]]
 
     const MockService = jest.fn<IVisitService, []>(() => ({
       find: jest.fn(),
@@ -167,7 +174,13 @@ describe('VisitController', () => {
         begins: '2021-11-11T22:55:57.405524',
         ends: null,
         anytime: true,
-        lineItems: []
+        lineItems: [{
+          id: 1,
+          name: 'my lineitem',
+          description: null,
+          quantity: 1,
+          unitCost: 100
+        }]
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
@@ -178,7 +191,13 @@ describe('VisitController', () => {
       begins: '2021-11-11T22:55:57.405524',
       ends: null,
       anytime: true,
-      lineItems: []
+      lineItems: [{
+        id: 1,
+        name: 'my lineitem',
+        description: null,
+        quantity: 1,
+        unitCost: 100
+      }]
     })
   })
 })
