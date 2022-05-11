@@ -80,7 +80,7 @@ class VisitService implements IVisitService {
 
         return {
           id: lineItem.id,
-          visit_id: visit.id,
+          visit_id: createdVisit.id,
           quantity: override.quantity,
           name: lineItem.name,
           description: lineItem.description,
@@ -91,25 +91,58 @@ class VisitService implements IVisitService {
     })
   }
 
-  async update (userId: string, id: number, [job, lineItems]: VisitUpdatable, businessId?: number) {
+  async update (userId: string, id: number, [job, overrides]: VisitUpdatable, businessId?: number) {
     return db.readCommitted(this.pool, async txnClient => {
-      const updatedJob = await this.repository.update(
+      const updatedVisit = await this.repository.update(
         userId,
         id,
         job,
         businessId,
         txnClient
       )
-      // const updatedLineItems = await Promise.all(lineItems.map((lineItem) => {
-      //   return lineItem.id
-      //     ? this.lineItemRepository.update(
-      //       userId, lineItem.id as number, { ...lineItem, job_id: updatedJob.id }, businessId, txnClient)
-      //     : this.lineItemRepository.create(
-      //       userId, { ...lineItem as s.lineitems.Insertable, job_id: updatedJob.id }, businessId, txnClient
-      //     )
-      // }))
+      const updatedOverrides = await Promise.all(overrides.map(async (override) => {
+        let lineItem
+        // The lineitem has an Id, so we get can get it and create an override
+        if (override.id) {
+          lineItem = await this.lineItemRepository.get(userId, override.id as number, businessId)
+        }
 
-      return [updatedJob, []] as VisitSelectable
+        // The lineitem does not have an Id, so create a
+        // lineitem with quantity 0 before creating the override
+        if (!lineItem) {
+          lineItem = await this.lineItemRepository.create(
+            userId, {
+              ...override as s.lineitems.Insertable,
+              job_id: updatedVisit.job_id,
+              quantity: 0
+            },
+            businessId,
+            txnClient
+          )
+        }
+
+        // Create the override if it has a different quantity than the lineitem
+        if (lineItem.quantity !== override.quantity) {
+          await this.lineItemOverrideRepository.create(
+            userId, {
+              lineitem_id: lineItem.id,
+              visit_id: updatedVisit.id,
+              quantity: override.quantity as number
+            },
+            businessId, txnClient
+          )
+        }
+
+        return {
+          id: lineItem.id,
+          visit_id: updatedVisit.id,
+          quantity: override.quantity,
+          name: lineItem.name,
+          description: lineItem.description,
+          unit_cost: lineItem.unit_cost
+        }
+      }))
+      return [updatedVisit, updatedOverrides] as VisitSelectable
     })
   }
 
