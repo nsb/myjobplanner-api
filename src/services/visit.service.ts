@@ -46,17 +46,35 @@ class VisitService implements IVisitService {
       )
       const createdOverrides = await Promise.all(overrides.map(async (override) => {
         let lineItem
+        // The lineitem has an Id, so we get can get it and create an override
         if (override.id) {
           lineItem = await this.lineItemRepository.get(userId, override.id as number, businessId)
         }
 
+        // The lineitem does not have an Id, so create a
+        // lineitem with quantity 0 before creating the override
         if (!lineItem) {
-          lineItem = await this.lineItemRepository.create(userId, { ...override, job_id: createdVisit.job_id, quantity: 0 }, businessId, txnClient)
+          lineItem = await this.lineItemRepository.create(
+            userId, {
+              ...override,
+              job_id: createdVisit.job_id,
+              quantity: 0
+            },
+            businessId,
+            txnClient
+          )
         }
 
+        // Create the override if it has a different
+        // quantity than the lineitem
         if (lineItem.quantity !== override.quantity) {
           await this.lineItemOverrideRepository.create(
-            userId, { lineitem_id: lineItem.id, visit_id: createdVisit.id, quantity: override.quantity }, businessId, txnClient
+            userId, {
+              lineitem_id: lineItem.id,
+              visit_id: createdVisit.id,
+              quantity: override.quantity
+            },
+            businessId, txnClient
           )
         }
 
