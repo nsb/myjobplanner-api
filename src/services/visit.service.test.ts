@@ -53,7 +53,8 @@ describe('VisitService', () => {
       find: jest.fn(),
       get: jest.fn(),
       create: jest.fn(),
-      update: jest.fn()
+      update: jest.fn(),
+      delete: jest.fn()
     }))
 
     const container = createInjector()
@@ -125,7 +126,8 @@ describe('VisitService', () => {
       find: jest.fn(),
       get: jest.fn(),
       create: jest.fn(),
-      update: jest.fn()
+      update: jest.fn(),
+      delete: jest.fn()
     }))
 
     const container = createInjector()
@@ -184,7 +186,8 @@ describe('VisitService', () => {
       find: jest.fn(),
       get: jest.fn(),
       create: jest.fn(),
-      update: jest.fn()
+      update: jest.fn(),
+      delete: jest.fn()
     }))
 
     const container = createInjector()
@@ -277,7 +280,8 @@ describe('VisitService', () => {
       find: jest.fn(),
       get: jest.fn(),
       create: jest.fn().mockResolvedValueOnce(overrideMockedResult),
-      update: jest.fn()
+      update: jest.fn(),
+      delete: jest.fn()
     }))
 
     const container = createInjector()
@@ -390,7 +394,8 @@ describe('VisitService', () => {
       find: jest.fn(),
       get: jest.fn(),
       create: jest.fn().mockResolvedValueOnce(overrideMockedResult),
-      update: jest.fn()
+      update: jest.fn(),
+      delete: jest.fn()
     }))
 
     const container = createInjector()

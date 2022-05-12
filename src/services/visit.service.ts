@@ -101,7 +101,7 @@ class VisitService implements IVisitService {
         txnClient
       )
 
-      // TODO: Delete existing overrides
+      await this.lineItemOverrideRepository.delete(userId, { visit_id: id })
 
       const updatedOverrides = await Promise.all(overrides.map(async (override) => {
         let lineItem
