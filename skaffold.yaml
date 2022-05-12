@@ -3,9 +3,11 @@ kind: Config
 build:
   artifacts:
     - image: myjobplanner-api-image
-      context: ./
-      docker:
-        dockerfile: Dockerfile
+      buildpacks:
+        builder: gcr.io/buildpacks/builder:v1
+        dependencies:
+          paths:
+          - src/*.ts
 deploy:
   logs:
     jsonParse:
