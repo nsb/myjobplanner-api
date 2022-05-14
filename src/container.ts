@@ -16,7 +16,6 @@ import EmployeeRepository from './repositories/EmployeRepository'
 import VisitRepository from './repositories/VisitRepository'
 import VisitService from './services/visit.service'
 import VisitController from './controllers/visit.controllers'
-import HealthController from './controllers/health.controllers'
 import poolDecorator from './authorization'
 import openApi from './openapi'
 import checkJwt from './jwt'
@@ -28,9 +27,6 @@ const baseContainer = createInjector()
   .provideFactory('authorization', poolDecorator)
   .provideValue('openApi', openApi)
   .provideValue('checkJwt', checkJwt)
-
-const container = baseContainer
-  .provideClass('healthController', HealthController)
 
 export const businessRoutesContainer = baseContainer
   .provideClass('employeeRepository', EmployeeRepository)
@@ -60,5 +56,3 @@ export const visitRoutesContainer = baseContainer
   .provideClass('visitRepository', VisitRepository)
   .provideClass('visitService', VisitService)
   .provideClass('visitController', VisitController)
-
-export default container

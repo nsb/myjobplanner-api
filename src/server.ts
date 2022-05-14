@@ -6,8 +6,7 @@ import ClientRouter from './routes/client.routes'
 import PropertyRouter from './routes/property.routes'
 import JobRouter from './routes/job.routes'
 import VisitRouter from './routes/visit.routes'
-import HealthRouter from './routes/health.routes'
-import container, {
+import {
   businessRoutesContainer,
   clientRoutesContainer,
   jobRoutesContainer,
@@ -16,7 +15,8 @@ import container, {
 } from './container'
 import logger from './logger'
 
-app.use('/healthz', container.injectFunction(HealthRouter))
+app.get('/schema.json', (_req, res) => res.json(apiSpec))
+app.use('/healthz', (_req, res) => res.json({ status: 'Ok' }))
 app.use('/v1', businessRoutesContainer.injectFunction(BusinessRouter))
 app.use('/v1', clientRoutesContainer.injectFunction(ClientRouter))
 app.use('/v1', propertyRoutesContainer.injectFunction(PropertyRouter))
