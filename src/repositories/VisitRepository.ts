@@ -23,7 +23,7 @@ class VisitRepository implements IVisitRepository {
     _userId: string,
     visit: s.visits.Insertable,
     _businessId: number
-  ): Promise<s.visits.JSONSelectable> {
+  ) {
     return db.readCommitted(this.pool, async txnClient => {
       return db.insert('visits', visit).run(txnClient)
     })
@@ -34,7 +34,7 @@ class VisitRepository implements IVisitRepository {
     id: number,
     visit: s.visits.Updatable,
     _businessId: number
-  ): Promise<s.visits.JSONSelectable> {
+  ) {
     return db.readCommitted(this.pool, async txnClient => {
       const updatedBusiness = await db.update('visits', visit, { id }).run(txnClient)
       return updatedBusiness[0]
