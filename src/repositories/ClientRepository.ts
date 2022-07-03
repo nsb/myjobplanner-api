@@ -17,7 +17,10 @@ class ClientRepository implements IClientRepository {
   constructor (private pool: Pool) { }
   public static inject = ['pool'] as const
 
-  async create (_userId: string, client: s.clients.Insertable, _businessId?: number, txnClient?: TxnClientForReadCommitted) {
+  async create (_userId: string, client: s.clients.Insertable, businessId: number, txnClient?: TxnClientForReadCommitted) {
+    if (businessId !== client.business_id) {
+      throw Error('Invalid business Id')
+    }
     const createdClientSql = db.insert('clients', client)
     return createdClientSql.run(txnClient || this.pool)
   }

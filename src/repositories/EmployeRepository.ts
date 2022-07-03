@@ -16,15 +16,31 @@ class EmployeeRepository implements IEmployeeRepository {
   constructor (private pool: Pool) { }
   public static inject = ['pool'] as const
 
-  async create (userId: string, employee: s.employees.Insertable, businessId?: number, txnClient?: db.TxnClientForReadCommitted) {
+  async create (
+    _userId: string,
+    employee: s.employees.Insertable,
+    businessId: number,
+    txnClient?: db.TxnClientForReadCommitted
+  ) {
+    if (businessId !== employee.business_id) {
+      throw Error('Invalid business Id')
+    }
     return db.insert('employees', employee).run(txnClient || this.pool)
   }
 
-  async update (_userId: string, id: number, business: s.employees.Updatable) {
-    return db.readCommitted(this.pool, async txnClient => {
-      const updatedBusiness = await db.update('employees', business, { id }).run(txnClient)
-      return updatedBusiness[0]
-    })
+  async update (
+    _userId: string,
+    id: number,
+    employee: s.employees.Updatable,
+    businessId: number,
+    txnClient?: db.TxnClientForReadCommitted
+  ) {
+    const updatedBusiness = await db.update(
+      'employees',
+      employee,
+      { id, business_id: businessId }
+    ).run(txnClient || this.pool)
+    return updatedBusiness[0]
   }
 
   async find (

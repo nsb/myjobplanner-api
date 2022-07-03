@@ -229,7 +229,7 @@ describe('ClientRepository', () => {
       visit_reminders: false,
       external_id: null,
       imported_via: null
-    })
+    }, 1)
 
     expect(client).toEqual({
       id: 1,
@@ -312,7 +312,7 @@ describe('ClientRepository', () => {
       visit_reminders: false,
       external_id: null,
       imported_via: null
-    })
+    }, 1)
 
     expect(client).toEqual({
       id: 1,
