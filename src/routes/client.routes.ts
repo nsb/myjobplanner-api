@@ -25,6 +25,20 @@ function ClientRouter (
     jwtAuthz(['read']),
     openApi,
     clientController.getList.bind(clientController)
+  ).get(
+    '/businesses/:businessId/clients',
+    checkJwt,
+    jwtAuthz(['read']),
+    authorize('admin', 'worker'),
+    openApi,
+    clientController.getList.bind(clientController)
+  ).put(
+    '/businesses/:businessId/clients/:Id',
+    checkJwt,
+    jwtAuthz(['write']),
+    authorize('admin', 'worker'),
+    openApi,
+    clientController.update.bind(clientController)
   )
 }
 ClientRouter.inject = ['authorization', 'openApi', 'clientController'] as const

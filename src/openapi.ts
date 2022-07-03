@@ -203,7 +203,6 @@ export const apiSpec: OpenAPIV3.Document = {
           }
         }
       }
-
     },
     '/businesses/{businessId}/clients': {
       get: {
@@ -282,6 +281,53 @@ export const apiSpec: OpenAPIV3.Document = {
         },
         responses: {
           201: {
+            description: 'client response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Client'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    '/businesses/{businessId}/clients/{Id}': {
+      put: {
+        description: 'Update client',
+        operationId: 'updateClient',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }
+        ],
+        requestBody: {
+          description: 'Update client',
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Client'
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
             description: 'client response',
             content: {
               'application/json': {

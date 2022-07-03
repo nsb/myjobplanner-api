@@ -175,4 +175,61 @@ describe('ClientController', () => {
       lastName: 'Hansen'
     })
   })
+
+  test('PUT /v1/businesses/:businessId/clients/:Id', async () => {
+    const mockedQueryResult: s.clients.JSONSelectable = {
+      id: 1,
+      business_id: 1,
+      first_name: 'Ole',
+      last_name: 'Hansen',
+      business_name: null,
+      is_business: false,
+      address1: 'my address',
+      address2: null,
+      address_use_property: true,
+      city: 'Copenhagen',
+      postal_code: '2450',
+      country: 'DK',
+      email: 'olehansen@example.com',
+      phone: '12341324',
+      is_active: true,
+      visit_reminders: false,
+      external_id: null,
+      imported_via: null,
+      imported_from: null,
+      created: '2021-11-11T22:55:57.405524Z'
+    }
+
+    const MockService = jest.fn<IClientService, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn().mockResolvedValue(mockedQueryResult)
+    }))
+
+    const container = createInjector()
+      .provideClass('clientService', MockService)
+      .provideClass('clientController', ClientController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
+
+    const app = express()
+    app.use(express.json())
+    app.use('/v1', container.injectFunction(ClientRouter))
+
+    const res = await request(app)
+      .put('/v1/businesses/1/clients/1')
+      .send({
+        businessId: 1,
+        firstName: 'Ole',
+        lastName: 'Hansen'
+      })
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual({
+      id: 1,
+      businessId: 1,
+      firstName: 'Ole',
+      lastName: 'Hansen'
+    })
+  })
 })
