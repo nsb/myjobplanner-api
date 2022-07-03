@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import jwtAuthz from 'express-jwt-authz'
 import checkJwt from '../jwt'
 import openApi from '../openapi'
 import PropertyController from '../controllers/property.controllers'
@@ -9,14 +10,14 @@ function PropertyRouter (authorize: Function, propertyController: PropertyContro
   return router.post(
     '/businesses/:businessId/properties',
     checkJwt,
-    // jwtAuthz(['create:property', 'read:property']),
+    jwtAuthz(['write']),
     authorize('admin'),
     openApi,
     propertyController.create.bind(propertyController)
   ).get(
     '/businesses/:businessId/properties',
     checkJwt,
-    // jwtAuthz(['read:property']),
+    jwtAuthz(['read']),
     authorize('admin', 'worker'),
     openApi,
     propertyController.getList.bind(propertyController)

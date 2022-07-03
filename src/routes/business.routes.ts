@@ -14,25 +14,25 @@ function BusinessRouter (
   return router.post(
     '/businesses',
     checkJwt,
-    jwtAuthz(['create:business', 'read:business']),
+    jwtAuthz(['write']),
     openApi,
     businessController.create.bind(businessController)
   ).get(
     '/businesses',
     checkJwt,
-    jwtAuthz(['read:business']),
+    jwtAuthz(['read']),
     openApi,
     businessController.getList.bind(businessController)
   ).get(
     '/businesses/:Id',
     checkJwt,
-    jwtAuthz(['read:business']),
+    jwtAuthz(['read']),
     openApi,
     businessController.getOne.bind(businessController)
   ).put(
     '/businesses/:Id',
     checkJwt,
-    jwtAuthz(['create:business', 'read:business']),
+    jwtAuthz(['write']),
     openApi,
     businessController.update.bind(businessController)
   )

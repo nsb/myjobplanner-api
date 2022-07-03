@@ -1005,8 +1005,8 @@ export const apiSpec: OpenAPIV3.Document = {
             authorizationUrl: `${process.env.AUTH0_DOMAIN}authorize/?audience=${process.env.AUTH0_IDENTIFIER}`,
             scopes: {
               openid: 'Open Id',
-              'create:business': 'Create businesses',
-              'read:business': 'Read businesses',
+              read: 'Read access',
+              write: 'Write access',
               email: 'Read email address'
             }
           }
