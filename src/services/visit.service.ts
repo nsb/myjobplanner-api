@@ -36,7 +36,7 @@ class VisitService implements IVisitService {
       private lineItemOverrideRepository: ILineItemOverrideRepository
   ) {}
 
-  async create (userId: string, [visit, overrides]: VisitInsertable, businessId?: number) {
+  async create (userId: string, [visit, overrides]: VisitInsertable, businessId: number) {
     return db.readCommitted(this.pool, async txnClient => {
       const createdVisit = await this.repository.create(
         userId,
@@ -91,7 +91,7 @@ class VisitService implements IVisitService {
     })
   }
 
-  async update (userId: string, id: number, [visit, overrides]: VisitUpdatable, businessId?: number) {
+  async update (userId: string, id: number, [visit, overrides]: VisitUpdatable, businessId: number) {
     return db.readCommitted(this.pool, async txnClient => {
       const updatedVisit = await this.repository.update(
         userId,
