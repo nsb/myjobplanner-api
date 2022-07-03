@@ -460,6 +460,53 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
+    '/businesses/{businessId}/properties/{Id}': {
+      put: {
+        description: 'Update property',
+        operationId: 'updateProperty',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }
+        ],
+        requestBody: {
+          description: 'Update property',
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Property'
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'property response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Property'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     '/businesses/{businessId}/jobs': {
       get: {
         description: 'Returns all jobs',

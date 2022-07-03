@@ -21,6 +21,20 @@ function PropertyRouter (authorize: Function, propertyController: PropertyContro
     authorize('admin', 'worker'),
     openApi,
     propertyController.getList.bind(propertyController)
+  ).get(
+    '/businesses/:businessId/properties',
+    checkJwt,
+    jwtAuthz(['read']),
+    authorize('admin', 'worker'),
+    openApi,
+    propertyController.getList.bind(propertyController)
+  ).put(
+    '/businesses/:businessId/properties/:Id',
+    checkJwt,
+    jwtAuthz(['write']),
+    authorize('admin', 'worker'),
+    openApi,
+    propertyController.update.bind(propertyController)
   )
 }
 PropertyRouter.inject = ['authorization', 'propertyController'] as const

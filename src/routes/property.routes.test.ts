@@ -163,4 +163,57 @@ describe('PropertyController', () => {
       country: 'Denmark'
     })
   })
+
+  test('PUT /v1/businesses/:businessId/properties/:Id', async () => {
+    const mockedQueryResult = {
+      id: 1,
+      client_id: 1,
+      description: 'my property',
+      address1: 'My address1',
+      address2: null,
+      city: 'Copenhagen',
+      postal_code: '2450',
+      country: 'Denmark',
+      created: '2021-11-11T22:55:57.405524'
+    }
+
+    const MockService = jest.fn<IPropertyService, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn().mockResolvedValue(mockedQueryResult)
+    }))
+
+    const container = createInjector()
+      .provideClass('propertyService', MockService)
+      .provideClass('propertyController', PropertyController)
+      .provideValue('authorization', authorizationMiddleware)
+
+    const app = express()
+    app.use(express.json())
+    app.use('/v1', container.injectFunction(PropertyRouter))
+
+    const res = await request(app)
+      .put('/v1/businesses/1/properties/1')
+      .send({
+        clientId: 1,
+        description: 'my property',
+        address1: 'My address1',
+        address2: null,
+        city: 'Copenhagen',
+        postalCode: '2450',
+        country: 'Denmark'
+      })
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual({
+      id: 1,
+      clientId: 1,
+      description: 'my property',
+      address1: 'My address1',
+      address2: null,
+      city: 'Copenhagen',
+      postalCode: '2450',
+      country: 'Denmark'
+    })
+  })
 })
