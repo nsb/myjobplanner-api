@@ -8,39 +8,39 @@ export type ILineItemRepository = IRepository<s.lineitems.Insertable, s.lineitem
 
 class LineItemRepository implements ILineItemRepository {
   constructor (private pool: Pool) { }
-    public static inject = ['pool'] as const
+  public static inject = ['pool'] as const
 
-    async create (
-      _userId: string,
-      lineItem: s.lineitems.Insertable,
-      _businessId: number,
-      txnClient?: db.TxnClientForReadCommitted
-    ) {
-      return db.insert('lineitems', lineItem).run(txnClient || this.pool)
-    }
+  async create (
+    _userId: string,
+    lineItem: s.lineitems.Insertable,
+    _businessId: number,
+    txnClient?: db.TxnClientForReadCommitted
+  ) {
+    return db.insert('lineitems', lineItem).run(txnClient || this.pool)
+  }
 
-    async update (
-      _userId: string,
-      id: number,
-      lineItem: s.lineitems.Updatable,
-      _businessId: number,
-      txnClient?: db.TxnClientForReadCommitted
-    ) {
-      const updatedLineItem = await db.update(
-        'lineitems',
-        lineItem,
-        { id }
-      ).run(txnClient || this.pool)
-      return updatedLineItem[0]
-    }
+  async update (
+    _userId: string,
+    id: number,
+    lineItem: s.lineitems.Updatable,
+    _businessId: number,
+    txnClient?: db.TxnClientForReadCommitted
+  ) {
+    const updatedLineItem = await db.update(
+      'lineitems',
+      lineItem,
+      { id }
+    ).run(txnClient || this.pool)
+    return updatedLineItem[0]
+  }
 
-    async find (
-      _userId: string,
-      lineItem?: s.lineitems.Whereable,
-      options?: RepositoryOptions<s.lineitems.Table>,
-      businessId?: number
-    ): Promise<ListResponse<s.lineitems.JSONSelectable>> {
-      const lineItemsSql = db.sql<s.lineitems.SQL | s.jobs.SQL | s.clients.SQL, Array<{ result: s.lineitems.JSONSelectable }>>`
+  async find (
+    _userId: string,
+    lineItem?: s.lineitems.Whereable,
+    options?: RepositoryOptions<s.lineitems.Table>,
+    businessId?: number
+  ): Promise<ListResponse<s.lineitems.JSONSelectable>> {
+    const lineItemsSql = db.sql<s.lineitems.SQL | s.jobs.SQL | s.clients.SQL, Array<{ result: s.lineitems.JSONSelectable }>>`
       SELECT to_jsonb(l.*) as result
       FROM ${'clients'} c
       JOIN ${'jobs'} j
@@ -55,9 +55,9 @@ class LineItemRepository implements ILineItemRepository {
       LIMIT ${db.param(options?.limit || 20)}
       OFFSET ${db.param(options?.offset || 0)}`
 
-      const lineItemsPromise = lineItemsSql.run(this.pool)
+    const lineItemsPromise = lineItemsSql.run(this.pool)
 
-      const countSql = db.sql<s.lineitems.SQL | s.jobs.SQL | s.clients.SQL, Array<{ result: number }>>`
+    const countSql = db.sql<s.lineitems.SQL | s.jobs.SQL | s.clients.SQL, Array<{ result: number }>>`
       SELECT COUNT(p.*)::int AS result
       FROM ${'clients'} c
       JOIN ${'jobs'} j
@@ -68,20 +68,20 @@ class LineItemRepository implements ILineItemRepository {
       WHERE ${{ ...lineItem }}) p
       ON p.${'client_id'} = c.${'id'}
       WHERE c.${'business_id'} = ${db.param(businessId)}`
-      const countPromise = countSql.run(this.pool)
+    const countPromise = countSql.run(this.pool)
 
-      const [totalCount, jobs] = await Promise.all([countPromise, lineItemsPromise])
-      return [totalCount[0].result, jobs?.map(job => job.result)]
-    }
+    const [totalCount, jobs] = await Promise.all([countPromise, lineItemsPromise])
+    return [totalCount[0].result, jobs?.map(job => job.result)]
+  }
 
-    async get (_userId: string, id: number, businessId: number) {
-      return db.selectOne(
-        'clients', { business_id: businessId }, {
-          lateral: db.selectExactlyOne('jobs', {},
-            { lateral: db.selectExactlyOne('lineitems', { job_id: db.parent('id'), id }) })
-        }
-      ).run(this.pool)
-    }
+  async get (_userId: string, id: number, businessId: number) {
+    return db.selectOne(
+      'clients', { business_id: businessId }, {
+        lateral: db.selectExactlyOne('jobs', {},
+          { lateral: db.selectExactlyOne('lineitems', { job_id: db.parent('id'), id }) })
+      }
+    ).run(this.pool)
+  }
 }
 
 export default LineItemRepository

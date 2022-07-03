@@ -162,8 +162,12 @@ describe('JobRepository', () => {
       (pool as any).release = jest.fn().mockReturnThis();
       (pool as any).query = jest.fn().mockReturnThis();
 
-      // TX Job
+      // TX Validate
       (pool as any).query.mockResolvedValueOnce({
+        rows: [{
+          result: {}
+        }] // TX Job
+      }).mockResolvedValueOnce({
         rows: [{
           result: {
             id: 1,

@@ -22,9 +22,16 @@ class JobRepository implements IJobRepository {
   async create (
     _userId: string,
     job: s.jobs.Insertable,
-    _businessId: number,
+    businessId: number,
     txnClient?: TxnClientForReadCommitted
   ) {
+    // validate related field client_id
+    await db.selectExactlyOne(
+      'clients', {
+        business_id: businessId,
+        id: job.client_id
+      }).run(txnClient || this.pool)
+
     return db.insert('jobs', job).run(txnClient || this.pool)
   }
 
@@ -32,9 +39,16 @@ class JobRepository implements IJobRepository {
     _userId: string,
     id: number,
     job: s.jobs.Updatable,
-    _businessId: number,
+    businessId: number,
     txnClient?: TxnClientForReadCommitted
   ) {
+    // validate related field client_id
+    await db.selectExactlyOne(
+      'clients', {
+        business_id: businessId,
+        id: job.client_id
+      }).run(txnClient || this.pool)
+
     const updatedBusiness = await db.update(
       'jobs',
       job,
