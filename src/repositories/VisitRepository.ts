@@ -25,8 +25,7 @@ class VisitRepository implements IVisitRepository {
     _businessId: number
   ): Promise<s.visits.JSONSelectable> {
     return db.readCommitted(this.pool, async txnClient => {
-      const createdVisitSql = db.insert('visits', visit)
-      return await createdVisitSql.run(txnClient)
+      return db.insert('visits', visit).run(txnClient)
     })
   }
 
