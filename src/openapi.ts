@@ -814,15 +814,16 @@ export const apiSpec: OpenAPIV3.Document = {
         type: 'object',
         required: [
           'id',
-          'businessId'
+          'business'
         ],
         properties: {
           id: {
             readOnly: true,
             type: 'number'
           },
-          businessId: {
-            type: 'number'
+          business: {
+            type: 'string',
+            pattern: '^/businesses/\\d+$'
           },
           firstName: {
             type: 'string'

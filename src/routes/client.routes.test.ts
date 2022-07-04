@@ -78,7 +78,7 @@ describe('ClientController', () => {
     expect(res.body).toEqual({
       data: [{
         id: 1,
-        businessId: 1,
+        business: '/businesses/1',
         firstName: 'Ole',
         lastName: 'Hansen'
       }],
@@ -163,14 +163,14 @@ describe('ClientController', () => {
     const res = await request(app)
       .post('/v1/businesses/1/clients')
       .send({
-        businessId: 1,
+        business: '/businesses/1',
         firstName: 'Ole',
         lastName: 'Hansen'
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
       id: 1,
-      businessId: 1,
+      business: '/businesses/1',
       firstName: 'Ole',
       lastName: 'Hansen'
     })
@@ -220,14 +220,14 @@ describe('ClientController', () => {
     const res = await request(app)
       .put('/v1/businesses/1/clients/1')
       .send({
-        businessId: 1,
+        business: '/businesses/1',
         firstName: 'Ole',
         lastName: 'Hansen'
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       id: 1,
-      businessId: 1,
+      business: '/businesses/1',
       firstName: 'Ole',
       lastName: 'Hansen'
     })

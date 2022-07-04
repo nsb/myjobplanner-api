@@ -51,7 +51,23 @@ export abstract class BaseController<
   }
 
   protected async afterCreate (_req: Request, _result: Selectable) { }
-  protected validate (_userId: string, _deserialized: Insertable | Updatable, _businessId?: number) { return true }
+
+  protected validate (
+    _userId: string,
+    _deserialized: Insertable | Updatable,
+    _businessId?: number
+  ) {
+    return true
+  }
+
+  protected getIdFromURI (uri: string) {
+    const match = /\d+/.exec(uri)
+    if (match) {
+      return parseInt(match[0])
+    } else {
+      return undefined
+    }
+  }
 
   async update (
     req: Request<{ Id: string, businessId?: string }, {}, DTO>,

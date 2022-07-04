@@ -4,7 +4,7 @@ import type { QueryParams } from '../types'
 
 interface DTO {
   id?: number
-  businessId: number
+  business: string
   firstName: string | null
   lastName: string | null
 }
@@ -12,28 +12,29 @@ interface DTO {
 type ClientQueryParams = QueryParams<DTO>
 
 export class ClientController extends BaseController<s.clients.Insertable, s.clients.Updatable, s.clients.JSONSelectable, s.clients.Whereable, s.clients.Table, DTO, ClientQueryParams> {
-  public static inject = ['clientService'] as const;
+  public static inject = ['clientService'] as const
 
   deserializeInsert (dto: DTO) {
+    const businessId = this.getIdFromURI(dto.business)
+    if (!businessId) {
+      throw new Error('Invalid business Id')
+    }
+
     return {
-      business_id: dto.businessId,
+      business_id: businessId,
       first_name: dto.firstName,
       last_name: dto.lastName
     }
   }
 
   deserializeUpdate (dto: DTO) {
-    return {
-      business_id: dto.businessId,
-      first_name: dto.firstName,
-      last_name: dto.lastName
-    }
+    return this.deserializeInsert(dto)
   }
 
   serialize (model: s.clients.JSONSelectable) {
     return {
       ...model,
-      businessId: model.business_id,
+      business: `/businesses/${model.business_id}`,
       firstName: model.first_name,
       lastName: model.last_name
     }
@@ -49,7 +50,7 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
 
   getOrderBy (key: keyof DTO) {
     switch (key) {
-      case 'businessId':
+      case 'business':
         return 'business_id'
       case 'firstName':
         return 'first_name'
