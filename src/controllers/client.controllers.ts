@@ -15,7 +15,7 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
   public static inject = ['clientService'] as const
 
   deserializeInsert (dto: DTO) {
-    const businessId = this.getIdFromURI(dto.business)
+    const [businessId] = this.getIdsFromURI(dto.business)
     if (!businessId) {
       throw new Error('Invalid business Id')
     }

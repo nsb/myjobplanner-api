@@ -19,9 +19,9 @@ export abstract class BaseController<
     public orderDirection: 'ASC' | 'DESC' = 'ASC'
   ) { }
 
-  abstract deserializeInsert(dto: DTO): Insertable
-  abstract deserializeUpdate(dto: DTO): Updatable
-  abstract serialize(model: Selectable): DTO
+  abstract deserializeInsert(dto: DTO, businessId?: number): Insertable
+  abstract deserializeUpdate(dto: DTO, businessId?: number): Updatable
+  abstract serialize(model: Selectable, businessId?: number): DTO
   abstract getOrderBy(key: keyof DTO): s.SQLForTable<Table>
   abstract fromQuery(params: Params): Whereable
 
@@ -32,7 +32,7 @@ export abstract class BaseController<
   ) {
     if (req.user) {
       const businessId = req.params.businessId ? parseInt(req.params.businessId) : undefined
-      const deserialized = this.deserializeInsert(req.body)
+      const deserialized = this.deserializeInsert(req.body, businessId)
       try {
         if (!this.validate(req.user.sub, deserialized, businessId)) {
           throw new Error('Bad request')
@@ -43,7 +43,7 @@ export abstract class BaseController<
           businessId
         )
         await this.afterCreate(req, result)
-        res.status(201).json(this.serialize(result))
+        res.status(201).json(this.serialize(result, businessId))
       } catch (err) {
         next(err)
       }
@@ -60,12 +60,12 @@ export abstract class BaseController<
     return true
   }
 
-  protected getIdFromURI (uri: string) {
-    const match = /\d+/.exec(uri)
+  protected getIdsFromURI (uri: string) {
+    const match = uri.match(/\d+/g)
     if (match) {
-      return parseInt(match[0])
+      return match.map((Id) => parseInt(Id, 10))
     } else {
-      return undefined
+      return []
     }
   }
 
@@ -88,7 +88,7 @@ export abstract class BaseController<
           businessId
         )
         await this.afterUpdate(result)
-        res.status(200).json(this.serialize(result))
+        res.status(200).json(this.serialize(result, businessId))
       } catch (err) {
         next(err)
       }
@@ -103,6 +103,7 @@ export abstract class BaseController<
     next: NextFunction
   ) {
     if (req.user) {
+      const businessId = req.params.businessId ? parseInt(req.params.businessId) : undefined
       try {
         const offset = parseInt(req.query.offset || 'NaN', 10) || this.offset
         const limit = parseInt(req.query.limit || 'Nan', 10) || this.limit
@@ -117,7 +118,7 @@ export abstract class BaseController<
         )
 
         res.status(200).json({
-          data: result.map(this.serialize),
+          data: result.map(r => this.serialize(r, businessId)),
           meta: {
             totalCount
           }
@@ -134,6 +135,7 @@ export abstract class BaseController<
     next: NextFunction
   ) {
     if (req.user) {
+      const businessId = req.params.businessId ? parseInt(req.params.businessId) : undefined
       try {
         const result = await this.service.get(
           req.user.sub,
@@ -142,7 +144,7 @@ export abstract class BaseController<
         )
 
         if (result) {
-          res.status(200).json(this.serialize(result))
+          res.status(200).json(this.serialize(result, businessId))
         } else {
           res.status(404).send('Not found')
         }

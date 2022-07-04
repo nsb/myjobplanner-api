@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as s from 'zapatos/schema'
 import type { QueryParams } from '../types'
 import type * as db from 'zapatos/db'
@@ -5,8 +6,8 @@ import BaseController from './BaseController'
 
 interface DTO {
   id?: number
-  clientId: number
-  propertyId: number
+  client: string
+  property: string
   recurrences: string | null
   begins: db.TimestampTzString;
   ends: db.TimestampTzString | null
@@ -40,12 +41,23 @@ export class JobController extends BaseController<
   DTO,
   JobQueryParams
 > {
-  public static inject = ['jobService'] as const;
+  public static inject = ['jobService'] as const
 
   deserializeInsert (dto: DTO): [s.jobs.Insertable, s.lineitems.Insertable[]] {
+    const [_first, clientId] = this.getIdsFromURI(dto.client)
+    const [_second, propertyId] = this.getIdsFromURI(dto.property)
+
+    if (!clientId) {
+      throw new Error('Invalid client Id')
+    }
+
+    if (!propertyId) {
+      throw new Error('Invalid property Id')
+    }
+
     return [{
-      client_id: dto.clientId,
-      property_id: dto.propertyId,
+      client_id: clientId,
+      property_id: propertyId,
       recurrences: dto.recurrences,
       begins: dto.begins,
       ends: dto.ends,
@@ -67,9 +79,20 @@ export class JobController extends BaseController<
   }
 
   deserializeUpdate (dto: DTO): [s.jobs.Updatable, s.lineitems.Updatable[]] {
+    const [_first, clientId] = this.getIdsFromURI(dto.client)
+    const [_second, propertyId] = this.getIdsFromURI(dto.property)
+
+    if (!clientId) {
+      throw new Error('Invalid client Id')
+    }
+
+    if (!propertyId) {
+      throw new Error('Invalid property Id')
+    }
+
     return [{
-      client_id: dto.clientId,
-      property_id: dto.propertyId,
+      client_id: clientId,
+      property_id: propertyId,
       recurrences: dto.recurrences,
       begins: dto.begins,
       ends: dto.ends,
@@ -92,11 +115,14 @@ export class JobController extends BaseController<
     })]
   }
 
-  serialize ([model, lineitems]: [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]]) {
+  serialize (
+    [model, lineitems]: [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]],
+    businessId?: number
+  ) {
     return {
       ...model,
-      clientId: model.client_id,
-      propertyId: model.property_id,
+      client: `/businesses/${businessId}/clients/${model.client_id}`,
+      property: `/businesses/${businessId}/properties/${model.property_id}`,
       startTime: model.start_time,
       finishTime: model.finish_time,
       lineItems: lineitems?.map((lineItem) => {
@@ -113,9 +139,9 @@ export class JobController extends BaseController<
 
   getOrderBy (key: keyof DTO) {
     switch (key) {
-      case 'clientId':
+      case 'client':
         return 'client_id'
-      case 'propertyId':
+      case 'property':
         return 'property_id'
       case 'startTime':
         return 'start_time'

@@ -879,8 +879,8 @@ export const apiSpec: OpenAPIV3.Document = {
         type: 'object',
         required: [
           'id',
-          'clientId',
-          'propertyId',
+          'client',
+          'property',
           'begins',
           'anytime',
           'closed',
@@ -891,11 +891,13 @@ export const apiSpec: OpenAPIV3.Document = {
             readOnly: true,
             type: 'number'
           },
-          clientId: {
-            type: 'number'
+          client: {
+            type: 'string',
+            pattern: '^/businesses/\\d+/clients/\\d+$'
           },
-          propertyId: {
-            type: 'number'
+          property: {
+            type: 'string',
+            pattern: '^/businesses/\\d+/properties/\\d+$'
           },
           recurrences: {
             type: 'string',

@@ -76,8 +76,8 @@ describe('JobController', () => {
     expect(res.body).toEqual({
       data: [{
         id: 1,
-        clientId: 1,
-        propertyId: 1,
+        client: '/businesses/1/clients/1',
+        property: '/businesses/1/properties/1',
         recurrences: null,
         begins: '2021-11-11T22:55:57.405524',
         ends: null,
@@ -165,8 +165,8 @@ describe('JobController', () => {
     const res = await request(app)
       .post('/v1/businesses/1/jobs')
       .send({
-        clientId: 1,
-        propertyId: 1,
+        client: '/businesses/1/clients/1',
+        property: '/businesses/1/properties/1',
         recurrences: null,
         begins: '2021-11-11T22:55:57.405524',
         ends: null,
@@ -182,8 +182,8 @@ describe('JobController', () => {
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
       id: 1,
-      clientId: 1,
-      propertyId: 1,
+      client: '/businesses/1/clients/1',
+      property: '/businesses/1/properties/1',
       recurrences: null,
       begins: '2021-11-11T22:55:57.405524',
       ends: null,
