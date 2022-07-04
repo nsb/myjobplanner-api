@@ -826,10 +826,12 @@ export const apiSpec: OpenAPIV3.Document = {
             pattern: '^/businesses/\\d+$'
           },
           firstName: {
-            type: 'string'
+            type: 'string',
+            nullable: true
           },
           lastName: {
-            type: 'string'
+            type: 'string',
+            nullable: true
           }
         }
       },
@@ -982,7 +984,7 @@ export const apiSpec: OpenAPIV3.Document = {
         additionalProperties: false,
         type: 'object',
         required: [
-          'jobId',
+          'job',
           'completed',
           'begins',
           'anytime',
@@ -992,11 +994,13 @@ export const apiSpec: OpenAPIV3.Document = {
           id: {
             type: 'number'
           },
-          jobId: {
-            type: 'number'
+          job: {
+            type: 'string',
+            pattern: '^/businesses/\\d+/jobs/\\d+$'
           },
-          invoiceId: {
-            type: 'number',
+          invoice: {
+            type: 'string',
+            pattern: '^/businesses/\\d+/invoices/\\d+$',
             nullable: true,
             readOnly: true
           },

@@ -60,13 +60,14 @@ export abstract class BaseController<
     return true
   }
 
-  protected getIdsFromURI (uri: string) {
-    const match = uri.match(/\d+/g)
-    if (match) {
-      return match.map((Id) => parseInt(Id, 10))
-    } else {
-      return []
+  protected getIdsFromURI (uri: string | null) {
+    if (uri) {
+      const match = uri.match(/\d+/g)
+      if (match) {
+        return match.map((Id) => parseInt(Id, 10))
+      }
     }
+    return []
   }
 
   async update (

@@ -78,8 +78,8 @@ describe('VisitController', () => {
     expect(res.body).toEqual({
       data: [{
         id: 1,
-        jobId: 1,
-        invoiceId: null,
+        job: '/businesses/1/jobs/1',
+        invoice: null,
         completed: false,
         begins: '2021-11-11T22:55:57.405524',
         ends: null,
@@ -168,7 +168,7 @@ describe('VisitController', () => {
     const res = await request(app)
       .post('/v1/businesses/1/visits')
       .send({
-        jobId: 1,
+        job: '/businesses/1/jobs/1',
         invoiceId: null,
         completed: false,
         begins: '2021-11-11T22:55:57.405524',
@@ -185,8 +185,8 @@ describe('VisitController', () => {
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
       id: 1,
-      jobId: 1,
-      invoiceId: null,
+      job: '/businesses/1/jobs/1',
+      invoice: null,
       completed: false,
       begins: '2021-11-11T22:55:57.405524',
       ends: null,
@@ -241,8 +241,8 @@ describe('VisitController', () => {
       .put('/v1/businesses/1/visits/1')
       .send({
         id: 1,
-        jobId: 1,
-        invoiceId: null,
+        job: '/businesses/1/jobs/1',
+        invoice: null,
         completed: false,
         begins: '2021-11-11T22:55:57.405524',
         ends: null,
@@ -258,8 +258,8 @@ describe('VisitController', () => {
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       id: 1,
-      jobId: 1,
-      invoiceId: null,
+      job: '/businesses/1/jobs/1',
+      invoice: null,
       completed: false,
       begins: '2021-11-11T22:55:57.405524',
       ends: null,

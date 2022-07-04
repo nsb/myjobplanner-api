@@ -6,8 +6,8 @@ import BaseController from './BaseController'
 
 interface DTO {
   id?: number
-  jobId: number
-  invoiceId: number | null
+  job: string
+  invoice: string | null
   completed: boolean
   begins: TimestampTzString | null
   ends: TimestampTzString | null
@@ -37,9 +37,18 @@ export class VisitController extends BaseController<
   public static inject = ['visitService'] as const
 
   deserializeInsert (dto: DTO): [s.visits.Insertable, s.lineitems.Insertable[]] {
+    // eslint-disable-next-line no-unused-vars
+    const [_first, jobId] = this.getIdsFromURI(dto.job)
+    // eslint-disable-next-line no-unused-vars
+    const [_second, invoiceId] = this.getIdsFromURI(dto.invoice)
+
+    if (!jobId) {
+      throw new Error('Invalid job Id')
+    }
+
     return [{
-      job_id: dto.jobId,
-      invoice_id: dto.invoiceId,
+      job_id: jobId,
+      invoice_id: invoiceId,
       completed: dto.completed,
       begins: dto.begins,
       ends: dto.ends,
@@ -55,10 +64,19 @@ export class VisitController extends BaseController<
   }
 
   deserializeUpdate (dto: DTO): [s.visits.Updatable, s.lineitems.Updatable[]] {
+    // eslint-disable-next-line no-unused-vars
+    const [_first, jobId] = this.getIdsFromURI(dto.job)
+    // eslint-disable-next-line no-unused-vars
+    const [_second, invoiceId] = this.getIdsFromURI(dto.invoice)
+
+    if (!jobId) {
+      throw new Error('Invalid job Id')
+    }
+
     return [{
       id: dto.id,
-      job_id: dto.jobId,
-      invoice_id: dto.invoiceId,
+      job_id: jobId,
+      invoice_id: invoiceId,
       completed: dto.completed,
       begins: dto.begins,
       ends: dto.ends,
@@ -76,11 +94,14 @@ export class VisitController extends BaseController<
     ]
   }
 
-  serialize ([model, lineItems]: [s.visits.JSONSelectable, s.lineitems.JSONSelectable[]]) {
+  serialize (
+    [model, lineItems]: [s.visits.JSONSelectable, s.lineitems.JSONSelectable[]],
+    businessId?: number
+  ) {
     return {
       ...model,
-      jobId: model.job_id,
-      invoiceId: model.invoice_id,
+      job: `/businesses/${businessId}/jobs/${model.job_id}`,
+      invoice: model.invoice_id ? `/businesses/${businessId}/invoices/${model.invoice_id}` : null,
       lineItems: lineItems.map(lineItem => {
         return {
           id: lineItem.id,
@@ -95,9 +116,9 @@ export class VisitController extends BaseController<
 
   getOrderBy (key: keyof DTO) {
     switch (key) {
-      case 'jobId':
+      case 'job':
         return 'job_id'
-      case 'invoiceId':
+      case 'invoice':
         return 'invoice_id'
       default:
         return 'created'
