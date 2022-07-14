@@ -22,8 +22,8 @@ interface DTO {
 }
 
 type VisitQueryParams = QueryParams<DTO> & {
-  clientId?: number,
-  jobId?: number
+  client?: string,
+  job?: string
 }
 
 export class VisitController extends BaseController<
@@ -127,12 +127,16 @@ export class VisitController extends BaseController<
 
   fromQuery (query: VisitQueryParams): [s.visits.Whereable, s.clients.Whereable] {
     const visitWhere: s.visits.Whereable = {}
-    if (query.jobId) {
-      visitWhere.job_id = query.jobId
+    if (query.job) {
+      // eslint-disable-next-line no-unused-vars
+      const [_first, jobId] = this.getIdsFromURI(query.job)
+      visitWhere.job_id = jobId
     }
     const clientWhere: s.clients.Whereable = {}
-    if (query.clientId) {
-      clientWhere.id = query.clientId
+    if (query.client) {
+      // eslint-disable-next-line no-unused-vars
+      const [_first, clientId] = this.getIdsFromURI(query.client)
+      clientWhere.id = clientId
     }
     return [visitWhere, clientWhere]
   }

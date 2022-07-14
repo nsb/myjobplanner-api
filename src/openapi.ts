@@ -674,14 +674,23 @@ export const apiSpec: OpenAPIV3.Document = {
             $ref: '#/components/parameters/orderDirectionParam'
           },
           {
-            name: 'clientId',
+            name: 'client',
             in: 'query',
             description: 'filter by client',
             required: false,
             schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 1
+              type: 'string',
+              pattern: '^/businesses/\\d+/clients/\\d+$'
+            }
+          },
+          {
+            name: 'job',
+            in: 'query',
+            description: 'filter by job',
+            required: false,
+            schema: {
+              type: 'string',
+              pattern: '^/businesses/\\d+/jobs/\\d+$'
             }
           }
         ],
