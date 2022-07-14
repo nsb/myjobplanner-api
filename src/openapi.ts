@@ -304,6 +304,49 @@ export const apiSpec: OpenAPIV3.Document = {
       }
     },
     '/businesses/{businessId}/clients/{Id}': {
+      get: {
+        description: 'Returns a single client',
+        operationId: 'getClients',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }],
+        responses: {
+          200: {
+            description: 'get client response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Client'
+                }
+              }
+            }
+          },
+          404: {
+            description: 'get client not found',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
       put: {
         description: 'Update client',
         operationId: 'updateClient',

@@ -26,12 +26,12 @@ function ClientRouter (
     openApi,
     clientController.getList.bind(clientController)
   ).get(
-    '/businesses/:businessId/clients',
+    '/businesses/:businessId/clients/:Id',
     checkJwt,
     jwtAuthz(['read']),
     authorize('admin', 'worker'),
     openApi,
-    clientController.getList.bind(clientController)
+    clientController.getOne.bind(clientController)
   ).put(
     '/businesses/:businessId/clients/:Id',
     checkJwt,
