@@ -29,7 +29,7 @@ interface DTO {
 }
 
 type JobQueryParams = QueryParams<DTO> & {
-  clientId?: number
+  client?: string
 }
 
 export class JobController extends BaseController<
@@ -154,8 +154,9 @@ export class JobController extends BaseController<
 
   fromQuery (query: JobQueryParams) {
     const where: s.jobs.Whereable = {}
-    if (query.clientId) {
-      where.client_id = query.clientId
+    if (query.client) {
+      const [_businessId, clientId] = this.getIdsFromURI(query.client)
+      where.client_id = clientId
     }
     return where
   }
