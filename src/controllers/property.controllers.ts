@@ -4,7 +4,7 @@ import BaseController from './BaseController'
 
 interface DTO {
   id?: number
-  clientId: number
+  client: string
   description: string | null
   address1: string | null
   address2: string | null
@@ -14,15 +14,17 @@ interface DTO {
 }
 
 type PropertyQueryParams = QueryParams<DTO> & {
-  clientId?: number
+  client?: string
 }
 
 export class PropertyController extends BaseController<s.properties.Insertable, s.properties.Updatable, s.properties.JSONSelectable, s.properties.Whereable, s.properties.Table, DTO, PropertyQueryParams> {
-  public static inject = ['propertyService'] as const;
+  public static inject = ['propertyService'] as const
 
   deserializeInsert (dto: DTO) {
+    // eslint-disable-next-line no-unused-vars
+    const [businessId, clientId] = this.getIdsFromURI(dto.client)
     return {
-      client_id: dto.clientId,
+      client_id: clientId,
       description: dto.description,
       address1: dto.address1,
       address2: dto.address1,
@@ -33,8 +35,10 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
   }
 
   deserializeUpdate (dto: DTO) {
+    // eslint-disable-next-line no-unused-vars
+    const [businessId, clientId] = this.getIdsFromURI(dto.client)
     return {
-      client_id: dto.clientId,
+      client_id: clientId,
       description: dto.description,
       address1: dto.address1,
       address2: dto.address1,
@@ -44,17 +48,17 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
     }
   }
 
-  serialize (model: s.properties.JSONSelectable) {
+  serialize (model: s.properties.JSONSelectable, businessId?: number) {
     return {
       ...model,
-      clientId: model.client_id,
+      client: `/businesses/${businessId}/clients/${model.client_id}`,
       postalCode: model.postal_code
     }
   }
 
   getOrderBy (key: keyof DTO) {
     switch (key) {
-      case 'clientId':
+      case 'client':
         return 'client_id'
       case 'postalCode':
         return 'postal_code'
@@ -65,8 +69,10 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
 
   fromQuery (query: PropertyQueryParams) {
     const where: s.properties.Whereable = {}
-    if (query.clientId) {
-      where.client_id = query.clientId
+    if (query.client) {
+      // eslint-disable-next-line no-unused-vars
+      const [businessId, clientId] = this.getIdsFromURI(query.client)
+      where.client_id = clientId
     }
     return where
   }
