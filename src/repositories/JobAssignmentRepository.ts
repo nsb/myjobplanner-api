@@ -10,7 +10,13 @@ export interface IJobAssignmentRepository extends IRepository<
   s.job_assignments.JSONSelectable,
   s.job_assignments.Whereable,
   s.job_assignments.Table
-> { }
+> {
+  delete(
+    userId: string,
+    where: s.job_assignments.Whereable,
+    businessId?: number
+  ): Promise<s.job_assignments.JSONSelectable[]>
+ }
 
 class JobAssignmentRepository implements IJobAssignmentRepository {
   constructor (private pool: Pool) { }
@@ -54,6 +60,14 @@ class JobAssignmentRepository implements IJobAssignmentRepository {
 
   async get (_userId: string, id: number) {
     return db.selectOne('job_assignments', { id }).run(this.pool)
+  }
+
+  async delete (
+    _userId: string,
+    assignment: s.job_assignments.Whereable,
+    _businessId?: number,
+    txnClient?: db.TxnClientForReadCommitted) {
+    return db.deletes('job_assignments', assignment).run(txnClient || this.pool)
   }
 }
 

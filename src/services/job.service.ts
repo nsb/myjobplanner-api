@@ -83,10 +83,11 @@ class JobService implements IJobService {
           )
       }))
 
+      await this.jobAssignmentRepository.delete(userId, { job_id: updatedJob.id })
       const updatedAssignments: s.job_assignments.Updatable[] = await Promise.all(assignments.map(assignment => {
-        return this.jobAssignmentRepository.update(
+        return this.jobAssignmentRepository.create(
           userId,
-          id, {
+          {
             job_id: job.id as number,
             employee_id: assignment
           },
