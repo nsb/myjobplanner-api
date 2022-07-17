@@ -4,6 +4,7 @@ import type { Pool } from 'pg'
 import JobService from '../services/job.service'
 import type { IJobRepository } from '../repositories/JobRepository'
 import type { ILineItemRepository } from '../repositories/LineItemRepository'
+import type { IJobAssignmentRepository } from '../repositories/JobAssignmentRepository'
 
 describe('JobService', () => {
   test('find', async () => {
@@ -48,10 +49,18 @@ describe('JobService', () => {
       update: jest.fn()
     }))
 
+    const MockJobAssignmentsRepository = jest.fn<IJobAssignmentRepository, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideValue('pool', pool)
       .provideClass('jobRepository', MockJobRepository)
       .provideClass('lineItemRepository', MockLineItemRepository)
+      .provideClass('jobAssignmentRepository', MockJobAssignmentsRepository)
 
     const service = container.injectClass(JobService)
 
@@ -114,10 +123,18 @@ describe('JobService', () => {
       update: jest.fn()
     }))
 
+    const MockJobAssignmentsRepository = jest.fn<IJobAssignmentRepository, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideValue('pool', pool)
       .provideClass('jobRepository', MockJobRepository)
       .provideClass('lineItemRepository', MockLineItemRepository)
+      .provideClass('jobAssignmentRepository', MockJobAssignmentsRepository)
 
     const service = container.injectClass(JobService)
 
@@ -173,10 +190,18 @@ describe('JobService', () => {
       update: jest.fn()
     }))
 
+    const MockJobAssignmentsRepository = jest.fn<IJobAssignmentRepository, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideValue('pool', pool)
       .provideClass('jobRepository', MockJobRepository)
       .provideClass('lineItemRepository', MockLineItemRepository)
+      .provideClass('jobAssignmentRepository', MockJobAssignmentsRepository)
 
     const service = container.injectClass(JobService)
 
@@ -259,11 +284,19 @@ describe('JobService', () => {
       update: jest.fn()
     }))
 
+    const MockJobAssignmentsRepository = jest.fn<IJobAssignmentRepository, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn()
+    }))
+
     const container = createInjector()
       .provideValue('pool', pool)
       .provideFactory('pool', poolDecorator)
       .provideClass('jobRepository', MockJobRepository)
       .provideClass('lineItemRepository', MockLineItemRepository)
+      .provideClass('jobAssignmentRepository', MockJobAssignmentsRepository)
 
     const service = container.injectClass(JobService)
 

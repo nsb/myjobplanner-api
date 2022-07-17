@@ -5,6 +5,7 @@ import type { IService } from './base.service'
 import type { IJobRepository } from '../repositories/JobRepository'
 import type { RepositoryOptions } from '../types'
 import type { ILineItemRepository } from '../repositories/LineItemRepository'
+import { IJobAssignmentRepository } from '../repositories/JobAssignmentRepository'
 
 type JobInsertable = [s.jobs.Insertable, s.lineitems.Insertable[], number[]]
 type JobUpdatable = [s.jobs.Updatable, Array<s.lineitems.Updatable | s.lineitems.Insertable>, number[] ]
@@ -19,11 +20,12 @@ export interface IJobService extends IService<
 > {}
 
 class JobService implements IJobService {
-  public static inject = ['pool', 'jobRepository', 'lineItemRepository'] as const
+  public static inject = ['pool', 'jobRepository', 'lineItemRepository', 'jobAssignmentRepository'] as const
   constructor (
         private pool: Pool,
         private jobRepository: IJobRepository,
-        private lineItemRepository: ILineItemRepository
+        private lineItemRepository: ILineItemRepository,
+        private jobAssignmentRepository: IJobAssignmentRepository
   ) {}
 
   async create (
@@ -43,10 +45,14 @@ class JobService implements IJobService {
           userId, { ...lineItem, job_id: createdJob.id }, businessId, txnClient
         )
       }))
-
-      const createdAssignments: s.job_assignments.Insertable[] = []
-
-      // TODO: schedule visits
+      const createdAssignments: s.job_assignments.Insertable[] = await Promise.all(assignments.map(assignment => {
+        return this.jobAssignmentRepository.create(
+          userId, {
+            job_id: job.id as number,
+            employee_id: assignment
+          }, businessId,
+          txnClient)
+      }))
 
       return [createdJob, createdLineItems, createdAssignments] as JobSelectable
     })
