@@ -50,8 +50,10 @@ class JobService implements IJobService {
           userId, {
             job_id: job.id as number,
             employee_id: assignment
-          }, businessId,
-          txnClient)
+          },
+          businessId,
+          txnClient
+        )
       }))
 
       return [createdJob, createdLineItems, createdAssignments] as JobSelectable
@@ -61,7 +63,7 @@ class JobService implements IJobService {
   async update (
     userId: string,
     id: number,
-    [job, lineItems, assigned]: JobUpdatable,
+    [job, lineItems, assignments]: JobUpdatable,
     businessId: number
   ) {
     return db.readCommitted(this.pool, async txnClient => {
@@ -81,7 +83,17 @@ class JobService implements IJobService {
           )
       }))
 
-      const updatedAssignments: s.job_assignments.Updatable[] = []
+      const updatedAssignments: s.job_assignments.Updatable[] = await Promise.all(assignments.map(assignment => {
+        return this.jobAssignmentRepository.update(
+          userId,
+          id, {
+            job_id: job.id as number,
+            employee_id: assignment
+          },
+          businessId,
+          txnClient
+        )
+      }))
 
       return [updatedJob, updatedLineItems, updatedAssignments] as JobSelectable
     })
