@@ -23,6 +23,7 @@ import openApi from './openapi'
 import checkJwt from './jwt'
 import LineItemRepository from './repositories/LineItemRepository'
 import LineItemOverrideRepository from './repositories/LineItemOverrideRepository'
+import JobAssignmentRepository from './repositories/JobAssignmentRepository'
 
 const baseContainer = createInjector()
   .provideValue('pool', pool)
@@ -54,6 +55,7 @@ export const propertyRoutesContainer = baseContainer
 export const jobRoutesContainer = baseContainer
   .provideClass('jobRepository', JobRepository)
   .provideClass('lineItemRepository', LineItemRepository)
+  .provideClass('jobAssignmentRepository', JobAssignmentRepository)
   .provideClass('jobService', JobService)
   .provideClass('jobController', JobController)
 
