@@ -44,6 +44,12 @@ export type paths = {
     /** Create job */
     post: operations["createJob"];
   };
+  "/businesses/{businessId}/jobs/{Id}": {
+    /** Returns a single job */
+    get: operations["getJobs"];
+    /** Update job */
+    put: operations["updateJob"];
+  };
   "/businesses/{businessId}/visits": {
     /** Returns all visits */
     get: operations["findVisits"];
@@ -535,6 +541,68 @@ export type operations = {
       };
     };
     /** Create job */
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Job"];
+      };
+    };
+  };
+  /** Returns a single job */
+  getJobs: {
+    parameters: {
+      path: {
+        /** Numeric Id of the business to get */
+        businessId: components["parameters"]["businessIdParam"];
+        /** Numeric Id of the resource to get */
+        Id: components["parameters"]["idParam"];
+      };
+    };
+    responses: {
+      /** get job response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Job"];
+        };
+      };
+      /** get job not found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** unexpected error */
+      default: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** Update job */
+  updateJob: {
+    parameters: {
+      path: {
+        /** Numeric Id of the business to get */
+        businessId: components["parameters"]["businessIdParam"];
+        /** Numeric Id of the resource to get */
+        Id: components["parameters"]["idParam"];
+      };
+    };
+    responses: {
+      /** job response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Job"];
+        };
+      };
+      /** unexpected error */
+      default: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+    /** Update job */
     requestBody: {
       content: {
         "application/json": components["schemas"]["Job"];

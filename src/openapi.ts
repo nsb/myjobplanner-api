@@ -658,6 +658,96 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
+    '/businesses/{businessId}/jobs/{Id}': {
+      get: {
+        description: 'Returns a single job',
+        operationId: 'getJobs',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }],
+        responses: {
+          200: {
+            description: 'get job response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Job'
+                }
+              }
+            }
+          },
+          404: {
+            description: 'get job not found',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
+      put: {
+        description: 'Update job',
+        operationId: 'updateJob',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }
+        ],
+        requestBody: {
+          description: 'Update job',
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Job'
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'job response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Job'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     '/businesses/{businessId}/visits': {
       get: {
         description: 'Returns all visits',
