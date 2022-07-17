@@ -49,7 +49,15 @@ describe('JobController', () => {
           closed: false,
           invoice: 'never',
           created: '2021-11-11T22:55:57.405524'
-        }, []]
+        }, [{
+          id: 1,
+          lineitem_id: 1,
+          visit_id: 1,
+          description: null,
+          name: 'Cleaning',
+          unit_cost: 100,
+          quantity: 1
+        }]]
       ]
     ]
 
@@ -88,7 +96,14 @@ describe('JobController', () => {
         description: null,
         closed: false,
         invoice: 'never',
-        lineItems: []
+        lineItems: [{
+          id: '/businesses/1/lineitems/1',
+          name: 'Cleaning',
+          description: null,
+          serviceId: null,
+          unitCost: 100,
+          quantity: 1
+        }]
       }],
       meta: {
         totalCount: 1
@@ -143,7 +158,15 @@ describe('JobController', () => {
       closed: false,
       invoice: 'never',
       created: '2021-11-11T22:55:57.405524'
-    }, []]
+    }, [{
+      id: 1,
+      lineitem_id: 1,
+      visit_id: 1,
+      description: null,
+      name: 'Cleaning',
+      unit_cost: 100,
+      quantity: 1
+    }]]
 
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn(),
@@ -177,7 +200,14 @@ describe('JobController', () => {
         description: null,
         closed: false,
         invoice: 'never',
-        lineItems: []
+        lineItems: [{
+          id: '/businesses/1/lineitems/1',
+          name: 'Cleaning',
+          description: null,
+          serviceId: null,
+          unitCost: 100,
+          quantity: 1
+        }]
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
@@ -194,7 +224,14 @@ describe('JobController', () => {
       description: null,
       closed: false,
       invoice: 'never',
-      lineItems: []
+      lineItems: [{
+        id: '/businesses/1/lineitems/1',
+        name: 'Cleaning',
+        description: null,
+        serviceId: null,
+        unitCost: 100,
+        quantity: 1
+      }]
     })
   })
 })

@@ -121,7 +121,8 @@ export class JobController extends BaseController<
       lineItems: lineitems?.map((lineItem) => {
         return {
           id: `/businesses/${businessId}/lineitems/${lineItem.id}`,
-          serviceId: `/businesses/${businessId}/lineitems/${lineItem.service_id}`,
+          serviceId: lineItem.service_id ? `/businesses/${businessId}/lineitems/${lineItem.service_id}` : null,
+          description: lineItem.description,
           name: lineItem.name,
           quantity: lineItem.quantity,
           unitCost: lineItem.unit_cost
