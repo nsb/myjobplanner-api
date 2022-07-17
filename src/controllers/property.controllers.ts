@@ -1,17 +1,9 @@
 import * as s from 'zapatos/schema'
+import type { components } from '../schema'
 import type { QueryParams } from '../types'
 import BaseController from './BaseController'
 
-interface DTO {
-  id?: number
-  client: string
-  description: string | null
-  address1: string | null
-  address2: string | null
-  city: string | null
-  postalCode: string | null
-  country: string | null
-}
+type DTO = components['schemas']['Property']
 
 type PropertyQueryParams = QueryParams<DTO> & {
   client?: string

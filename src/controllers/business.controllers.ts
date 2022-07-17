@@ -1,13 +1,9 @@
 import * as s from 'zapatos/schema'
 import type { QueryParams } from '../types'
+import type { components } from '../schema'
 import BaseController from './BaseController'
 
-interface DTO {
-  id?: number
-  name: string
-  timezone: string
-  countryCode: string
-}
+type DTO = components['schemas']['Business']
 
 class BusinessController extends BaseController<
   s.businesses.Insertable,
@@ -18,7 +14,7 @@ class BusinessController extends BaseController<
   DTO,
   QueryParams<DTO>
 > {
-  public static inject = ['businessService'] as const;
+  public static inject = ['businessService'] as const
 
   deserializeInsert (dto: DTO) {
     return {

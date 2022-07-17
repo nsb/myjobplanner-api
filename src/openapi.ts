@@ -937,7 +937,8 @@ export const apiSpec: OpenAPIV3.Document = {
           'begins',
           'anytime',
           'closed',
-          'invoice'
+          'invoice',
+          'lineItems'
         ],
         properties: {
           id: {

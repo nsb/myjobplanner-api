@@ -1,31 +1,16 @@
 /* eslint-disable no-unused-vars */
 import * as s from 'zapatos/schema'
+import type { components } from '../schema'
 import type { QueryParams } from '../types'
 import type * as db from 'zapatos/db'
 import BaseController from './BaseController'
 
-interface DTO {
-  id?: number
-  client: string
-  property: string
-  recurrences: string | null
-  begins: db.TimestampTzString;
+type JobDTO = components['schemas']['Job']
+interface DTO extends JobDTO {
+  begins: db.TimestampTzString
   ends: db.TimestampTzString | null
   startTime: db.TimestampTzString | null
   finishTime: db.TimestampTzString | null
-  anytime: boolean
-  title: string | null
-  description: string | null
-  closed: boolean
-  // eslint-disable-next-line camelcase
-  invoice: s.invoice_job_choices
-  lineItems: Array<{
-    id?: number
-    serviceId: number | null
-    name: string
-    quantity: number
-    unitCost: number
-  }>
 }
 
 type JobQueryParams = QueryParams<DTO> & {
@@ -69,6 +54,9 @@ export class JobController extends BaseController<
       closed: dto.closed,
       invoice: dto.invoice
     }, dto.lineItems.map((lineItem) => {
+      if (!lineItem.name) {
+        throw new Error('Name required in line item.')
+      }
       return {
         service_id: lineItem.serviceId,
         name: lineItem.name,

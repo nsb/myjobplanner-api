@@ -12,7 +12,8 @@
     "graphile-migrate": "npx env-cmd --no-override graphile-migrate migrate",
     "graphile-commit": "npx env-cmd --no-override graphile-migrate commit",
     "zapatos": "npx env-cmd --no-override npx zapatos",
-    "skaffold": "skaffold dev --default-repo dev.local --tail --port-forward"
+    "skaffold": "skaffold dev --default-repo dev.local --tail --port-forward",
+    "openapi-types": "npx openapi-typescript http://myjobplanner-api.default.10.98.41.24.sslip.io/schema.json --export-type --output src/schema.ts"
   },
   "keywords": [],
   "author": "",
