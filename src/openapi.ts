@@ -393,6 +393,195 @@ export const apiSpec: OpenAPIV3.Document = {
         }
       }
     },
+    '/businesses/{businessId}/employees': {
+      get: {
+        description: 'Returns all employees',
+        operationId: 'findEmployees',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/offsetParam'
+          }, {
+            $ref: '#/components/parameters/limitParam'
+          }, {
+            $ref: '#/components/parameters/orderDirectionParam'
+          }
+        ],
+        responses: {
+          200: {
+            description: 'employee response',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    data: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/Employee'
+                      }
+                    },
+                    meta: {
+                      type: 'object',
+                      properties: {
+                        totalCount: {
+                          readOnly: true,
+                          type: 'number'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        description: 'Create employee',
+        operationId: 'createEmployee',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          }
+        ],
+        requestBody: {
+          description: 'Create employee',
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Employee'
+              }
+            }
+          }
+        },
+        responses: {
+          201: {
+            description: 'employee response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Employee'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    '/businesses/{businessId}/employees/{Id}': {
+      get: {
+        description: 'Returns a single employee',
+        operationId: 'getEmployee',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }],
+        responses: {
+          200: {
+            description: 'get employee response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Employee'
+                }
+              }
+            }
+          },
+          404: {
+            description: 'get employee not found',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
+      put: {
+        description: 'Update client',
+        operationId: 'updateClient',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }
+        ],
+        requestBody: {
+          description: 'Update client',
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Client'
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'client response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Client'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     '/businesses/{businessId}/properties': {
       get: {
         description: 'Returns all properties',
@@ -1259,6 +1448,35 @@ export const apiSpec: OpenAPIV3.Document = {
             items: {
               $ref: '#/components/schemas/LineItem'
             }
+          }
+        }
+      },
+      Employee: {
+        additionalProperties: false,
+        type: 'object',
+        required: [
+          'id',
+          'user',
+          'business',
+          'role'
+        ],
+        properties: {
+          id: {
+            readOnly: true,
+            type: 'string',
+            pattern: '^/businesses/\\d+/employees/\\d+$'
+          },
+          business: {
+            readOnly: true,
+            type: 'string',
+            pattern: '^/businesses/\\d+$'
+          },
+          role: {
+            type: 'string',
+            enum: [
+              'admin',
+              'worker'
+            ]
           }
         }
       },

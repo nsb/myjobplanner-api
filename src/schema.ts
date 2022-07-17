@@ -28,6 +28,18 @@ export type paths = {
     /** Update client */
     put: operations["updateClient"];
   };
+  "/businesses/{businessId}/employees": {
+    /** Returns all employees */
+    get: operations["findEmployees"];
+    /** Create employee */
+    post: operations["createEmployee"];
+  };
+  "/businesses/{businessId}/employees/{Id}": {
+    /** Returns a single employee */
+    get: operations["getEmployee"];
+    /** Update client */
+    put: operations["updateClient"];
+  };
   "/businesses/{businessId}/properties": {
     /** Returns all properties */
     get: operations["findProperties"];
@@ -124,6 +136,14 @@ export type components = {
       ends?: string | null;
       anytime: boolean;
       lineItems: components["schemas"]["LineItem"][];
+    };
+    Employee: {
+      id: string;
+      business: string;
+      /** @enum {string} */
+      role: "admin" | "worker";
+    } & {
+      user: unknown;
     };
     Error: {
       message: string;
@@ -383,6 +403,102 @@ export type operations = {
     requestBody: {
       content: {
         "application/json": components["schemas"]["Client"];
+      };
+    };
+  };
+  /** Returns all employees */
+  findEmployees: {
+    parameters: {
+      path: {
+        /** Numeric Id of the business to get */
+        businessId: components["parameters"]["businessIdParam"];
+      };
+      query: {
+        /** offset from beginning */
+        offset?: components["parameters"]["offsetParam"];
+        /** maximum number of results to return */
+        limit?: components["parameters"]["limitParam"];
+        /** Order direction */
+        orderDirection?: components["parameters"]["orderDirectionParam"];
+      };
+    };
+    responses: {
+      /** employee response */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["Employee"][];
+            meta?: {
+              totalCount?: number;
+            };
+          };
+        };
+      };
+      /** unexpected error */
+      default: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** Create employee */
+  createEmployee: {
+    parameters: {
+      path: {
+        /** Numeric Id of the business to get */
+        businessId: components["parameters"]["businessIdParam"];
+      };
+    };
+    responses: {
+      /** employee response */
+      201: {
+        content: {
+          "application/json": components["schemas"]["Employee"];
+        };
+      };
+      /** unexpected error */
+      default: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+    /** Create employee */
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Employee"];
+      };
+    };
+  };
+  /** Returns a single employee */
+  getEmployee: {
+    parameters: {
+      path: {
+        /** Numeric Id of the business to get */
+        businessId: components["parameters"]["businessIdParam"];
+        /** Numeric Id of the resource to get */
+        Id: components["parameters"]["idParam"];
+      };
+    };
+    responses: {
+      /** get employee response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Employee"];
+        };
+      };
+      /** get employee not found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** unexpected error */
+      default: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
       };
     };
   };
