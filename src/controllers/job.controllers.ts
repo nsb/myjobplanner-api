@@ -18,9 +18,9 @@ type JobQueryParams = QueryParams<DTO> & {
 }
 
 export class JobController extends BaseController<
-  [s.jobs.Insertable, s.lineitems.Insertable[]],
-  [s.jobs.Updatable, s.lineitems.Updatable[]],
-  [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]],
+  [s.jobs.Insertable, s.lineitems.Insertable[], number[]],
+  [s.jobs.Updatable, s.lineitems.Updatable[], number[]],
+  [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[], s.job_assignments.JSONSelectable[]],
   s.jobs.Whereable,
   s.jobs.Table,
   DTO,
@@ -28,7 +28,7 @@ export class JobController extends BaseController<
 > {
   public static inject = ['jobService'] as const
 
-  deserializeInsert (dto: DTO): [s.jobs.Insertable, s.lineitems.Insertable[]] {
+  deserializeInsert (dto: DTO): [s.jobs.Insertable, s.lineitems.Insertable[], number[]] {
     const [_first, clientId] = this.getIdsFromURI(dto.client)
     const [_second, propertyId] = this.getIdsFromURI(dto.property)
 
@@ -40,7 +40,7 @@ export class JobController extends BaseController<
       throw new Error('Invalid property Id')
     }
 
-    return [{
+    const job = {
       client_id: clientId,
       property_id: propertyId,
       recurrences: dto.recurrences,
@@ -53,7 +53,9 @@ export class JobController extends BaseController<
       description: dto.description,
       closed: dto.closed,
       invoice: dto.invoice
-    }, dto.lineItems.map((lineItem) => {
+    }
+
+    const lineItems = dto.lineItems.map((lineItem) => {
       if (!lineItem.name) {
         throw new Error('Name required in line item.')
       }
@@ -65,10 +67,17 @@ export class JobController extends BaseController<
         quantity: lineItem.quantity,
         unit_cost: lineItem.unitCost
       }
-    })]
+    })
+
+    const assignments = dto.assigned.map(assigned => {
+      const [_first, employeeId] = this.getIdsFromURI(assigned)
+      return employeeId
+    })
+
+    return [job, lineItems, assignments]
   }
 
-  deserializeUpdate (Id: number, dto: DTO): [s.jobs.Updatable, s.lineitems.Updatable[]] {
+  deserializeUpdate (Id: number, dto: DTO): [s.jobs.Updatable, s.lineitems.Updatable[], number[]] {
     const [_first, clientId] = this.getIdsFromURI(dto.client)
     const [_second, propertyId] = this.getIdsFromURI(dto.property)
 
@@ -80,7 +89,7 @@ export class JobController extends BaseController<
       throw new Error('Invalid property Id')
     }
 
-    return [{
+    const job = {
       client_id: clientId,
       property_id: propertyId,
       recurrences: dto.recurrences,
@@ -93,8 +102,11 @@ export class JobController extends BaseController<
       description: dto.description,
       closed: dto.closed,
       invoice: dto.invoice
-    }, dto.lineItems.map((lineItem) => {
-      const [_second, serviceId] = lineItem.serviceId ? this.getIdsFromURI(lineItem.serviceId) : [undefined, undefined]
+    }
+
+    const lineItems = dto.lineItems.map((lineItem) => {
+      const [_second, serviceId] =
+        lineItem.serviceId ? this.getIdsFromURI(lineItem.serviceId) : [undefined, undefined]
 
       return {
         id: Id,
@@ -104,11 +116,18 @@ export class JobController extends BaseController<
         quantity: lineItem.quantity,
         unit_cost: lineItem.unitCost
       }
-    })]
+    })
+
+    const assignments = dto.assigned.map(assigned => {
+      const [_second, employeeId] = this.getIdsFromURI(assigned)
+      return employeeId
+    })
+
+    return [job, lineItems, assignments]
   }
 
   serialize (
-    [model, lineitems]: [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]],
+    [model, lineitems, assignments]: [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[], s.job_assignments.JSONSelectable[]],
     businessId?: number
   ) {
     return {
@@ -118,7 +137,7 @@ export class JobController extends BaseController<
       property: `/businesses/${businessId}/properties/${model.property_id}`,
       startTime: model.start_time,
       finishTime: model.finish_time,
-      lineItems: lineitems?.map((lineItem) => {
+      lineItems: lineitems.map(lineItem => {
         return {
           id: `/businesses/${businessId}/lineitems/${lineItem.id}`,
           serviceId: lineItem.service_id ? `/businesses/${businessId}/lineitems/${lineItem.service_id}` : null,
@@ -127,7 +146,10 @@ export class JobController extends BaseController<
           quantity: lineItem.quantity,
           unitCost: lineItem.unit_cost
         }
-      }) || []
+      }) || [],
+      assigned: assignments.map(assigned => {
+        return `/businesses/${businessId}/employees/${assigned.employee_id}`
+      })
     }
   }
 

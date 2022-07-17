@@ -30,13 +30,14 @@ describe('JobService', () => {
       closed: false,
       invoice: 'monthly',
       created: '2021-11-11T22:55:57.405524',
-      lineitems: []
+      lineitems: [],
+      assigned: []
     }]]
 
     const MockJobRepository = jest.fn<IJobRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
       get: jest.fn(),
-      create: jest.fn().mockResolvedValueOnce({}),
+      create: jest.fn(),
       update: jest.fn()
     }))
 
@@ -79,8 +80,10 @@ describe('JobService', () => {
             closed: false,
             invoice: 'monthly',
             created: '2021-11-11T22:55:57.405524',
-            lineitems: []
+            lineitems: [],
+            assigned: []
           },
+          [],
           []
         ]
       ])
@@ -100,7 +103,7 @@ describe('JobService', () => {
     const MockJobRepository = jest.fn<IJobRepository, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
       get: jest.fn(),
-      create: jest.fn().mockResolvedValueOnce({}),
+      create: jest.fn(),
       update: jest.fn()
     }))
 
@@ -152,7 +155,8 @@ describe('JobService', () => {
       closed: false,
       invoice: 'monthly',
       created: '2021-11-11T22:55:57.405524',
-      lineitems: []
+      lineitems: [],
+      assigned: []
     }
 
     const MockJobRepository = jest.fn<IJobRepository, []>(() => ({
@@ -194,8 +198,11 @@ describe('JobService', () => {
           closed: false,
           invoice: 'monthly',
           created: '2021-11-11T22:55:57.405524',
-          lineitems: []
-        }, []
+          lineitems: [],
+          assigned: []
+        },
+        [],
+        []
       ]
     )
   })
@@ -273,7 +280,7 @@ describe('JobService', () => {
       description: 'my job description',
       closed: false,
       invoice: 'monthly'
-    }, []], 1)
+    }, [], []], 1)
 
     const expected = [{
       id: 1,
@@ -290,7 +297,7 @@ describe('JobService', () => {
       closed: false,
       invoice: 'monthly',
       created: '2021-11-11T22:55:57.405524'
-    }, []]
+    }, [], []]
 
     expect(job).toEqual(expected)
   })

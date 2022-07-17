@@ -6,9 +6,9 @@ import type { IJobRepository } from '../repositories/JobRepository'
 import type { RepositoryOptions } from '../types'
 import type { ILineItemRepository } from '../repositories/LineItemRepository'
 
-type JobInsertable = [s.jobs.Insertable, s.lineitems.Insertable[]]
-type JobUpdatable = [s.jobs.Updatable, (s.lineitems.Updatable | s.lineitems.Insertable)[]]
-type JobSelectable = [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[]]
+type JobInsertable = [s.jobs.Insertable, s.lineitems.Insertable[], number[]]
+type JobUpdatable = [s.jobs.Updatable, Array<s.lineitems.Updatable | s.lineitems.Insertable>, number[] ]
+type JobSelectable = [s.jobs.JSONSelectable, s.lineitems.JSONSelectable[], s.job_assignments.JSONSelectable[]]
 
 export interface IJobService extends IService<
   JobInsertable,
@@ -28,7 +28,7 @@ class JobService implements IJobService {
 
   async create (
     userId: string,
-    [job, lineItems]: JobInsertable,
+    [job, lineItems, assignments]: JobInsertable,
     businessId: number
   ) {
     return db.readCommitted(this.pool, async txnClient => {
@@ -43,14 +43,19 @@ class JobService implements IJobService {
           userId, { ...lineItem, job_id: createdJob.id }, businessId, txnClient
         )
       }))
-      return [createdJob, createdLineItems] as JobSelectable
+
+      const createdAssignments: s.job_assignments.Insertable[] = []
+
+      // TODO: schedule visits
+
+      return [createdJob, createdLineItems, createdAssignments] as JobSelectable
     })
   }
 
   async update (
     userId: string,
     id: number,
-    [job, lineItems]: JobUpdatable,
+    [job, lineItems, assigned]: JobUpdatable,
     businessId: number
   ) {
     return db.readCommitted(this.pool, async txnClient => {
@@ -70,7 +75,9 @@ class JobService implements IJobService {
           )
       }))
 
-      return [updatedJob, updatedLineItems] as JobSelectable
+      const updatedAssignments: s.job_assignments.Updatable[] = []
+
+      return [updatedJob, updatedLineItems, updatedAssignments] as JobSelectable
     })
   }
 
@@ -86,12 +93,12 @@ class JobService implements IJobService {
       { limit, offset, orderBy, orderDirection },
       businessId
     )
-    return [totalCount, jobs.map(job => [job, job.lineitems])] as [number, JobSelectable[]]
+    return [totalCount, jobs.map(job => [job, job.lineitems, job.assigned])] as [number, JobSelectable[]]
   }
 
   async get (userId: string, id: number, businessId: number) {
     const job = await this.jobRepository.get(userId, id, businessId)
-    return [job, job?.lineitems] as JobSelectable
+    return [job, job?.lineitems, job?.assigned] as JobSelectable
   }
 }
 

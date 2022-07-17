@@ -118,6 +118,7 @@ export type components = {
       /** @enum {string} */
       invoice: "closed" | "monthly" | "never" | "visit";
       lineItems: components["schemas"]["LineItem"][];
+      assigned: string[];
     };
     LineItem: {
       id?: string;

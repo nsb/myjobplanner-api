@@ -5,7 +5,10 @@ import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
 import { TxnClientForReadCommitted } from 'zapatos/db'
 
-type JobRepositorySelectable = s.jobs.JSONSelectable & { lineitems?: s.lineitems.JSONSelectable[]}
+type JobRepositorySelectable = s.jobs.JSONSelectable & {
+  lineitems?: s.lineitems.JSONSelectable[],
+  assigned?: s.job_assignments.JSONSelectable[]
+}
 
 export type IJobRepository = IRepository<
     s.jobs.Insertable,
@@ -69,9 +72,14 @@ class JobRepository implements IJobRepository {
         JOIN
         (SELECT * FROM jobs j,
           LATERAL (
-            SELECT coalesce(json_agg(l), '[]') as lineitems FROM lineitems l
-              WHERE l.${'job_id'} = j.${'id'}
-          ) a
+            SELECT coalesce(json_agg(li), '[]') as lineitems FROM lineitems li
+              WHERE li.${'job_id'} = j.${'id'}
+          ) lineitems,
+          LATERAL (
+            SELECT coalesce(json_agg(ja), '[]') as assigned
+            FROM job_assignments ja
+            WHERE ja.job_id = j.id
+          ) assigned
           WHERE ${{ ...job }}) j
           ON j.${'client_id'} = c.${'id'}
           WHERE c.${'business_id'} = ${db.param(businessId)}
@@ -100,7 +108,8 @@ class JobRepository implements IJobRepository {
   async get (_userId: string, id: number, _businessId: number) {
     return db.selectOne('jobs', { id }, {
       lateral: {
-        lineitems: db.select('lineitems', { job_id: db.parent('id') })
+        lineitems: db.select('lineitems', { job_id: db.parent('id') }),
+        assigned: db.select('job_assignments', { job_id: db.parent('id') })
       }
     }).run(this.pool)
   }

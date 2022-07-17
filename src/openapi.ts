@@ -1306,7 +1306,8 @@ export const apiSpec: OpenAPIV3.Document = {
           'anytime',
           'closed',
           'invoice',
-          'lineItems'
+          'lineItems',
+          'assigned'
         ],
         properties: {
           id: {
@@ -1368,6 +1369,13 @@ export const apiSpec: OpenAPIV3.Document = {
             type: 'array',
             items: {
               $ref: '#/components/schemas/LineItem'
+            }
+          },
+          assigned: {
+            type: 'array',
+            items: {
+              type: 'string',
+              pattern: '^/businesses/\\d+/employees/\\d+$'
             }
           }
         }

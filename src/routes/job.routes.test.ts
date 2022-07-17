@@ -31,40 +31,50 @@ jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwt
 
 describe('JobController', () => {
   test('GET /v1/businesses/:businessId/jobs', async () => {
+    const mockedJob = {
+      id: 1,
+      client_id: 1,
+      property_id: 1,
+      recurrences: null,
+      begins: '2021-11-11T22:55:57.405524',
+      ends: null,
+      start_time: null,
+      finish_time: null,
+      anytime: true,
+      title: null,
+      description: null,
+      closed: false,
+      invoice: 'never',
+      created: '2021-11-11T22:55:57.405524'
+    }
+
+    const mockedLineItems = [{
+      id: 1,
+      lineitem_id: 1,
+      visit_id: 1,
+      description: null,
+      name: 'Cleaning',
+      unit_cost: 100,
+      quantity: 1
+    }]
+
+    const mockedAssignments = [{
+      id: 1,
+      job_id: 1,
+      employee_id: 1
+    }]
+
     const mockedResult = [
       1,
       [
-        [{
-          id: 1,
-          client_id: 1,
-          property_id: 1,
-          recurrences: null,
-          begins: '2021-11-11T22:55:57.405524',
-          ends: null,
-          start_time: null,
-          finish_time: null,
-          anytime: true,
-          title: null,
-          description: null,
-          closed: false,
-          invoice: 'never',
-          created: '2021-11-11T22:55:57.405524'
-        }, [{
-          id: 1,
-          lineitem_id: 1,
-          visit_id: 1,
-          description: null,
-          name: 'Cleaning',
-          unit_cost: 100,
-          quantity: 1
-        }]]
+        [mockedJob, mockedLineItems, mockedAssignments]
       ]
     ]
 
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn().mockResolvedValue(mockedResult),
       get: jest.fn(),
-      create: jest.fn().mockResolvedValueOnce({}),
+      create: jest.fn(),
       update: jest.fn()
     }))
 
@@ -103,7 +113,10 @@ describe('JobController', () => {
           serviceId: null,
           unitCost: 100,
           quantity: 1
-        }]
+        }],
+        assigned: [
+          '/businesses/1/employees/1'
+        ]
       }],
       meta: {
         totalCount: 1
@@ -112,7 +125,7 @@ describe('JobController', () => {
   })
 
   test('GET /v1/businesses/:businessId/jobs/:Id', async () => {
-    const mockedResult = [{
+    const mockedJob = {
       id: 1,
       client_id: 1,
       property_id: 1,
@@ -127,7 +140,9 @@ describe('JobController', () => {
       closed: false,
       invoice: 'never',
       created: '2021-11-11T22:55:57.405524'
-    }, [{
+    }
+
+    const mockedLineItems = [{
       id: 1,
       lineitem_id: 1,
       visit_id: 1,
@@ -135,7 +150,15 @@ describe('JobController', () => {
       name: 'Cleaning',
       unit_cost: 100,
       quantity: 1
-    }]]
+    }]
+
+    const mockedAssignments = [{
+      id: 1,
+      job_id: 1,
+      employee_id: 1
+    }]
+
+    const mockedResult = [mockedJob, mockedLineItems, mockedAssignments]
 
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn(),
@@ -178,7 +201,10 @@ describe('JobController', () => {
         serviceId: null,
         unitCost: 100,
         quantity: 1
-      }]
+      }],
+      assigned: [
+        '/businesses/1/employees/1'
+      ]
     })
   })
 
@@ -214,7 +240,7 @@ describe('JobController', () => {
   })
 
   test('POST /v1/businesses/:businessId/jobs', async () => {
-    const mockedQueryResult = [{
+    const mockedJob = {
       id: 1,
       client_id: 1,
       property_id: 1,
@@ -229,7 +255,9 @@ describe('JobController', () => {
       closed: false,
       invoice: 'never',
       created: '2021-11-11T22:55:57.405524'
-    }, [{
+    }
+
+    const mockedLineItems = [{
       id: 1,
       lineitem_id: 1,
       visit_id: 1,
@@ -237,7 +265,15 @@ describe('JobController', () => {
       name: 'Cleaning',
       unit_cost: 100,
       quantity: 1
-    }]]
+    }]
+
+    const mockedAssignments = [{
+      id: 1,
+      job_id: 1,
+      employee_id: 1
+    }]
+
+    const mockedQueryResult = [mockedJob, mockedLineItems, mockedAssignments]
 
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn(),
@@ -278,7 +314,10 @@ describe('JobController', () => {
           serviceId: null,
           unitCost: 100,
           quantity: 1
-        }]
+        }],
+        assigned: [
+          '/businesses/1/employees/1'
+        ]
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
@@ -302,12 +341,15 @@ describe('JobController', () => {
         serviceId: null,
         unitCost: 100,
         quantity: 1
-      }]
+      }],
+      assigned: [
+        '/businesses/1/employees/1'
+      ]
     })
   })
 
   test('PUT /v1/businesses/:businessId/jobs/:Id', async () => {
-    const mockedQueryResult = [{
+    const mockedJob = {
       id: 1,
       client_id: 1,
       property_id: 1,
@@ -322,7 +364,9 @@ describe('JobController', () => {
       closed: false,
       invoice: 'never',
       created: '2021-11-11T22:55:57.405524'
-    }, [{
+    }
+
+    const mockedLineItems = [{
       id: 1,
       lineitem_id: 1,
       visit_id: 1,
@@ -330,7 +374,15 @@ describe('JobController', () => {
       name: 'Cleaning',
       unit_cost: 100,
       quantity: 1
-    }]]
+    }]
+
+    const mockedAssignments = [{
+      id: 1,
+      job_id: 1,
+      employee_id: 1
+    }]
+
+    const mockedQueryResult = [mockedJob, mockedLineItems, mockedAssignments]
 
     const MockService = jest.fn<IJobService, []>(() => ({
       find: jest.fn(),
@@ -371,7 +423,10 @@ describe('JobController', () => {
           serviceId: null,
           unitCost: 100,
           quantity: 1
-        }]
+        }],
+        assigned: [
+          '/businesses/1/employees/1'
+        ]
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
@@ -395,7 +450,10 @@ describe('JobController', () => {
         serviceId: null,
         unitCost: 100,
         quantity: 1
-      }]
+      }],
+      assigned: [
+        '/businesses/1/employees/1'
+      ]
     })
   })
 })
