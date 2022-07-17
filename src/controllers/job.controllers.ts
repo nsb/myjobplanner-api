@@ -66,7 +66,7 @@ export class JobController extends BaseController<
     })]
   }
 
-  deserializeUpdate (dto: DTO): [s.jobs.Updatable, s.lineitems.Updatable[]] {
+  deserializeUpdate (Id: number, dto: DTO): [s.jobs.Updatable, s.lineitems.Updatable[]] {
     const [_first, clientId] = this.getIdsFromURI(dto.client)
     const [_second, propertyId] = this.getIdsFromURI(dto.property)
 
@@ -93,8 +93,8 @@ export class JobController extends BaseController<
       invoice: dto.invoice
     }, dto.lineItems.map((lineItem) => {
       return {
-        id: dto.id,
-        job_id: dto.id,
+        id: Id,
+        job_id: Id,
         service_id: lineItem.serviceId,
         name: lineItem.name,
         quantity: lineItem.quantity,
@@ -109,6 +109,7 @@ export class JobController extends BaseController<
   ) {
     return {
       ...model,
+      id: `/businesses/${businessId}/jobs/${model.id}`,
       client: `/businesses/${businessId}/clients/${model.client_id}`,
       property: `/businesses/${businessId}/properties/${model.property_id}`,
       startTime: model.start_time,

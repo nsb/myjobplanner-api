@@ -24,7 +24,7 @@ class BusinessController extends BaseController<
     }
   }
 
-  deserializeUpdate (dto: DTO) {
+  deserializeUpdate (_Id: number, dto: DTO) {
     return {
       name: dto.name,
       timezone: dto.timezone,
@@ -35,6 +35,7 @@ class BusinessController extends BaseController<
   serialize (model: s.businesses.JSONSelectable) {
     return {
       ...model,
+      id: `/businesses/${model.id}`,
       countryCode: model.country_code
     }
   }

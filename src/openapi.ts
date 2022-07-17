@@ -842,7 +842,8 @@ export const apiSpec: OpenAPIV3.Document = {
         properties: {
           id: {
             readOnly: true,
-            type: 'number'
+            type: 'string',
+            pattern: '^/businesses/\\d+$'
           },
           name: {
             type: 'string'
@@ -869,7 +870,8 @@ export const apiSpec: OpenAPIV3.Document = {
         properties: {
           id: {
             readOnly: true,
-            type: 'number'
+            type: 'string',
+            pattern: '^/businesses/\\d+/clients/\\d+$'
           },
           business: {
             type: 'string',
@@ -895,7 +897,8 @@ export const apiSpec: OpenAPIV3.Document = {
         properties: {
           id: {
             readOnly: true,
-            type: 'number'
+            type: 'string',
+            pattern: '^/businesses/\\d+/properties/\\d+$'
           },
           client: {
             type: 'string',
@@ -943,7 +946,8 @@ export const apiSpec: OpenAPIV3.Document = {
         properties: {
           id: {
             readOnly: true,
-            type: 'number'
+            type: 'string',
+            pattern: '^/businesses/\\d+/jobs/\\d+$'
           },
           client: {
             type: 'string',
@@ -1036,6 +1040,7 @@ export const apiSpec: OpenAPIV3.Document = {
         additionalProperties: false,
         type: 'object',
         required: [
+          'id',
           'job',
           'completed',
           'begins',
@@ -1044,7 +1049,9 @@ export const apiSpec: OpenAPIV3.Document = {
         ],
         properties: {
           id: {
-            type: 'number'
+            readOnly: true,
+            type: 'string',
+            pattern: '^/businesses/\\d+/visits/\\d+$'
           },
           job: {
             type: 'string',

@@ -20,7 +20,7 @@ export abstract class BaseController<
   ) { }
 
   abstract deserializeInsert(dto: DTO, businessId?: number): Insertable
-  abstract deserializeUpdate(dto: DTO, businessId?: number): Updatable
+  abstract deserializeUpdate(id: number, dto: DTO, businessId?: number): Updatable
   abstract serialize(model: Selectable, businessId?: number): DTO
   abstract getOrderBy(key: keyof DTO): s.SQLForTable<Table>
   abstract fromQuery(params: Params): Whereable
@@ -60,7 +60,7 @@ export abstract class BaseController<
     return true
   }
 
-  protected getIdsFromURI (uri: string | null) {
+  protected getIdsFromURI (uri: string) {
     if (uri) {
       const match = uri.match(/\d+/g)
       if (match) {
@@ -76,15 +76,16 @@ export abstract class BaseController<
     next: NextFunction
   ) {
     if (req.user) {
+      const Id = parseInt(req.params.Id, 10)
       const businessId = req.params.businessId ? parseInt(req.params.businessId) : undefined
-      const deserialized = this.deserializeUpdate(req.body)
+      const deserialized = this.deserializeUpdate(Id, req.body)
       try {
         if (!this.validate(req.user.sub, deserialized, businessId)) {
           throw new Error('Bad request')
         }
         const result = await this.service.update(
           req.user.sub,
-          parseInt(req.params.Id, 10),
+          Id,
           deserialized,
           businessId
         )

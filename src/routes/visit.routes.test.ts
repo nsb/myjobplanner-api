@@ -77,7 +77,7 @@ describe('VisitController', () => {
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
-        id: 1,
+        id: '/businesses/1/visits/1',
         job: '/businesses/1/jobs/1',
         invoice: null,
         completed: false,
@@ -184,7 +184,7 @@ describe('VisitController', () => {
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1/visits/1',
       job: '/businesses/1/jobs/1',
       invoice: null,
       completed: false,
@@ -240,7 +240,6 @@ describe('VisitController', () => {
     const res = await request(app)
       .put('/v1/businesses/1/visits/1')
       .send({
-        id: 1,
         job: '/businesses/1/jobs/1',
         invoice: null,
         completed: false,
@@ -257,7 +256,7 @@ describe('VisitController', () => {
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1/visits/1',
       job: '/businesses/1/jobs/1',
       invoice: null,
       completed: false,

@@ -26,9 +26,9 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
     }
   }
 
-  deserializeUpdate (dto: DTO) {
+  deserializeUpdate (_Id: number, dto: DTO) {
     // eslint-disable-next-line no-unused-vars
-    const [businessId, clientId] = this.getIdsFromURI(dto.client)
+    const [_businessId, clientId] = this.getIdsFromURI(dto.client)
     return {
       client_id: clientId,
       description: dto.description,
@@ -43,6 +43,7 @@ export class PropertyController extends BaseController<s.properties.Insertable, 
   serialize (model: s.properties.JSONSelectable, businessId?: number) {
     return {
       ...model,
+      id: `/businesses/${businessId}/properties/${model.id}`,
       client: `/businesses/${businessId}/clients/${model.client_id}`,
       postalCode: model.postal_code
     }

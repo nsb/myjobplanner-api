@@ -53,7 +53,7 @@ export class VisitController extends BaseController<
     })]
   }
 
-  deserializeUpdate (dto: DTO): [s.visits.Updatable, s.lineitems.Updatable[]] {
+  deserializeUpdate (Id: number, dto: DTO): [s.visits.Updatable, s.lineitems.Updatable[]] {
     // eslint-disable-next-line no-unused-vars
     const [_first, jobId] = this.getIdsFromURI(dto.job)
     // eslint-disable-next-line no-unused-vars
@@ -64,7 +64,7 @@ export class VisitController extends BaseController<
     }
 
     return [{
-      id: dto.id,
+      id: Id,
       job_id: jobId,
       invoice_id: invoiceId,
       completed: dto.completed,
@@ -90,10 +90,11 @@ export class VisitController extends BaseController<
   ) {
     return {
       ...model,
-      begins: model.begins as TimestampTzString,
-      ends: model.ends as TimestampTzString,
+      id: `/businesses/${businessId}/visits/${model.id}`,
       job: `/businesses/${businessId}/jobs/${model.job_id}`,
       invoice: model.invoice_id ? `/businesses/${businessId}/invoices/${model.invoice_id}` : null,
+      begins: model.begins as TimestampTzString,
+      ends: model.ends as TimestampTzString,
       lineItems: lineItems.map(lineItem => {
         return {
           id: lineItem.id,

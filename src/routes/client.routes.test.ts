@@ -77,7 +77,7 @@ describe('ClientController', () => {
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
-        id: 1,
+        id: '/businesses/1/clients/1',
         business: '/businesses/1',
         firstName: 'Ole',
         lastName: 'Hansen'
@@ -162,7 +162,7 @@ describe('ClientController', () => {
       .get('/v1/businesses/1/clients/1').send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1/clients/1',
       business: '/businesses/1',
       firstName: 'Ole',
       lastName: 'Hansen'
@@ -219,7 +219,7 @@ describe('ClientController', () => {
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1/clients/1',
       business: '/businesses/1',
       firstName: 'Ole',
       lastName: 'Hansen'
@@ -276,7 +276,7 @@ describe('ClientController', () => {
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1/clients/1',
       business: '/businesses/1',
       firstName: 'Ole',
       lastName: 'Hansen'

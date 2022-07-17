@@ -75,7 +75,7 @@ describe('JobController', () => {
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
-        id: 1,
+        id: '/businesses/1/jobs/1',
         client: '/businesses/1/clients/1',
         property: '/businesses/1/properties/1',
         recurrences: null,
@@ -181,7 +181,7 @@ describe('JobController', () => {
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1/jobs/1',
       client: '/businesses/1/clients/1',
       property: '/businesses/1/properties/1',
       recurrences: null,

@@ -64,7 +64,7 @@ describe('BusinessController', () => {
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
-        id: 1,
+        id: '/businesses/1',
         name: 'Idealrent',
         timezone: 'Europe/Copenhagen',
         countryCode: 'da'
@@ -118,12 +118,12 @@ describe('BusinessController', () => {
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
-        id: 1,
+        id: '/businesses/1',
         name: 'Idealrent',
         timezone: 'Europe/Copenhagen',
         countryCode: 'da'
       }, {
-        id: 2,
+        id: '/businesses/2',
         name: 'My super company',
         timezone: 'Europe/Copenhagen',
         countryCode: 'da'
@@ -192,7 +192,7 @@ describe('BusinessController', () => {
       .get('/v1/businesses/1').send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1',
       name: 'Idealrent',
       timezone: 'Europe/Copenhagen',
       countryCode: 'da'
@@ -254,7 +254,7 @@ describe('BusinessController', () => {
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1',
       name: 'Idealrent',
       timezone: 'Europe/Copenhagen',
       countryCode: 'da'
@@ -296,7 +296,7 @@ describe('BusinessController', () => {
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1',
       name: 'Idealrent',
       timezone: 'Europe/Copenhagen',
       countryCode: 'da'

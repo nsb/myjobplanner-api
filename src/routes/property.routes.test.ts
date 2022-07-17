@@ -66,7 +66,7 @@ describe('PropertyController', () => {
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [{
-        id: 1,
+        id: '/businesses/1/properties/1',
         client: '/businesses/1/clients/1',
         description: 'my property',
         address1: 'My address1',
@@ -153,7 +153,7 @@ describe('PropertyController', () => {
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1/properties/1',
       client: '/businesses/1/clients/1',
       description: 'my property',
       address1: 'My address1',
@@ -206,7 +206,7 @@ describe('PropertyController', () => {
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
-      id: 1,
+      id: '/businesses/1/properties/1',
       client: '/businesses/1/clients/1',
       description: 'my property',
       address1: 'My address1',

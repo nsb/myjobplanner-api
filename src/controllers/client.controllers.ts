@@ -23,13 +23,14 @@ export class ClientController extends BaseController<s.clients.Insertable, s.cli
     }
   }
 
-  deserializeUpdate (dto: DTO) {
+  deserializeUpdate (_Id: number, dto: DTO) {
     return this.deserializeInsert(dto)
   }
 
   serialize (model: s.clients.JSONSelectable) {
     return {
       ...model,
+      id: `/businesses/${model.business_id}/clients/${model.id}`,
       business: `/businesses/${model.business_id}`,
       firstName: model.first_name,
       lastName: model.last_name

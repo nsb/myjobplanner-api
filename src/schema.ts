@@ -59,19 +59,19 @@ export type paths = {
 export type components = {
   schemas: {
     Business: {
-      id: number;
+      id: string;
       name: string;
       timezone: string;
       countryCode: string;
     };
     Client: {
-      id: number;
+      id: string;
       business: string;
       firstName?: string | null;
       lastName?: string | null;
     };
     Property: {
-      id: number;
+      id: string;
       client: string;
       description?: string | null;
       address1?: string | null;
@@ -81,7 +81,7 @@ export type components = {
       country?: string | null;
     };
     Job: {
-      id: number;
+      id: string;
       client: string;
       property: string;
       recurrences?: string | null;
@@ -106,7 +106,7 @@ export type components = {
       unitCost?: number;
     };
     Visit: {
-      id?: number;
+      id: string;
       job: string;
       invoice?: string | null;
       completed: boolean;
