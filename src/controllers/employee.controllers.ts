@@ -7,7 +7,13 @@ type DTO = components['schemas']['Employee']
 
 type EmployeeQueryParams = QueryParams<DTO>
 
-export class EmployeeController extends BaseController<s.employees.Insertable, s.employees.Updatable, s.employees.JSONSelectable, s.employees.Whereable, s.employees.Table, DTO, EmployeeQueryParams> {
+export class EmployeeController extends BaseController<
+  s.employees.Insertable,
+  s.employees.Updatable,
+  s.employees.JSONSelectable,
+  s.employees.Whereable,
+  s.employees.Table, DTO,
+  EmployeeQueryParams> {
   public static inject = ['employeeService'] as const
 
   deserializeInsert (dto: DTO) {
