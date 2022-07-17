@@ -57,8 +57,10 @@ export class JobController extends BaseController<
       if (!lineItem.name) {
         throw new Error('Name required in line item.')
       }
+      const [_second, serviceId] = lineItem.serviceId ? this.getIdsFromURI(lineItem.serviceId) : [undefined, undefined]
+
       return {
-        service_id: lineItem.serviceId,
+        service_id: serviceId,
         name: lineItem.name,
         quantity: lineItem.quantity,
         unit_cost: lineItem.unitCost
@@ -92,10 +94,12 @@ export class JobController extends BaseController<
       closed: dto.closed,
       invoice: dto.invoice
     }, dto.lineItems.map((lineItem) => {
+      const [_second, serviceId] = lineItem.serviceId ? this.getIdsFromURI(lineItem.serviceId) : [undefined, undefined]
+
       return {
         id: Id,
         job_id: Id,
-        service_id: lineItem.serviceId,
+        service_id: serviceId,
         name: lineItem.name,
         quantity: lineItem.quantity,
         unit_cost: lineItem.unitCost
@@ -116,8 +120,8 @@ export class JobController extends BaseController<
       finishTime: model.finish_time,
       lineItems: lineitems?.map((lineItem) => {
         return {
-          id: lineItem.id,
-          serviceId: lineItem.service_id,
+          id: `/businesses/${businessId}/lineitems/${lineItem.id}`,
+          serviceId: `/businesses/${businessId}/lineitems/${lineItem.service_id}`,
           name: lineItem.name,
           quantity: lineItem.quantity,
           unitCost: lineItem.unit_cost

@@ -85,7 +85,7 @@ describe('VisitController', () => {
         ends: null,
         anytime: true,
         lineItems: [{
-          id: 1,
+          id: '/businesses/1/lineitems/1',
           name: 'Cleaning',
           description: null,
           unitCost: 100,
@@ -175,7 +175,7 @@ describe('VisitController', () => {
         ends: null,
         anytime: true,
         lineItems: [{
-          id: 1,
+          id: '/businesses/1/lineitems/1',
           name: 'my lineitem',
           description: null,
           quantity: 1,
@@ -192,7 +192,7 @@ describe('VisitController', () => {
       ends: null,
       anytime: true,
       lineItems: [{
-        id: 1,
+        id: '/businesses/1/lineitems/1',
         name: 'my lineitem',
         description: null,
         quantity: 1,
@@ -247,7 +247,7 @@ describe('VisitController', () => {
         ends: null,
         anytime: true,
         lineItems: [{
-          id: 1,
+          id: '/businesses/1/lineitems/1',
           name: 'my lineitem',
           description: null,
           quantity: 1,
@@ -264,7 +264,7 @@ describe('VisitController', () => {
       ends: null,
       anytime: true,
       lineItems: [{
-        id: 1,
+        id: '/businesses/1/lineitems/1',
         name: 'my lineitem',
         description: null,
         quantity: 1,

@@ -73,8 +73,11 @@ export class VisitController extends BaseController<
       anytime: dto.anytime
     },
     dto.lineItems.map(override => {
+      // eslint-disable-next-line no-unused-vars
+      const [_second, lineitemId] = override.id ? this.getIdsFromURI(override.id) : [undefined, undefined]
+
       return {
-        id: override.id,
+        id: lineitemId,
         name: override.name,
         description: override.description,
         unit_cost: override.unitCost,
@@ -97,7 +100,7 @@ export class VisitController extends BaseController<
       ends: model.ends as TimestampTzString,
       lineItems: lineItems.map(lineItem => {
         return {
-          id: lineItem.id,
+          id: `/businesses/${businessId}/lineitems/${lineItem.id}`,
           description: lineItem.description,
           name: lineItem.name,
           unitCost: lineItem.unit_cost,

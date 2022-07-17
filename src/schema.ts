@@ -98,8 +98,8 @@ export type components = {
       lineItems: components["schemas"]["LineItem"][];
     };
     LineItem: {
-      id?: number;
-      serviceId?: number | null;
+      id?: string;
+      serviceId?: string | null;
       name?: string;
       description?: string | null;
       quantity: number;

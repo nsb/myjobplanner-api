@@ -1015,10 +1015,12 @@ export const apiSpec: OpenAPIV3.Document = {
         ],
         properties: {
           id: {
-            type: 'number'
+            type: 'string',
+            pattern: '^/businesses/\\d+/lineitems/\\d+$'
           },
           serviceId: {
-            type: 'number',
+            type: 'string',
+            pattern: '^/businesses/\\d+/services/\\d+$',
             nullable: true
           },
           name: {
