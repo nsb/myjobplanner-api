@@ -13,6 +13,8 @@ import JobRepository from './repositories/JobRepository'
 import JobService from './services/job.service'
 import JobController from './controllers/job.controllers'
 import EmployeeRepository from './repositories/EmployeRepository'
+import EmployeeService from './services/employee.service'
+import EmployeeController from './controllers/employee.controllers'
 import VisitRepository from './repositories/VisitRepository'
 import VisitService from './services/visit.service'
 import VisitController from './controllers/visit.controllers'
@@ -33,6 +35,11 @@ export const businessRoutesContainer = baseContainer
   .provideClass('businessRepository', BusinessRepository)
   .provideClass('businessService', BusinessService)
   .provideClass('businessController', BusinessController)
+
+export const employeeRoutesContainer = baseContainer
+  .provideClass('employeeRepository', EmployeeRepository)
+  .provideClass('employeeService', EmployeeService)
+  .provideClass('employeeController', EmployeeController)
 
 export const clientRoutesContainer = baseContainer
   .provideClass('clientRepository', ClientRepository)
