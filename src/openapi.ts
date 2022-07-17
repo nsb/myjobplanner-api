@@ -911,6 +911,49 @@ export const apiSpec: OpenAPIV3.Document = {
       }
     },
     '/businesses/{businessId}/visits/{Id}': {
+      get: {
+        description: 'Returns a single visit',
+        operationId: 'getVisits',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }],
+        responses: {
+          200: {
+            description: 'get visit response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Visit'
+                }
+              }
+            }
+          },
+          404: {
+            description: 'get visit not found',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
       put: {
         description: 'Update visit',
         operationId: 'updateVisit',

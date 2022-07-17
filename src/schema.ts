@@ -35,6 +35,8 @@ export type paths = {
     post: operations["createProperty"];
   };
   "/businesses/{businessId}/properties/{Id}": {
+    /** Returns a single property */
+    get: operations["getProperties"];
     /** Update property */
     put: operations["updateProperty"];
   };
@@ -57,6 +59,8 @@ export type paths = {
     post: operations["createVisit"];
   };
   "/businesses/{businessId}/visits/{Id}": {
+    /** Returns a single visit */
+    get: operations["getVisits"];
     /** Update visit */
     put: operations["updateVisit"];
   };
@@ -449,6 +453,37 @@ export type operations = {
       };
     };
   };
+  /** Returns a single property */
+  getProperties: {
+    parameters: {
+      path: {
+        /** Numeric Id of the business to get */
+        businessId: components["parameters"]["businessIdParam"];
+        /** Numeric Id of the resource to get */
+        Id: components["parameters"]["idParam"];
+      };
+    };
+    responses: {
+      /** get property response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Property"];
+        };
+      };
+      /** get property not found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** unexpected error */
+      default: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
   /** Update property */
   updateProperty: {
     parameters: {
@@ -675,6 +710,37 @@ export type operations = {
     requestBody: {
       content: {
         "application/json": components["schemas"]["Visit"];
+      };
+    };
+  };
+  /** Returns a single visit */
+  getVisits: {
+    parameters: {
+      path: {
+        /** Numeric Id of the business to get */
+        businessId: components["parameters"]["businessIdParam"];
+        /** Numeric Id of the resource to get */
+        Id: components["parameters"]["idParam"];
+      };
+    };
+    responses: {
+      /** get visit response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Visit"];
+        };
+      };
+      /** get visit not found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** unexpected error */
+      default: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
       };
     };
   };

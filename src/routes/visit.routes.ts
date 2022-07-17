@@ -25,6 +25,13 @@ function VisitRouter (
     authorize('admin', 'worker'),
     openApi,
     visitController.getList.bind(visitController)
+  ).get(
+    '/businesses/:businessId/visits/:Id',
+    checkJwt,
+    jwtAuthz(['read']),
+    authorize('admin', 'worker'),
+    openApi,
+    visitController.getOne.bind(visitController)
   ).put(
     '/businesses/:businessId/visits/:Id',
     checkJwt,

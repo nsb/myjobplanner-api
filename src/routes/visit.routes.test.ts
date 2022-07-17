@@ -98,6 +98,64 @@ describe('VisitController', () => {
     })
   })
 
+  test('GET /v1/businesses/:businessId/visits/:Id', async () => {
+    const mockedResult = [{
+      id: 1,
+      job_id: 1,
+      invoice_id: null,
+      completed: false,
+      begins: '2021-11-11T22:55:57.405524',
+      ends: null,
+      anytime: true,
+      created: '2021-11-11T22:55:57.405524'
+    }, [{
+      id: 1,
+      lineitem_id: 1,
+      visit_id: 1,
+      description: null,
+      name: 'Cleaning',
+      unit_cost: 100,
+      quantity: 1
+    }]]
+
+    const MockService = jest.fn<IVisitService, []>(() => ({
+      find: jest.fn(),
+      get: jest.fn().mockResolvedValue(mockedResult),
+      create: jest.fn(),
+      update: jest.fn()
+    }))
+
+    const container = createInjector()
+      .provideClass('visitService', MockService)
+      .provideClass('visitController', VisitController)
+      .provideValue('authorization', authorizationMiddleware)
+      .provideValue('openApi', openApi)
+
+    const app = express()
+    app.use(express.json())
+    app.use('/v1', container.injectFunction(VisitRouter))
+
+    const res = await request(app)
+      .get('/v1/businesses/1/visits/1').send()
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual({
+      id: '/businesses/1/visits/1',
+      job: '/businesses/1/jobs/1',
+      invoice: null,
+      completed: false,
+      begins: '2021-11-11T22:55:57.405524',
+      ends: null,
+      anytime: true,
+      lineItems: [{
+        id: '/businesses/1/lineitems/1',
+        name: 'Cleaning',
+        description: null,
+        unitCost: 100,
+        quantity: 1
+      }]
+    })
+  })
+
   test('GET /v1/businesses/:businessId/visits not found', async () => {
     const mockedQueryResult = [0, []]
 
