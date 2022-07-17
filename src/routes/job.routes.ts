@@ -25,6 +25,13 @@ function JobRouter (
     authorize('admin', 'worker'),
     openApi,
     jobController.getList.bind(jobController)
+  ).get(
+    '/businesses/:businessId/jobs/:Id',
+    checkJwt,
+    jwtAuthz(['read']),
+    authorize('admin', 'worker'),
+    openApi,
+    jobController.getOne.bind(jobController)
   )
 }
 JobRouter.inject = ['authorization', 'openApi', 'jobController'] as const
