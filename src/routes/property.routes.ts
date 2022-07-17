@@ -28,6 +28,13 @@ function PropertyRouter (authorize: Function, propertyController: PropertyContro
     authorize('admin', 'worker'),
     openApi,
     propertyController.getList.bind(propertyController)
+  ).get(
+    '/businesses/:businessId/properties/:Id',
+    checkJwt,
+    jwtAuthz(['read']),
+    authorize('admin', 'worker'),
+    openApi,
+    propertyController.getOne.bind(propertyController)
   ).put(
     '/businesses/:businessId/properties/:Id',
     checkJwt,

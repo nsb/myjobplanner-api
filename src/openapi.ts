@@ -503,6 +503,49 @@ export const apiSpec: OpenAPIV3.Document = {
       }
     },
     '/businesses/{businessId}/properties/{Id}': {
+      get: {
+        description: 'Returns a single property',
+        operationId: 'getProperties',
+        parameters: [
+          {
+            $ref: '#/components/parameters/businessIdParam'
+          },
+          {
+            $ref: '#/components/parameters/idParam'
+          }],
+        responses: {
+          200: {
+            description: 'get property response',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Property'
+                }
+              }
+            }
+          },
+          404: {
+            description: 'get property not found',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          },
+          default: {
+            description: 'unexpected error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
       put: {
         description: 'Update property',
         operationId: 'updateProperty',
