@@ -62,7 +62,7 @@ export class EmployeeController extends BaseController<
   }
 
   fromQuery (query: EmployeeQueryParams) {
-    const where: s.clients.Whereable = {}
+    const where: s.employees.Whereable = {}
     return where
   }
 }
