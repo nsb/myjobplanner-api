@@ -31,11 +31,11 @@ This is the myJobPlanner API. You need `Node.js` to run it.
 
 ### Start minikube cluster
 
-    minikube start -p knative
+    minikube start
 
-    minikube tunnel -p knative
+    minikube tunnel
 
-    minikube ssh -p knative -- docker system prune --all
+    minikube ssh -- docker system prune --all
 
 ### Bind to 0.0.0.0 interface
 

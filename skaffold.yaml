@@ -2,7 +2,7 @@ apiVersion: skaffold/v2beta27
 kind: Config
 build:
   artifacts:
-    - image: myjobplanner-api-image
+    - image: myjobplanner-api
       context: ./
       docker:
         dockerfile: Dockerfile
@@ -13,7 +13,7 @@ deploy:
   kustomize:
     paths:
     - k8s/local
-  kubeContext: knative
+  kubeContext: minikube
 # portForward:
 # - resourceType: deployment
 #   resourceName: myjobplanner-api-deployment

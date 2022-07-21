@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myjobplanner-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myjobplanner
+  template:
+    metadata:
+      labels:
+        app: myjobplanner
+    spec:
+      containers:
+        - name: myjobplanner
+          image: myjobplanner-api
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_HOST
+              value: "postgres-service.default.svc.cluster.local"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: postgres-configuration
+            - configMapRef:
+                name: auth0-configuration
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 2
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 2
+            timeoutSeconds: 2

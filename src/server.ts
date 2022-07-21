@@ -36,8 +36,8 @@ app.use(
   })
 )
 
-const server = app.listen(process.env.PORT, () => {
-  logger.info(`The application is listening on port ${process.env.PORT}!`)
+const server = app.listen(process.env.PORT || 3000, () => {
+  logger.info(`The application is listening on port ${process.env.PORT || 3000}!`)
 })
 
 export default server
