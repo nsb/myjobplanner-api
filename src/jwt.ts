@@ -10,7 +10,8 @@ const checkJwt = jwt({
   }),
   audience: `${process.env.AUTH0_IDENTIFIER}`,
   issuer: [`${process.env.AUTH0_DOMAIN}`],
-  algorithms: ['RS256']
+  algorithms: ['RS256'],
+  credentialsRequired: process.env.TEST_INTEGRATION !== 'true'
 })
 
 export default checkJwt

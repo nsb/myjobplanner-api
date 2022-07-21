@@ -5,7 +5,7 @@ const config: Config.InitialOptions = {
   testEnvironment: 'node',
   setupFiles: ['dotenv/config'],
   testPathIgnorePatterns: ['build/'],
-  rootDir: 'src/'
+  rootDir: 'tests/'
 }
 
 export default config
