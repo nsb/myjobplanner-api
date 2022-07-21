@@ -16,6 +16,7 @@ import {
   visitRoutesContainer
 } from './container'
 import logger from './logger'
+import checkJwt from './jwt'
 
 const app = express()
 app.use(express.json())
@@ -28,12 +29,16 @@ app.use((req, res, next) => {
 })
 
 app.get('/schema.json', (_req, res) => res.json(apiSpec))
-app.use('/healthz', (_req, res) => res.json({ status: 'Ok' }))
-app.use('/v1', businessRoutesContainer.injectFunction(BusinessRouter))
-app.use('/v1', employeeRoutesContainer.injectFunction(EmployeeRouter))
-app.use('/v1', clientRoutesContainer.injectFunction(ClientRouter))
-app.use('/v1', propertyRoutesContainer.injectFunction(PropertyRouter))
-app.use('/v1', jobRoutesContainer.injectFunction(JobRouter))
-app.use('/v1', visitRoutesContainer.injectFunction(VisitRouter))
+app.get('/healthz', (_req, res) => res.json({ status: 'Ok' }))
+
+const apiRouter = express.Router()
+apiRouter.use(checkJwt)
+apiRouter.use(businessRoutesContainer.injectFunction(BusinessRouter))
+apiRouter.use(employeeRoutesContainer.injectFunction(EmployeeRouter))
+apiRouter.use(clientRoutesContainer.injectFunction(ClientRouter))
+apiRouter.use(propertyRoutesContainer.injectFunction(PropertyRouter))
+apiRouter.use(jobRoutesContainer.injectFunction(JobRouter))
+apiRouter.use(visitRoutesContainer.injectFunction(VisitRouter))
+app.use('/v1', apiRouter)
 
 export default app
