@@ -93,20 +93,15 @@ describe('BusinessController', () => {
       })
 
     await request(app)
-      .get('/v1/businesses')
+      .get('/v1/businesses/1')
       .send()
       .expect(200)
       .then(res => {
         expect(res.body).toEqual({
-          data: [{
-            id: '/businesses/1',
-            name: 'My other name',
-            timezone: 'Europe/Copenhagen',
-            countryCode: 'da'
-          }],
-          meta: {
-            totalCount: 1
-          }
+          id: '/businesses/1',
+          name: 'My other name',
+          timezone: 'Europe/Copenhagen',
+          countryCode: 'da'
         })
       })
   })
