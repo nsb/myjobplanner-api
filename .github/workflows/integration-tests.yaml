@@ -1,0 +1,36 @@
+name: myJobPlanner Api Integration Tests
+on: push
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    container: node:10.18-jessie
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: myjobplanner
+          POSTGRES_PASSWORD: myjobplanner
+          POSTGRES_DB: myjobplanner
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run integration tests
+        run: npm run test-integration
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: myjobplanner
+          POSTGRES_PASSWORD: myjobplanner
+          POSTGRES_DB: myjobplanner
