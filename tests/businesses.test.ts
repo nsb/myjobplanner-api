@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import app from '../src/app'
+import pool from '../src/postgres'
 import supertest from 'supertest'
 
 function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
@@ -18,9 +19,18 @@ function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwtMiddleware } })
 
 describe('BusinessController', () => {
+  beforeAll(done => {
+    done()
+  })
+
+  afterAll(done => {
+    pool.end().then(done)
+  })
+
   test('GET /v1/businesses not found', async () => {
     const res = await supertest(app)
-      .get('/v1/businesses').send()
+      .get('/v1/businesses')
+      .send()
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({
       data: [],
