@@ -74,5 +74,40 @@ describe('BusinessController', () => {
           }
         })
       })
+
+    await request(app)
+      .put('/v1/businesses/1')
+      .send({
+        name: 'My other name',
+        timezone: 'Europe/Copenhagen',
+        countryCode: 'da'
+      })
+      .expect(200)
+      .then(res => {
+        expect(res.body).toEqual({
+          id: '/businesses/1',
+          name: 'My other name',
+          timezone: 'Europe/Copenhagen',
+          countryCode: 'da'
+        })
+      })
+
+    await request(app)
+      .get('/v1/businesses')
+      .send()
+      .expect(200)
+      .then(res => {
+        expect(res.body).toEqual({
+          data: [{
+            id: '/businesses/1',
+            name: 'My other name',
+            timezone: 'Europe/Copenhagen',
+            countryCode: 'da'
+          }],
+          meta: {
+            totalCount: 1
+          }
+        })
+      })
   })
 })
