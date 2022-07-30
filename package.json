@@ -14,8 +14,8 @@
     "zapatos": "npx env-cmd --no-override npx zapatos",
     "skaffold": "skaffold dev --tail --port-forward",
     "openapi-types": "npx openapi-typescript http://myjobplanner-api.default.10.98.41.24.sslip.io/schema.json --export-type --output src/schema.ts",
-    "test-integration": "npx graphile-migrate migrate && SKIP_JWT_VERIFICATION=true jest --config jest.integration.config.ts",
-    "test-integration-local": "npm run postgresql && npm run wait-for-postgres && npm run test-integration ; npm run stop-postgresql",
+    "test-integration": "SKIP_JWT_VERIFICATION=true jest --config jest.integration.config.ts",
+    "test-integration-local": "npm run postgresql && npm run wait-for-postgres && npx graphile-migrate migrate && npm run test-integration ; npm run stop-postgresql",
     "postgresql": "docker run --rm --name integration-test-myjobplanner-postgres -e POSTGRES_USER=myjobplanner -e POSTGRES_PASSWORD=myjobplanner -e POSTGRES_DB=myjobplanner -p 5432:5432 -d postgres",
     "stop-postgresql": "docker stop integration-test-myjobplanner-postgres",
     "wait-for-postgres": "timeout 90s bash -c 'until docker exec integration-test-myjobplanner-postgres pg_isready ; do sleep 5 ; done'"

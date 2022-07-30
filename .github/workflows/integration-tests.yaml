@@ -26,6 +26,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run migrations
+        run: npx graphile-migrate migrate
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: myjobplanner
+          POSTGRES_PASSWORD: myjobplanner
+          POSTGRES_DB: myjobplanner
+          DATABASE_URL: postgres://myjobplanner:myjobplanner@postgres/myjobplanner
+
       - name: Run integration tests
         run: npm run test-integration
         env:
