@@ -34,3 +34,4 @@ jobs:
           POSTGRES_USER: myjobplanner
           POSTGRES_PASSWORD: myjobplanner
           POSTGRES_DB: myjobplanner
+          DATABASE_URL: postgres://myjobplanner:myjobplanner@postgres/myjobplanner
