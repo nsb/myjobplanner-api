@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
 import app from '../src/app'
 import pool from '../src/postgres'
-import supertest from 'supertest'
+import request from 'supertest'
 
 function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
   req.user = {
@@ -28,7 +28,7 @@ describe('BusinessController', () => {
   })
 
   test('GET /v1/businesses not found', async () => {
-    const res = await supertest(app)
+    const res = await request(app)
       .get('/v1/businesses')
       .send()
     expect(res.statusCode).toEqual(200)
@@ -37,6 +37,23 @@ describe('BusinessController', () => {
       meta: {
         totalCount: 0
       }
+    })
+  })
+
+  test('POST /v1/businesses', async () => {
+    const res = await request(app)
+      .post('/v1/businesses')
+      .send({
+        name: 'Idealrent',
+        timezone: 'Europe/Copenhagen',
+        countryCode: 'da'
+      })
+    expect(res.statusCode).toEqual(201)
+    expect(res.body).toEqual({
+      id: '/businesses/1',
+      name: 'Idealrent',
+      timezone: 'Europe/Copenhagen',
+      countryCode: 'da'
     })
   })
 })

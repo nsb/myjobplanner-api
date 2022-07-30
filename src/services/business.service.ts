@@ -8,29 +8,29 @@ import type { IEmployeeRepository } from '../repositories/EmployeRepository'
 export interface IBusinessService extends IService<s.businesses.Insertable, s.businesses.Updatable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table> { }
 
 class BusinessService extends BaseService<s.businesses.Insertable, s.businesses.Updatable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table> {
-    public static inject = ['pool', 'businessRepository', 'employeeRepository'] as const;
-    constructor (
-      pool: Pool,
-      repository: IBusinessRepository,
+  public static inject = ['pool', 'businessRepository', 'employeeRepository'] as const
+  constructor (
+    pool: Pool,
+    repository: IBusinessRepository,
       private employeeRepository: IEmployeeRepository
-    ) {
-      super(pool, repository)
-    }
+  ) {
+    super(pool, repository)
+  }
 
-    async create (userId: string, business: s.businesses.Insertable) {
-      return db.readCommitted(this.pool, async txnClient => {
-        const createdBusiness = await this.repository.create(userId, business, undefined, txnClient)
+  async create (userId: string, business: s.businesses.Insertable) {
+    return db.readCommitted(this.pool, async txnClient => {
+      const createdBusiness = await this.repository.create(userId, business, undefined, txnClient)
 
-        const employee: s.employees.Insertable = {
-          user_id: userId,
-          business_id: createdBusiness.id,
-          role: 'admin'
-        }
+      const employee: s.employees.Insertable = {
+        user_id: userId,
+        business_id: createdBusiness.id,
+        role: 'admin'
+      }
 
-        await this.employeeRepository.create(userId, employee, undefined, txnClient)
-        return createdBusiness
-      })
-    }
+      await this.employeeRepository.create(userId, employee, createdBusiness.id, txnClient)
+      return createdBusiness
+    })
+  }
 }
 
 export default BusinessService
