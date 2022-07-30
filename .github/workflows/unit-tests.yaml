@@ -1,4 +1,4 @@
-name: Node.js CI
+name: myJobPlanner Api Unit Tests
 
 on:
   push:
