@@ -27,33 +27,52 @@ describe('BusinessController', () => {
     pool.end().then(done)
   })
 
-  test('GET /v1/businesses not found', async () => {
-    const res = await request(app)
+  test('/v1/businesses', async () => {
+    await request(app)
       .get('/v1/businesses')
-      .send()
-    expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual({
-      data: [],
-      meta: {
-        totalCount: 0
-      }
-    })
-  })
+      .expect(200)
+      .then(res => {
+        expect(res.body).toEqual({
+          data: [],
+          meta: {
+            totalCount: 0
+          }
+        })
+      })
 
-  test('POST /v1/businesses', async () => {
-    const res = await request(app)
+    await request(app)
       .post('/v1/businesses')
       .send({
         name: 'Idealrent',
         timezone: 'Europe/Copenhagen',
         countryCode: 'da'
       })
-    expect(res.statusCode).toEqual(201)
-    expect(res.body).toEqual({
-      id: '/businesses/1',
-      name: 'Idealrent',
-      timezone: 'Europe/Copenhagen',
-      countryCode: 'da'
-    })
+      .expect(201)
+      .then(res => {
+        expect(res.body).toEqual({
+          id: '/businesses/1',
+          name: 'Idealrent',
+          timezone: 'Europe/Copenhagen',
+          countryCode: 'da'
+        })
+      })
+
+    await request(app)
+      .get('/v1/businesses')
+      .send()
+      .expect(200)
+      .then(res => {
+        expect(res.body).toEqual({
+          data: [{
+            id: '/businesses/1',
+            name: 'Idealrent',
+            timezone: 'Europe/Copenhagen',
+            countryCode: 'da'
+          }],
+          meta: {
+            totalCount: 1
+          }
+        })
+      })
   })
 })
