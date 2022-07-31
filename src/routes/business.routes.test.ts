@@ -1,5 +1,5 @@
+import 'reflect-metadata'
 import express from 'express'
-import { createInjector } from 'typed-inject'
 import request from 'supertest'
 import type { Request, Response, NextFunction } from 'express'
 import type { Options } from 'express-jwt'
@@ -7,8 +7,8 @@ import type * as s from 'zapatos/schema'
 import type { IBusinessService } from '../services/business.service'
 import BusinessController from '../controllers/business.controllers'
 import BusinessRouter from './business.routes'
-import openApi from '../openapi'
-import jwt from 'express-jwt'
+import { Container } from 'inversify'
+import { IRouter } from './router.interface'
 
 function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
   req.user = {
@@ -25,10 +25,6 @@ function jwtMiddleware (req: Request, res: Response, next: NextFunction) {
 jest.mock('express-jwt-authz', () => { return (options: Options) => { return jwtMiddleware } })
 
 describe('BusinessController', () => {
-  const container = createInjector()
-    .provideValue('openApi', openApi)
-    .provideValue('checkJwt', jwtMiddleware as jwt.RequestHandler)
-
   test('GET /v1/businesses', async () => {
     const mockedResult = [
       1,
@@ -51,13 +47,15 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
+    const container = new Container()
+    container.bind<IBusinessService>('businessService').toConstantValue(new MockService())
+    container.bind<BusinessController>('businessController').to(BusinessController)
+    container.bind<IRouter>('businessRouter').to(BusinessRouter)
+    const router = container.get<IRouter>('businessRouter').createRouter()
+
     const app = express()
     app.use(express.json())
-    app.use('/v1', container
-      .provideClass('businessService', MockService)
-      .provideClass('businessController', BusinessController)
-      .injectFunction(BusinessRouter)
-    )
+    app.use('/v1', router)
 
     const res = await request(app)
       .get('/v1/businesses').send()
@@ -106,12 +104,15 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
+    const container = new Container()
+    container.bind<IBusinessService>('businessService').toConstantValue(new MockService())
+    container.bind<BusinessController>('businessController').to(BusinessController)
+    container.bind<IRouter>('businessRouter').to(BusinessRouter)
+    const router = container.get<IRouter>('businessRouter').createRouter()
+
     const app = express()
     app.use(express.json())
-    app.use('/v1', container
-      .provideClass('businessService', MockService)
-      .provideClass('businessController', BusinessController)
-      .injectFunction(BusinessRouter))
+    app.use('/v1', router)
 
     const res = await request(app)
       .get('/v1/businesses').send({ orderBy: 'id', orderDirection: 'ASC' })
@@ -144,12 +145,15 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
+    const container = new Container()
+    container.bind<IBusinessService>('businessService').toConstantValue(new MockService())
+    container.bind<BusinessController>('businessController').to(BusinessController)
+    container.bind<IRouter>('businessRouter').to(BusinessRouter)
+    const router = container.get<IRouter>('businessRouter').createRouter()
+
     const app = express()
     app.use(express.json())
-    app.use('/v1', container
-      .provideClass('businessService', MockService)
-      .provideClass('businessController', BusinessController)
-      .injectFunction(BusinessRouter))
+    app.use('/v1', router)
 
     const res = await request(app)
       .get('/v1/businesses').send()
@@ -181,12 +185,15 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
+    const container = new Container()
+    container.bind<IBusinessService>('businessService').toConstantValue(new MockService())
+    container.bind<BusinessController>('businessController').to(BusinessController)
+    container.bind<IRouter>('businessRouter').to(BusinessRouter)
+    const router = container.get<IRouter>('businessRouter').createRouter()
+
     const app = express()
     app.use(express.json())
-    app.use('/v1', container
-      .provideClass('businessService', MockService)
-      .provideClass('businessController', BusinessController)
-      .injectFunction(BusinessRouter))
+    app.use('/v1', router)
 
     const res = await request(app)
       .get('/v1/businesses/1').send()
@@ -207,12 +214,15 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
+    const container = new Container()
+    container.bind<IBusinessService>('businessService').toConstantValue(new MockService())
+    container.bind<BusinessController>('businessController').to(BusinessController)
+    container.bind<IRouter>('businessRouter').to(BusinessRouter)
+    const router = container.get<IRouter>('businessRouter').createRouter()
+
     const app = express()
     app.use(express.json())
-    app.use('/v1', container
-      .provideClass('businessService', MockService)
-      .provideClass('businessController', BusinessController)
-      .injectFunction(BusinessRouter))
+    app.use('/v1', router)
 
     const res = await request(app)
       .get('/v1/businesses/1').send()
@@ -238,12 +248,15 @@ describe('BusinessController', () => {
       update: jest.fn()
     }))
 
+    const container = new Container()
+    container.bind<IBusinessService>('businessService').toConstantValue(new MockService())
+    container.bind<BusinessController>('businessController').to(BusinessController)
+    container.bind<IRouter>('businessRouter').to(BusinessRouter)
+    const router = container.get<IRouter>('businessRouter').createRouter()
+
     const app = express()
     app.use(express.json())
-    app.use('/v1', container
-      .provideClass('businessService', MockService)
-      .provideClass('businessController', BusinessController)
-      .injectFunction(BusinessRouter))
+    app.use('/v1', router)
 
     const res = await request(app)
       .post('/v1/businesses')
@@ -280,12 +293,15 @@ describe('BusinessController', () => {
       update: jest.fn().mockResolvedValue(mockedQueryResult)
     }))
 
+    const container = new Container()
+    container.bind<IBusinessService>('businessService').toConstantValue(new MockService())
+    container.bind<BusinessController>('businessController').to(BusinessController)
+    container.bind<IRouter>('businessRouter').to(BusinessRouter)
+    const router = container.get<IRouter>('businessRouter').createRouter()
+
     const app = express()
     app.use(express.json())
-    app.use('/v1', container
-      .provideClass('businessService', MockService)
-      .provideClass('businessController', BusinessController)
-      .injectFunction(BusinessRouter))
+    app.use('/v1', router)
 
     const res = await request(app)
       .put('/v1/businesses/1')

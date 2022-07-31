@@ -3,6 +3,7 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
+import { inject, injectable } from 'inversify'
 
 export type IPropertyRepository = IRepository<
   s.properties.Insertable,
@@ -12,8 +13,9 @@ export type IPropertyRepository = IRepository<
   s.properties.Table
 >
 
+@injectable()
 class PropertyRepository implements IPropertyRepository {
-  constructor (private pool: Pool) { }
+  constructor (@inject('pool') private pool: Pool) { }
   public static inject = ['pool'] as const
 
   async create (

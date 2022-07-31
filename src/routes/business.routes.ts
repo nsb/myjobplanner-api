@@ -1,36 +1,40 @@
 import { Router } from 'express'
 import jwtAuthz from 'express-jwt-authz'
+import { inject, injectable } from 'inversify'
 import BusinessController from '../controllers/business.controllers'
-import type { OpenApiRequestHandler } from 'express-openapi-validator/dist/framework/types'
+import openApi from '../openapi'
+import { IRouter } from './router.interface'
 
-function BusinessRouter (
-  openApi: OpenApiRequestHandler[],
-  businessController: BusinessController
-) {
-  const router = Router()
+@injectable()
+class BusinessRouter implements IRouter {
+  private router = Router()
+  constructor (
+    @inject('businessController') private controller: BusinessController
+  ) {}
 
-  return router.post(
-    '/businesses',
-    jwtAuthz(['write']),
-    openApi,
-    businessController.create.bind(businessController)
-  ).get(
-    '/businesses',
-    jwtAuthz(['read']),
-    openApi,
-    businessController.getList.bind(businessController)
-  ).get(
-    '/businesses/:Id',
-    jwtAuthz(['read']),
-    openApi,
-    businessController.getOne.bind(businessController)
-  ).put(
-    '/businesses/:Id',
-    jwtAuthz(['write']),
-    openApi,
-    businessController.update.bind(businessController)
-  )
+  createRouter () {
+    return this.router.post(
+      '/businesses',
+      jwtAuthz(['write']),
+      openApi,
+      this.controller.create.bind(this.controller)
+    ).get(
+      '/businesses',
+      jwtAuthz(['read']),
+      openApi,
+      this.controller.getList.bind(this.controller)
+    ).get(
+      '/businesses/:Id',
+      jwtAuthz(['read']),
+      openApi,
+      this.controller.getOne.bind(this.controller)
+    ).put(
+      '/businesses/:Id',
+      jwtAuthz(['write']),
+      openApi,
+      this.controller.update.bind(this.controller)
+    )
+  }
 }
-BusinessRouter.inject = ['openApi', 'businessController'] as const
 
 export default BusinessRouter

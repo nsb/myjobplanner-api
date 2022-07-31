@@ -1,18 +1,31 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
+import { injectable, inject } from 'inversify'
 import { BaseService, IService } from './base.service'
 import type { IBusinessRepository } from '../repositories/BusinessRepository'
 import type { IEmployeeRepository } from '../repositories/EmployeRepository'
 
-export interface IBusinessService extends IService<s.businesses.Insertable, s.businesses.Updatable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table> { }
+export interface IBusinessService extends IService<
+  s.businesses.Insertable,
+  s.businesses.Updatable,
+  s.businesses.JSONSelectable,
+  s.businesses.Whereable,
+  s.businesses.Table
+> { }
 
-class BusinessService extends BaseService<s.businesses.Insertable, s.businesses.Updatable, s.businesses.JSONSelectable, s.businesses.Whereable, s.businesses.Table> {
-  public static inject = ['pool', 'businessRepository', 'employeeRepository'] as const
+@injectable()
+class BusinessService extends BaseService<
+  s.businesses.Insertable,
+  s.businesses.Updatable,
+  s.businesses.JSONSelectable,
+  s.businesses.Whereable,
+  s.businesses.Table
+> implements IBusinessService {
   constructor (
-    pool: Pool,
-    repository: IBusinessRepository,
-      private employeeRepository: IEmployeeRepository
+    @inject('pool') pool: Pool,
+    @inject('businessRepository') repository: IBusinessRepository,
+    @inject('employeeRepository') private employeeRepository: IEmployeeRepository
   ) {
     super(pool, repository)
   }
