@@ -2,9 +2,12 @@ import * as s from 'zapatos/schema'
 import type { QueryParams } from '../types'
 import type { components } from '../schema'
 import BaseController from './BaseController'
+import { inject, injectable } from 'inversify'
+import { IBusinessService } from '../services/business.service'
 
 type DTO = components['schemas']['Business']
 
+@injectable()
 class BusinessController extends BaseController<
   s.businesses.Insertable,
   s.businesses.Updatable,
@@ -14,7 +17,14 @@ class BusinessController extends BaseController<
   DTO,
   QueryParams<DTO>
 > {
-  public static inject = ['businessService'] as const
+  constructor (
+    @inject('businessService') service: IBusinessService,
+      offset: number = 0,
+      limit: number = 20,
+      orderDirection: 'ASC' | 'DESC' = 'ASC'
+  ) {
+    super(service, offset, limit, orderDirection)
+  }
 
   deserializeInsert (dto: DTO) {
     return {

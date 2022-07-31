@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
+import { injectable } from 'inversify'
 import * as s from 'zapatos/schema'
 import type { IService } from '../services/base.service'
 import type { ApiEnvelope, QueryParams } from '../types'
 
-export abstract class BaseController<
+@injectable()
+abstract class BaseController<
   Insertable,
   Updatable,
   Selectable,

@@ -4,6 +4,7 @@ import * as s from 'zapatos/schema'
 import type { RepositoryOptions, ListResponse } from '../types'
 import type { IRepository } from '../repositories/BaseRepository'
 import { TxnClientForReadCommitted } from 'zapatos/db'
+import { inject, injectable } from 'inversify'
 
 export type IClientRepository = IRepository<
   s.clients.Insertable,
@@ -13,9 +14,9 @@ export type IClientRepository = IRepository<
   s.clients.Table
 >
 
+@injectable()
 class ClientRepository implements IClientRepository {
-  constructor (private pool: Pool) { }
-  public static inject = ['pool'] as const
+  constructor (@inject('pool') private pool: Pool) { }
 
   async create (
     _userId: string,

@@ -1,7 +1,8 @@
-import { createInjector } from 'typed-inject'
+import 'reflect-metadata'
+import { Container } from 'inversify'
 import pool from '../postgres'
 import type { Pool } from 'pg'
-import BusinessRepository from '../repositories/BusinessRepository'
+import BusinessRepository, { IBusinessRepository } from '../repositories/BusinessRepository'
 
 describe('BusinessRepository', () => {
   test('find', async () => {
@@ -31,15 +32,13 @@ describe('BusinessRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IBusinessRepository>('businessRepository').to(BusinessRepository)
+    const repository = container.get<IBusinessRepository>('businessRepository')
 
-    const repository = container.injectClass(BusinessRepository)
-
-    const [totalCount, result] = await repository.find('abc')
+    const [totalCount, result] = await repository.find('abc', {})
     expect(totalCount).toEqual(1)
     expect(result).toEqual([{
       id: 1,
@@ -71,15 +70,13 @@ describe('BusinessRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IBusinessRepository>('businessRepository').to(BusinessRepository)
+    const repository = container.get<BusinessRepository>('businessRepository')
 
-    const repository = container.injectClass(BusinessRepository)
-
-    const [totalCount, result] = await repository.find('abc')
+    const [totalCount, result] = await repository.find('abc', {})
     expect(totalCount).toEqual(0)
     expect(result).toEqual([])
   })
@@ -105,13 +102,11 @@ describe('BusinessRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(BusinessRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IBusinessRepository>('businessRepository').to(BusinessRepository)
+    const repository = container.get<BusinessRepository>('businessRepository')
 
     const business = await repository.get('abc', 1)
     expect(business).toEqual({
@@ -148,11 +143,10 @@ describe('BusinessRepository', () => {
     }
     poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(BusinessRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IBusinessRepository>('businessRepository').to(BusinessRepository)
+    const repository = container.get<BusinessRepository>('businessRepository')
 
     const business = await repository.create('abc', {
       name: 'Idealrent',

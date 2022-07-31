@@ -1,3 +1,4 @@
+import { inject, injectable } from 'inversify'
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
@@ -12,9 +13,9 @@ export interface IEmployeeRepository extends IRepository<
   s.employees.Table
 > { }
 
+@injectable()
 class EmployeeRepository implements IEmployeeRepository {
-  constructor (private pool: Pool) { }
-  public static inject = ['pool'] as const
+  constructor (@inject('pool') private pool: Pool) { }
 
   async create (
     _userId: string,

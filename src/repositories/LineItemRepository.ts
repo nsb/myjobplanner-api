@@ -3,12 +3,13 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
+import { inject, injectable } from 'inversify'
 
 export type ILineItemRepository = IRepository<s.lineitems.Insertable, s.lineitems.Updatable, s.lineitems.JSONSelectable, s.lineitems.Whereable, s.lineitems.Table>
 
+@injectable()
 class LineItemRepository implements ILineItemRepository {
-  constructor (private pool: Pool) { }
-  public static inject = ['pool'] as const
+  constructor (@inject('pool') private pool: Pool) { }
 
   async create (
     _userId: string,

@@ -1,6 +1,7 @@
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
+import { injectable, inject } from 'inversify'
 import type { ListResponse, RepositoryOptions } from '../types'
 import type { IRepository } from './BaseRepository'
 
@@ -12,9 +13,9 @@ export interface IBusinessRepository extends IRepository<
   s.businesses.Table
 > { }
 
+@injectable()
 class BusinessRepository implements IBusinessRepository {
-  constructor (private pool: Pool) { }
-  public static inject = ['pool'] as const
+  constructor (@inject('pool') private pool: Pool) { }
 
   async create (
     _userId: string,
@@ -38,7 +39,7 @@ class BusinessRepository implements IBusinessRepository {
 
   async find (
     userId: string,
-    business?: s.businesses.Whereable,
+    business: s.businesses.Whereable,
     options?: RepositoryOptions<s.businesses.Table>
   ) {
     const businessesSql = db.select('employees', { user_id: userId }, {

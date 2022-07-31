@@ -1,8 +1,9 @@
-import { createInjector } from 'typed-inject'
+import 'reflect-metadata'
+import { Container } from 'inversify'
 import * as s from 'zapatos/schema'
 import pool from '../postgres'
 import type { Pool } from 'pg'
-import JobRepository from '../repositories/JobRepository'
+import JobRepository, { IJobRepository } from '../repositories/JobRepository'
 
 describe('JobRepository', () => {
   test('find', async () => {
@@ -39,13 +40,11 @@ describe('JobRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(JobRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IJobRepository>('jobRepository').to(JobRepository)
+    const repository = container.get<IJobRepository>('jobRepository')
 
     const [totalCount, result] = await repository.find('abc', {})
     expect(totalCount).toEqual(1)
@@ -84,15 +83,13 @@ describe('JobRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IJobRepository>('jobRepository').to(JobRepository)
+    const repository = container.get<IJobRepository>('jobRepository')
 
-    const repository = container.injectClass(JobRepository)
-
-    const [totalCount, result] = await repository.find('abc')
+    const [totalCount, result] = await repository.find('abc', {})
     expect(totalCount).toEqual(0)
     expect(result).toEqual([])
   })
@@ -128,13 +125,11 @@ describe('JobRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(JobRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IJobRepository>('jobRepository').to(JobRepository)
+    const repository = container.get<IJobRepository>('jobRepository')
 
     const job = await repository.get('abc', 1, 1)
     const expected: s.jobs.Selectable = {
@@ -190,13 +185,11 @@ describe('JobRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(JobRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IJobRepository>('jobRepository').to(JobRepository)
+    const repository = container.get<IJobRepository>('jobRepository')
 
     const job = await repository.create('abc', {
       id: 1,

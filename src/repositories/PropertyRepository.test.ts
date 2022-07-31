@@ -1,7 +1,8 @@
-import { createInjector } from 'typed-inject'
+import 'reflect-metadata'
+import { Container } from 'inversify'
 import pool from '../postgres'
 import type { Pool } from 'pg'
-import PropertyRepository from '../repositories/PropertyRepository'
+import PropertyRepository, { IPropertyRepository } from '../repositories/PropertyRepository'
 
 describe('PropertyRepository', () => {
   test('find', async () => {
@@ -32,13 +33,11 @@ describe('PropertyRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(PropertyRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IPropertyRepository>('propertyRepository').to(PropertyRepository)
+    const repository = container.get<IPropertyRepository>('propertyRepository')
 
     const [totalCount, result] = await repository.find('abc', {}, undefined, 1)
     expect(totalCount).toEqual(1)
@@ -71,13 +70,11 @@ describe('PropertyRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(PropertyRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IPropertyRepository>('propertyRepository').to(PropertyRepository)
+    const repository = container.get<IPropertyRepository>('propertyRepository')
 
     const [totalCount, result] = await repository.find('abc', {}, undefined, 1)
     expect(totalCount).toEqual(0)
@@ -108,13 +105,11 @@ describe('PropertyRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(PropertyRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IPropertyRepository>('propertyRepository').to(PropertyRepository)
+    const repository = container.get<IPropertyRepository>('propertyRepository')
 
     const business = await repository.get('abc', 1, 1)
     expect(business).toEqual({
@@ -163,13 +158,11 @@ describe('PropertyRepository', () => {
 
       return pool
     }
-    poolDecorator.inject = ['pool'] as const
 
-    const container = createInjector()
-      .provideValue('pool', pool)
-      .provideFactory('pool', poolDecorator)
-
-    const repository = container.injectClass(PropertyRepository)
+    const container = new Container()
+    container.bind('pool').toConstantValue(poolDecorator(pool))
+    container.bind<IPropertyRepository>('propertyRepository').to(PropertyRepository)
+    const repository = container.get<IPropertyRepository>('propertyRepository')
 
     const client = await repository.create('abc', {
       id: 1,

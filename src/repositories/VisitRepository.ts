@@ -3,6 +3,7 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
+import { injectable } from 'inversify'
 
 // eslint-disable-next-line camelcase
 type VisitRepositorySelectable = s.visits.JSONSelectable & { lineitems?: Array<s.lineitem_overrides.JSONSelectable & s.lineitems.JSONSelectable>}
@@ -15,6 +16,7 @@ export type IVisitRepository = IRepository<
   s.visits.Table
 >
 
+@injectable()
 class VisitRepository implements IVisitRepository {
   constructor (private pool: Pool) { }
   public static inject = ['pool'] as const

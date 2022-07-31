@@ -1,3 +1,4 @@
+import { inject, injectable } from 'inversify'
 import { Pool } from 'pg'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
@@ -18,9 +19,9 @@ export interface IJobAssignmentRepository extends IRepository<
   ): Promise<s.job_assignments.JSONSelectable[]>
  }
 
+@injectable()
 class JobAssignmentRepository implements IJobAssignmentRepository {
-  constructor (private pool: Pool) { }
-  public static inject = ['pool'] as const
+  constructor (@inject('pool') private pool: Pool) { }
 
   async create (
     _userId: string,

@@ -4,6 +4,7 @@ import * as s from 'zapatos/schema'
 import type { IRepository } from './BaseRepository'
 import type { RepositoryOptions, ListResponse } from '../types'
 import { TxnClientForReadCommitted } from 'zapatos/db'
+import { inject, injectable } from 'inversify'
 
 type JobRepositorySelectable = s.jobs.JSONSelectable & {
   lineitems?: s.lineitems.JSONSelectable[],
@@ -18,9 +19,9 @@ export type IJobRepository = IRepository<
     s.jobs.Table
 >
 
+@injectable()
 class JobRepository implements IJobRepository {
-  constructor (private pool: Pool) { }
-  public static inject = ['pool'] as const
+  constructor (@inject('pool') private pool: Pool) { }
 
   async create (
     _userId: string,
